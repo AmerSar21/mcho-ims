@@ -17,7 +17,7 @@
 	define('DB_NAME', 'No0gC5dY8q');
 	define('DB_USER', 'No0gC5dY8q');
 	define('DB_PASSWORD', 'U7ukpHfCbw');
-	define('DB_HOST', 'sql12.remotemysql.com');
+	define('DB_HOST', 'remotemysql.com');
 
 	$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	
