@@ -14,10 +14,15 @@
 		exit(0);
 	}
 
-	define('DB_NAME', 'sql12375138');
-	define('DB_USER', 'sql12375138');
-	define('DB_PASSWORD', 'trDm7SrT91');
-	define('DB_HOST', 'sql12.freesqldatabase.com');
+	$localhost = "remotemysql.com";
+	$username = "No0gC5dY8q";
+	$password = "U7ukpHfCbw";
+	$dbname = "No0gC5dY8q";
+
+	define('DB_NAME', 'No0gC5dY8q');
+	define('DB_USER', 'No0gC5dY8q');
+	define('DB_PASSWORD', 'U7ukpHfCbw');
+	define('DB_HOST', 'sql12.remotemysql.com');
 
 	$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	
