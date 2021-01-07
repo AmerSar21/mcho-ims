@@ -1,3 +1,6 @@
+<?php
+include "db_connect.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -65,8 +68,6 @@ body, html {
 					</div>
 
 								<?php
-                                    include "ajax/db_connect.php";
-
                                     if(isset($_POST['but_submit']))
                                     {
                                         $con = mysqli_connect("localhost", "root", "", "mchoims_database");
