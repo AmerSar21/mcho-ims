@@ -21,6 +21,12 @@
 
 	$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	
+	if(!$mysqli){
+		echo "Failed";
+	}else{
+		echo "True";
+	}
+
 	$postdata = file_get_contents("php://input");
 
 	if(isset($postdata)){
