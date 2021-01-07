@@ -1,0 +1,286 @@
+
+			<table class="table" bordered="1">
+				<tr>
+					<th>Family Serial No.</th>
+                                        <th>Lastname</th>
+                                        <th>Firstname</th>
+                                        <th>Middlename</th>
+                                        <th>Suffix</th>
+                                        <th>Address</th>
+                                        <th>Contact Number</th>
+                                        <th>Gender</th>
+                                        <th>Birthdate</th>
+                                        <th>Birthplace</th>
+                                        <th>Bloodtype</th>
+                                        <th>Civil Status</th>                                  
+                                        <th>Spouse Name</th>
+                                        <th>Mothers Name</th>
+                                        <th>Family Position</th>
+                                        <th>Educational Attainment</th>
+                                        <th>Employment Status</th>
+                                        <th>Philhealth Member</th>
+                                        <th>Philhealth Number</th>
+                                        <th>Member Category</th>
+                                        <th>Facility No.</th>
+                                        <th>Member Category</th>
+				</tr>
+				<tr>
+					<td>123456789</td>
+					<td>Cardo</td>
+					<td>Dalisay</td>
+					<td>Coco</td>
+					<td></td>
+					<td>123 First Street Brgy taho</td>
+					<td>2147483647</td>
+					<td>Male</td>
+					<td>1996-06-26</td>
+					<td>Tondo, Manila City</td>
+					<td>A</td>
+					<td>Single</td>
+					<td>Juana dela cruz</td>
+					<td>Carda Dalisay</td>
+					<td>Son</td>
+					<td>Highschool</td>
+					<td>None/Unemployed</td>
+					<td>Yes</td>
+					<td>9348934</td>
+					<td>Yes</td>
+					<td>123asdfdfd</td>
+					<td>No</td>
+
+				</tr>
+			
+				<tr>
+					<td>213213</td>
+					<td>cruzsadas</td>
+					<td>juan</td>
+					<td>Coco</td>
+					<td>Jr</td>
+					<td>123 2nd Street barangay </td>
+					<td>2147483647</td>
+					<td>Male</td>
+					<td>2019-01-16</td>
+					<td>Tondo, Manila City</td>
+					<td>A</td>
+					<td>Single</td>
+					<td>N/A</td>
+					<td>Carda Dalisay</td>
+					<td>Son</td>
+					<td>College</td>
+					<td>Student</td>
+					<td>No</td>
+					<td>0</td>
+					<td>No</td>
+					<td>123asdfdfd</td>
+					<td>No</td>
+
+				</tr>
+			
+				<tr>
+					<td>1565765</td>
+					<td>Mernissah</td>
+					<td>Angni</td>
+					<td>Magandia</td>
+					<td></td>
+					<td>043  Brgy. Datu Saber</td>
+					<td>2147483647</td>
+					<td>Female</td>
+					<td>1998-09-27</td>
+					<td>iligan city</td>
+					<td>A</td>
+					<td>Single</td>
+					<td>N/A</td>
+					<td>Melba Angni</td>
+					<td>Daughter</td>
+					<td>College</td>
+					<td>Student</td>
+					<td>No</td>
+					<td>0</td>
+					<td>No</td>
+					<td>rytyty4565</td>
+					<td>No</td>
+
+				</tr>
+			
+				<tr>
+					<td>78456</td>
+					<td>Mernissah</td>
+					<td>Angni</td>
+					<td>Magandia</td>
+					<td></td>
+					<td>43   Brgy. Datu Saber</td>
+					<td>2100000000</td>
+					<td>Female</td>
+					<td>36065</td>
+					<td>iligan city</td>
+					<td>A</td>
+					<td>Single</td>
+					<td>N/A</td>
+					<td>Melba Angni</td>
+					<td>Daughter</td>
+					<td>College</td>
+					<td>Student</td>
+					<td>No</td>
+					<td>0</td>
+					<td>No</td>
+					<td>rytyty4565</td>
+					<td>No</td>
+
+				</tr>
+			
+				<tr>
+					<td>123432</td>
+					<td>Cardo</td>
+					<td>Dalisay</td>
+					<td>Coco</td>
+					<td></td>
+					<td>123  First Street  Brgy taho</td>
+					<td>2100000000</td>
+					<td>Male</td>
+					<td>35242</td>
+					<td>Tondo, Manila City</td>
+					<td>A</td>
+					<td>Single</td>
+					<td>Juana dela cruz</td>
+					<td>Carda Dalisay</td>
+					<td>Son</td>
+					<td>Highschool</td>
+					<td>None/Unemployed</td>
+					<td>Yes</td>
+					<td>9348934</td>
+					<td>Yes</td>
+					<td>123asdfdfd</td>
+					<td>No</td>
+
+				</tr>
+			
+				<tr>
+					<td>123432</td>
+					<td>Cardo</td>
+					<td>Dalisay</td>
+					<td>Coco</td>
+					<td></td>
+					<td>123  First Street  Brgy taho</td>
+					<td>2100000000</td>
+					<td>Male</td>
+					<td>35242</td>
+					<td>Tondo, Manila City</td>
+					<td>A</td>
+					<td>Single</td>
+					<td>Juana dela cruz</td>
+					<td>Carda Dalisay</td>
+					<td>Son</td>
+					<td>Highschool</td>
+					<td>None/Unemployed</td>
+					<td>Yes</td>
+					<td>9348934</td>
+					<td>Yes</td>
+					<td>123asdfdfd</td>
+					<td>No</td>
+
+				</tr>
+			
+				<tr>
+					<td>123432</td>
+					<td>Cardo</td>
+					<td>Dalisay</td>
+					<td>Coco</td>
+					<td></td>
+					<td>123  First Street  Brgy taho</td>
+					<td>2100000000</td>
+					<td>Male</td>
+					<td>35242</td>
+					<td>Tondo, Manila City</td>
+					<td>A</td>
+					<td>Single</td>
+					<td>Juana dela cruz</td>
+					<td>Carda Dalisay</td>
+					<td>Son</td>
+					<td>Highschool</td>
+					<td>None/Unemployed</td>
+					<td>Yes</td>
+					<td>9348934</td>
+					<td>Yes</td>
+					<td>123asdfdfd</td>
+					<td>No</td>
+
+				</tr>
+			
+				<tr>
+					<td>234654</td>
+					<td>cruzsadas</td>
+					<td>juan</td>
+					<td>Coco</td>
+					<td>Jr</td>
+					<td>123  2nd Street  barangay</td>
+					<td>2100000000</td>
+					<td>Male</td>
+					<td>43481</td>
+					<td>Tondo, Manila City</td>
+					<td>A</td>
+					<td>Single</td>
+					<td>N/A</td>
+					<td>Carda Dalisay</td>
+					<td>Son</td>
+					<td>College</td>
+					<td>Student</td>
+					<td>No</td>
+					<td>0</td>
+					<td>No</td>
+					<td>123asdfdfd</td>
+					<td>No</td>
+
+				</tr>
+			
+				<tr>
+					<td>756345</td>
+					<td>Joseph</td>
+					<td>Cruz</td>
+					<td>Colina</td>
+					<td></td>
+					<td>34  First Street  Brgy taho</td>
+					<td>2100000000</td>
+					<td>Male</td>
+					<td>43484</td>
+					<td>Tondo, Manila City</td>
+					<td>AB</td>
+					<td>Single</td>
+					<td>N/A</td>
+					<td>Josepha Cruz</td>
+					<td>Son</td>
+					<td>Highschool</td>
+					<td>Student</td>
+					<td>No</td>
+					<td>0</td>
+					<td>No</td>
+					<td>124354</td>
+					<td>No</td>
+
+				</tr>
+			
+				<tr>
+					<td>12343</td>
+					<td>Badriah</td>
+					<td>Siti</td>
+					<td>Syantik</td>
+					<td></td>
+					<td>45 First Street Datu Saber</td>
+					<td>909</td>
+					<td>female</td>
+					<td>2008-02-19</td>
+					<td>Marawi City</td>
+					<td>AB</td>
+					<td>Single</td>
+					<td>None</td>
+					<td>Anna Marie</td>
+					<td>Daughter</td>
+					<td>HighSchool</td>
+					<td>Student</td>
+					<td>No</td>
+					<td>0</td>
+					<td>No</td>
+					<td>65345</td>
+					<td>No</td>
+
+				</tr>
+			</table>

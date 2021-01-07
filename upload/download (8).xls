@@ -1,0 +1,62 @@
+
+			<table class="table" bordered="1">
+				<tr>
+					<th>Family Serial No.</th>
+                                        <th>Lastname</th>
+                                        <th>Firstname</th>
+                                        <th>Middlename</th>
+                                        <th>Suffix</th>
+                                        <th>Address</th>
+                                        <th>Mode of Transaction</th>
+                                        <th>Date of Consultation</th>
+                                        <th>Consultation Time</th>
+                                        <th>Blood Pressure</th>
+                                        <th>Temperature</th>
+                                        <th>Height</th>                                  
+                                        <th>Weight</th>
+                                        <th>Name of attending Officer</th>
+                                        <th>Age</th>
+                                        <th>Referred From</th>
+                                        <th>Referred To</th>
+                                        <th>Reason of Referral</th>
+                                        <th>Referred By</th>
+                                        <th>Nature of Visit</th>
+                                        <th>Chief Complaints</th>
+                                        <th>Diagnosis</th>
+                                        <th>Medication</th>
+                                        <th>Laboratory Findings</th>
+                                        <th>Name of Healthcare provider</th>
+                                        <th>Performed Laboratory Test</th>
+                                        <th>Chronic/Non-communicable Disease</th>
+				</tr>
+				<tr>
+					<td>12343</td>
+					<td>Badriah</td>
+					<td>Siti</td>
+					<td>Syantik</td>
+					<td></td>
+					<td>45 First Street Datu Saber</td>
+					<td>Visited</td>
+					<td>2019-01-11</td>
+					<td>12:00pm</td>
+					<td>80/20</td>
+					<td>35.5 degree C</td>
+					<td>5.8 ft</td>
+					<td>54kg</td>
+					<td>Amerah rose disomangcop</td>
+					<td>24</td>
+					<td>APMC</td>
+					<td>Dr. Abdullah Hospital</td>
+					<td>ahgksajgfg03 ujn podfj is </td>
+					<td>Amerah rose disomangcop</td>
+					<td>Injury</td>
+					<td>e hfipahf gh dsigpj dip</td>
+					<td>h idhf isdh giohigdh ifo</td>
+					<td> ndig isadfgj id sjgisgpokfspo</td>
+					<td>j sdi ipadgjisj gijfg</td>
+					<td>Amerah rose disomangcop</td>
+					<td> iajif sdig  ghidsgio</td>
+					<td>None</td>
+
+				</tr>
+			</table>
