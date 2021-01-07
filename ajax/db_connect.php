@@ -1,9 +1,9 @@
 <?php 
 
-$localhost = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "mchoims_database";
+$localhost = "remotemysql.com";
+$username = "No0gC5dY8q";
+$password = "U7ukpHfCbw";
+$dbname = "No0gC5dY8q";
 
 // create connection
 $con = new mysqli($localhost, $username, $password, $dbname);
