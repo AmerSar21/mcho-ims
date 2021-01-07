@@ -1,9 +1,9 @@
 <?php 
 
-$localhost = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "mchoims_database";
+$localhost = "remotemysql.com";
+$username = "3ogo2cYOWf";
+$password = "bC2xxvMuji";
+$dbname = "3ogo2cYOWf";
 
 // create connection
 $con = new mysqli($localhost, $username, $password, $dbname);
@@ -15,4 +15,4 @@ if($con->connect_error) {
 	//echo "Successfully Connected";
 }
 
-?>	
+?>		
