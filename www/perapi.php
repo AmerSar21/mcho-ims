@@ -19,12 +19,10 @@
 		echo "True";
 	}
 
-	$postdata = file_get_contents("php://input");
+	$postdata = json_decode(file_get_contents('php://input'),true);	
 
-	if(isset($postdata)){
-		$request = json_decode($postdata);
-		$data = $request->perlist;
-
+	if(isset($postdata['perlist'])){
+		$data = $postdata['perlist'];
 		if(!empty($data)){
 
 			foreach ($data as $item) {
