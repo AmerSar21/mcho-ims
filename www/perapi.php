@@ -20,8 +20,7 @@
 	}
 
 	$postdata = file_get_contents("php://input");
-	$data = array();
-
+	
 	if(isset($postdata)){
 
 		$request = json_decode($postdata);
