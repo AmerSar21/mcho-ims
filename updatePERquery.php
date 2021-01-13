@@ -1,7 +1,6 @@
 <?php
 include ("db_connect.php");
 
-
 if(isset($_POST['peid']))
 {
     $sqlselect = "SELECT * from patient_enrollment where pe_id = '".$_POST['peid']."'";
