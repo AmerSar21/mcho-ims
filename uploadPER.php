@@ -678,7 +678,6 @@ $(document).ready(function() {
                     $('#f_facilityno').val(data.facility_no);
                     $('#f_dswd').val(data.dswdnhts);
                     $('#editModal').appendTo('body').modal("show");
-                    echo("asdkasad");
                 }
             });            
         });
