@@ -126,10 +126,10 @@ if(isset($_POST['acceptbutton']))
         <link href="plugins/select2/select2.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
+        <[if lt IE 9]>
                 <script src="http://getbootstrap.com/docs-assets/js/html5shiv.js"></script>
                 <script src="http://getbootstrap.com/docs-assets/js/respond.min.js"></script>
-        <![endif]-->
+        <![endif]>
     </head>
 <body>
 <!--Start Header-->
@@ -634,7 +634,6 @@ $(document).ready(function() {
     WinMove();
 });
 </script>
-
 
 <script type="text/javascript">
     $(document).ready(function(){
