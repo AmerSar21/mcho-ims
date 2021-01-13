@@ -679,11 +679,14 @@ $(document).ready(function() {
                 }
             })
         });
+    });
 
-    $('.btndelete').click(function(){
-        var perid = $(this).attr("id");
-        $('#m_iddelete').val(perid);
-        $('#deletemodal').modal('show');
+    $(document).ready(function(){
+        $('.btndelete').click(function(){
+            var perid = $(this).attr("id");
+            $('#m_iddelete').val(perid);
+            $('#deletemodal').modal('show');
+        });                
     });
 
 </script>
