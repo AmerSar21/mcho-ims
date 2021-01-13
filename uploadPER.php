@@ -395,7 +395,8 @@ if(isset($_POST['acceptbutton']))
                                             <button type='button' id='".$row['temPER_id']."' class='btn btn-danger btndelete'>Delete</button> 
                                             </td>
                                             
-                                          </tr>"); }
+                                          </tr>"); 
+                                    }
 
                                       ?>
                     </tbody>
@@ -680,10 +681,9 @@ $(document).ready(function() {
                     $('#editModal').appendTo('body').modal("show");
 
                 }
-            })
+            });
 
-
-            
+            echo("asdkasad");            
         });
 
 
