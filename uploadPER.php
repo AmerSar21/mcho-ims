@@ -643,7 +643,6 @@ $(document).ready(function() {
     $(document).ready(function(){
         $('.edit_data').click(function(){
             var perid = $(this).attr("id");
-
             $.ajax({
                 url:"viewPERuploadquery.php",
                 method:"post",
@@ -679,11 +678,9 @@ $(document).ready(function() {
                     $('#f_facilityno').val(data.facility_no);
                     $('#f_dswd').val(data.dswdnhts);
                     $('#editModal').appendTo('body').modal("show");
-
+                    echo("asdkasad");
                 }
-            });
-
-            echo("asdkasad");            
+            });            
         });
 
 
