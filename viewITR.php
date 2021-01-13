@@ -1,6 +1,5 @@
 <?php
 include "db_connect.php";
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -180,7 +179,7 @@ include "db_connect.php";
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="uploadPER.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">PER from User<?php
-                                $sql="SELECT count(*) as cntupload from temp_per where added_by='user'";
+                                $sql="SELECT count(*) as cntupload from temp_per";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
                                $count = $row['cntupload'];
@@ -190,7 +189,7 @@ include "db_connect.php";
                                }
                                ?></a></li>
                         <li><a href="uploadITR.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">ITR from User<?php
-                                $sql="SELECT count(*) as cntupload from temp_itr where added_by='user'";
+                                $sql="SELECT count(*) as cntupload from temp_itr";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
                                $count = $row['cntupload'];
