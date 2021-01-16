@@ -65,8 +65,6 @@ if (isset($_POST["updatebutton"]))
     }
 }
 
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -298,134 +296,131 @@ if (isset($_POST["updatebutton"]))
         </div>
         <!--Start Content-->
         <div id="content" class="col-xs-12 col-sm-10">
-            
-
-<div class="row">
-    <div id="breadcrumb" class="col-md-12">
-        <ol class="breadcrumb">
-            <li><a href="homeOIC.php">Home</a></li>
-            <li><a href="#">Activity/Programs</a></li>
-            <li><a href="updateactivity.php">Update</a></li>
-        </ol>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box">
-            <div class="box-header">
-                <div class="box-name">
-                    <i class="fa fa-medkit"></i>
-                    <span>Update Activities or Programs</span>
-                </div>
-                <div class="box-icons">
-                    <a class="expand-link">
-                        <i class="fa fa-expand"></i>
-                    </a>
-                </div>
-                <div class="no-move"></div>
+            <div class="row">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li><a href="homeOIC.php">Home</a></li>
+                    <li><a href="#">Activity/Programs</a></li>
+                    <li><a href="updateactivity.php">Update</a></li>
+                </ol>
             </div>
-            <div class="box-content no-padding">
-                <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Date Conducted</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <?php
-                                    $sql = "SELECT * from activity where status='active'";
-                                    $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
-                                ?>
-                    <tbody>
-                        <?php while ($row = mysqli_fetch_array($result)) { 
-                                        echo( "<tr class='trID_" .$row['act_id']. "'>
-                                            <td class='name'>" . $row[1] . "</td>
-                                            <td class='description'>" . $row[2] . "</td>
-                                            <td class='dateconducted'>" . $row[3] . "</td>
-                                            
-                                            <td> 
-                                            <button type='button' id='".$row['act_id']."' class='btn btn-warning edit_data'>Edit</button>                                                                          
-                                            <button type='button' id='".$row['act_id']."' class='btn btn-danger btndelete'>Delete</button> 
-                                            </td>
-                                            
-                                          </tr>"); }
-
-                                      ?>
-                    </tbody>
-                </table>
             </div>
+            <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="fa fa-medkit"></i>
+                            <span>Update Activities or Programs</span>
+                        </div>
+                        <div class="box-icons">
+                            <a class="expand-link">
+                                <i class="fa fa-expand"></i>
+                            </a>
+                        </div>
+                        <div class="no-move"></div>
+                    </div>
+                    <div class="box-content no-padding">
+                        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Date Conducted</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <?php
+                                            $sql = "SELECT * from activity where status='active'";
+                                            $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
+                                        ?>
+                            <tbody>
+                                <?php while ($row = mysqli_fetch_array($result)) { 
+                                                echo( "<tr class='trID_" .$row['act_id']. "'>
+                                                    <td class='name'>" . $row[1] . "</td>
+                                                    <td class='description'>" . $row[2] . "</td>
+                                                    <td class='dateconducted'>" . $row[3] . "</td>
+                                                    
+                                                    <td> 
+                                                    <button type='button' id='".$row['act_id']."' class='btn btn-warning edit_data'>Edit</button>                                                                          
+                                                    <button type='button' id='".$row['act_id']."' class='btn btn-danger btndelete'>Delete</button> 
+                                                    </td>
+                                                    
+                                                  </tr>"); }
 
-        </div>
-    </div>
-</div>
+                                              ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            </div>
+            <!-- Update Activity Modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <form role="form" method="post">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Edit</h4>
+                        </div>
+                        <div class="modal-body">
+                        
+                                <input class="form-control"  type="hidden" placeholder="act_id"  name="f_actid" id="m_actid">
                                 
-                                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                    <form role="form" method="post">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel">Edit</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                        
-                                                <input class="form-control"  type="hidden" placeholder="act_id"  name="f_actid" id="m_actid">
-                                                
-                                                <div class="form-group">
-                                                    <label>Activity Title</label>
-                                                    <input class="form-control" placeholder="Enter here" name="f_title" id="m_title" required>
-                                                </div>                                                   
-                                               
-                                                <div class="form-group">
-                                                    <label>Date conducted</label>
-                                                    <input type="date" class="form-control" id="m_dateconducted" name="f_dateconducted" placeholder="" required>
-                                                </div>
-                                                
-                                                <div class="form-group">
-                                                            <label>Description</label>
-                                                            <textarea class="form-control" rows="5" name="f_description" id="m_description" required></textarea>
-                                                </div>
-                                        
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="submit" name="updatebutton" class="btn btn-primary" value="Save Changes">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            
-                                        </div>
-                                    </form>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                </div>
-                                <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                         <form role="form" method="post">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel">Delete user</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure you want to delete this Record?</p>
-                                                <p class="text-danger">This action cannot be undone.</p>
-                                                <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                <input type="submit" name="deletebutton" class="btn btn-danger" value="Delete">
-                                            </div>
-                                        </form>
-                                        </div>
-                                        <!-- /.modal-content -->
-                                    </div>
-                                    <!-- /.modal-dialog -->
+                                <div class="form-group">
+                                    <label>Activity Title</label>
+                                    <input class="form-control" placeholder="Enter here" name="f_title" id="m_title" required>
+                                </div>                                                   
+                               
+                                <div class="form-group">
+                                    <label>Date conducted</label>
+                                    <input type="date" class="form-control" id="m_dateconducted" name="f_dateconducted" placeholder="" required>
                                 </div>
                                 
-                                 
+                                <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea class="form-control" rows="5" name="f_description" id="m_description" required></textarea>
+                                </div>
+                        
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" name="updatebutton" class="btn btn-primary" value="Save Changes">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            
+                        </div>
+                    </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+            </div>
 
+            <!-- Delete Activity Modal -->
+            <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                     <form role="form" method="post">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Delete user</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete this Record?</p>
+                            <p class="text-danger">This action cannot be undone.</p>
+                            <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <input type="submit" name="deletebutton" class="btn btn-danger" value="Delete">
+                        </div>
+                    </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
         </div>
         <!--End Content-->
     </div>
