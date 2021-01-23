@@ -1,5 +1,6 @@
 <?php
 include "db_connect.php";
+session_start();
 
 if (isset($_POST["deletebutton"]))
 {
@@ -11,7 +12,7 @@ if (isset($_POST["deletebutton"]))
 
     $sqldelete = "UPDATE activity set status='inactive' where act_id='$actID'";
 
-    $id = $_GET['userid'];
+    $id = $_SESSION['userid'];
     $sql = "SELECT fname, lname from acc_info where ai_id=$id";
     $result = mysqli_query($con,$sql);
     $rowuser = mysqli_fetch_array($result);
@@ -42,7 +43,7 @@ if (isset($_POST["updatebutton"]))
     $actdescription = $_POST['f_description'];
     $dateconducted = $_POST['f_dateconducted'];
 
-    $id = $_GET['userid'];
+    $id = $_SESSION['userid'];
     $sql = "SELECT fname, lname from acc_info where ai_id=$id";
     $result = mysqli_query($con,$sql);
     $rowuser = mysqli_fetch_array($result);
@@ -64,6 +65,8 @@ if (isset($_POST["updatebutton"]))
             </script>";
     }
 }
+
+
 
 ?>
 <!DOCTYPE html>
@@ -118,7 +121,7 @@ if (isset($_POST["updatebutton"]))
     <div class="container-fluid expanded-panel">
         <div class="row">
             <div id="logo" class="col-xs-12 col-sm-2">
-                <a href="homeOIC.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">MCHOIMS</a>
+                <a href="homeOIC.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">MCHOIMS</a>
             </div>
             <div id="top-panel" class="col-xs-12 col-sm-10">
                 <div class="row">
@@ -135,7 +138,7 @@ if (isset($_POST["updatebutton"]))
                                     <i class="fa fa-angle-down pull-right"></i>
                                     <div class="user-mini pull-right">
                                         <span class="welcome">Welcome,</span>
-                                        <span><?php $id=$_GET['userid'];
+                                        <span><?php $id=$_SESSION['userid'];
                                         $sql = "SELECT fname, lname from acc_info where ai_id=$id";
                                         $result = mysqli_query($con,$sql);
                                         $row = mysqli_fetch_array($result);
@@ -152,7 +155,7 @@ if (isset($_POST["updatebutton"]))
                                 <ul class="dropdown-menu">
                                     
                                     <li>
-                                        <a href="profileofficer.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">
+                                        <a href="profileofficer.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">
                                             <i class="fa fa-user"></i>
                                             <span class="hidden-sm text">Profile</span>
                                         </a>
@@ -178,7 +181,7 @@ if (isset($_POST["updatebutton"]))
         <div id="sidebar-left" class="col-xs-2 col-sm-2">
             <ul class="nav main-menu">
                 <li>
-                    <a href="homeOIC.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">
+                    <a href="homeOIC.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">
                         <i class="fa fa-dashboard"></i>
                         <span class="hidden-xs">Home</span>
                     </a>
@@ -190,8 +193,8 @@ if (isset($_POST["updatebutton"]))
                         <span class="hidden-xs">Activities/Programs</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="updateactivity.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Update Activities/Programs</a></li>
-                        <li><a href="addactivity.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Add Activities/Programs</a></li>
+                        <li><a href="updateactivity.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">Update Activities/Programs</a></li>
+                        <li><a href="addactivity.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">Add Activities/Programs</a></li>
 
                     </ul>
                 </li>
@@ -207,9 +210,9 @@ if (isset($_POST["updatebutton"]))
                                 <span class="hidden-xs">Patient Enrollment Records</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="viewPER.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">List of Records</a></li>
-                                <li><a href="updatePER.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Update Records</a></li>
-                                <li><a href="addPER.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Add Record</a></li>
+                                <li><a href="viewPER.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">List of Records</a></li>
+                                <li><a href="updatePER.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">Update Records</a></li>
+                                <li><a href="addPER.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">Add Record</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -218,8 +221,8 @@ if (isset($_POST["updatebutton"]))
                                 <span class="hidden-xs">Individual Treatment Record</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="viewITR.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">List of Records</a></li>
-                                <li><a href="updateITR.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Update Records</a></li>
+                                <li><a href="viewITR.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">List of Records</a></li>
+                                <li><a href="updateITR.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">Update Records</a></li>
                             </ul>
                         </li>
                     </ul>               
@@ -243,8 +246,8 @@ if (isset($_POST["updatebutton"]))
                                ?>   
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="uploadPER.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">PER from User<?php
-                                $sql="SELECT count(*) as cntupload from temp_per";
+                        <li><a href="uploadPER.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">PER from User<?php
+                                $sql="SELECT count(*) as cntupload from temp_per where added_by='user'";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
                                $count = $row['cntupload'];
@@ -253,8 +256,8 @@ if (isset($_POST["updatebutton"]))
                                 echo "<span class='badge'>". $count ."</span>";
                                }
                                ?></a></li>
-                        <li><a href="uploadITR.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">ITR from User<?php
-                                $sql="SELECT count(*) as cntupload from temp_itr";
+                        <li><a href="uploadITR.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">ITR from User<?php
+                                $sql="SELECT count(*) as cntupload from temp_itr where added_by='user'";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
                                $count = $row['cntupload'];
@@ -263,7 +266,7 @@ if (isset($_POST["updatebutton"]))
                                 echo "<span class='badge'>". $count ."</span>";
                                }
                                ?></a></li>
-                        <li><a href="uploadPERbrgy.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">PER from Barangay<?php
+                        <li><a href="uploadPERbrgy.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">PER from Barangay<?php
                                 $sql="SELECT count(*) as cntupload from temp_per where added_by='brgy'";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
@@ -273,7 +276,7 @@ if (isset($_POST["updatebutton"]))
                                 echo "<span class='badge'>". $count ."</span>";
                                }
                                ?></a></li>
-                        <li><a href="uploadITRbrgy.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">ITR from Barangay<?php
+                        <li><a href="uploadITRbrgy.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">ITR from Barangay<?php
                                 $sql="SELECT count(*) as cntupload from temp_itr where added_by='brgy'";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
@@ -296,131 +299,134 @@ if (isset($_POST["updatebutton"]))
         </div>
         <!--Start Content-->
         <div id="content" class="col-xs-12 col-sm-10">
-            <div class="row">
-            <div id="breadcrumb" class="col-md-12">
-                <ol class="breadcrumb">
-                    <li><a href="homeOIC.php">Home</a></li>
-                    <li><a href="#">Activity/Programs</a></li>
-                    <li><a href="updateactivity.php">Update</a></li>
-                </ol>
-            </div>
-            </div>
-            <div class="row">
-            <div class="col-xs-12">
-                <div class="box">
-                    <div class="box-header">
-                        <div class="box-name">
-                            <i class="fa fa-medkit"></i>
-                            <span>Update Activities or Programs</span>
-                        </div>
-                        <div class="box-icons">
-                            <a class="expand-link">
-                                <i class="fa fa-expand"></i>
-                            </a>
-                        </div>
-                        <div class="no-move"></div>
-                    </div>
-                    <div class="box-content no-padding">
-                        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Description</th>
-                                    <th>Date Conducted</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <?php
-                                            $sql = "SELECT * from activity where status='active'";
-                                            $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
-                                        ?>
-                            <tbody>
-                                <?php while ($row = mysqli_fetch_array($result)) { 
-                                                echo( "<tr class='trID_" .$row['act_id']. "'>
-                                                    <td class='name'>" . $row[1] . "</td>
-                                                    <td class='description'>" . $row[2] . "</td>
-                                                    <td class='dateconducted'>" . $row[3] . "</td>
-                                                    
-                                                    <td> 
-                                                    <button type='button' id='".$row['act_id']."' class='btn btn-warning edit_data'>Edit</button>                                                                          
-                                                    <button type='button' id='".$row['act_id']."' class='btn btn-danger btndelete'>Delete</button> 
-                                                    </td>
-                                                    
-                                                  </tr>"); }
+            
 
-                                              ?>
-                            </tbody>
-                        </table>
-                    </div>
-
+<div class="row">
+    <div id="breadcrumb" class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="homeOIC.php">Home</a></li>
+            <li><a href="#">Activity/Programs</a></li>
+            <li><a href="updateactivity.php">Update</a></li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-medkit"></i>
+                    <span>Update Activities or Programs</span>
                 </div>
+                <div class="box-icons">
+                    <a class="expand-link">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                </div>
+                <div class="no-move"></div>
             </div>
+            <div class="box-content no-padding">
+                <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Date Conducted</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <?php
+                                    $sql = "SELECT * from activity where status='active'";
+                                    $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
+                                ?>
+                    <tbody>
+                        <?php while ($row = mysqli_fetch_array($result)) { 
+                                        echo( "<tr class='trID_" .$row['act_id']. "'>
+                                            <td class='name'>" . $row[1] . "</td>
+                                            <td class='description'>" . $row[2] . "</td>
+                                            <td class='dateconducted'>" . $row[3] . "</td>
+                                            
+                                            <td> 
+                                            <button type='button' id='".$row['act_id']."' class='btn btn-warning edit_data'>Edit</button>                                                                          
+                                            <button type='button' id='".$row['act_id']."' class='btn btn-danger btndelete'>Delete</button> 
+                                            </td>
+                                            
+                                          </tr>"); }
+
+                                      ?>
+                    </tbody>
+                </table>
             </div>
-            <!-- Update Activity Modal -->
-            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                    <form role="form" method="post">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="myModalLabel">Edit</h4>
-                        </div>
-                        <div class="modal-body">
-                        
-                                <input class="form-control"  type="hidden" placeholder="act_id"  name="f_actid" id="m_actid">
+
+        </div>
+    </div>
+</div>
                                 
-                                <div class="form-group">
-                                    <label>Activity Title</label>
-                                    <input class="form-control" placeholder="Enter here" name="f_title" id="m_title" required>
-                                </div>                                                   
-                               
-                                <div class="form-group">
-                                    <label>Date conducted</label>
-                                    <input type="date" class="form-control" id="m_dateconducted" name="f_dateconducted" placeholder="" required>
+                                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <form role="form" method="post">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel">Edit</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                        
+                                                <input class="form-control"  type="hidden" placeholder="act_id"  name="f_actid" id="m_actid">
+                                                
+                                                <div class="form-group">
+                                                    <label>Activity Title</label>
+                                                    <input class="form-control" placeholder="Enter here" name="f_title" id="m_title" required>
+                                                </div>                                                   
+                                               
+                                                <div class="form-group">
+                                                    <label>Date conducted</label>
+                                                    <input type="date" class="form-control" id="m_dateconducted" name="f_dateconducted" placeholder="" required>
+                                                </div>
+                                                
+                                                <div class="form-group">
+                                                            <label>Description</label>
+                                                            <textarea class="form-control" rows="5" name="f_description" id="m_description" required></textarea>
+                                                </div>
+                                        
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" name="updatebutton" class="btn btn-primary" value="Save Changes">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            
+                                        </div>
+                                    </form>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                </div>
+                                <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                         <form role="form" method="post">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">Delete user</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete this Record?</p>
+                                                <p class="text-danger">This action cannot be undone.</p>
+                                                <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                <input type="submit" name="deletebutton" class="btn btn-danger" value="Delete">
+                                            </div>
+                                        </form>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
                                 </div>
                                 
-                                <div class="form-group">
-                                            <label>Description</label>
-                                            <textarea class="form-control" rows="5" name="f_description" id="m_description" required></textarea>
-                                </div>
-                        
-                        </div>
-                        <div class="modal-footer">
-                            <input type="submit" name="updatebutton" class="btn btn-primary" value="Save Changes">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            
-                        </div>
-                    </form>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-            </div>
+                                 
 
-            <!-- Delete Activity Modal -->
-            <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                     <form role="form" method="post">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="myModalLabel">Delete user</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Are you sure you want to delete this Record?</p>
-                            <p class="text-danger">This action cannot be undone.</p>
-                            <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <input type="submit" name="deletebutton" class="btn btn-danger" value="Delete">
-                        </div>
-                    </form>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            </div>
         </div>
         <!--End Content-->
     </div>

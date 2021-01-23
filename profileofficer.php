@@ -1,10 +1,10 @@
 <?php
 include "db_connect.php";
-
+session_start();
 
 if(isset($_POST['updatebutton']))
 {
-	$id = $_GET['userid'];
+	$id = $_SESSION['userid'];
 	$firstname = $_POST['f_fname'];
 	$lastname = $_POST['f_lname'];
 	$bdate = $_POST['f_bdate'];
@@ -62,11 +62,11 @@ if(isset($_POST['updatebutton']))
 <body>
 <!--Start Header-->
 
-<header class="navbar">
+<header class="navbar">session_start();
 	<div class="container-fluid expanded-panel">
 		<div class="row">
 			<div id="logo" class="col-xs-12 col-sm-2">
-				<a href="homeOIC.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">MCHOIMS</a>
+				<a href="homeOIC.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">MCHOIMS</a>
 			</div>
 			<div id="top-panel" class="col-xs-12 col-sm-10">
 				<div class="row">
@@ -79,11 +79,11 @@ if(isset($_POST['updatebutton']))
 						<ul class="nav navbar-nav pull-right panel-menu">
 							
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle account" data-toggle="dropdown">									
+								<a href="#" class="dropdown-toggle account" session_start();data-toggle="dropdown">									
 									<i class="fa fa-angle-down pull-right"></i>
 									<div class="user-mini pull-right">
 										<span class="welcome">Welcome,</span>
-										<span><?php $id=$_GET['userid'];
+										<span><?php $id=$_SESSION['userid'];
 										$sql = "SELECT fname, lname from acc_info where ai_id=$id";
 										$result = mysqli_query($con,$sql);
 										$row = mysqli_fetch_array($result);
@@ -96,11 +96,11 @@ if(isset($_POST['updatebutton']))
 																					}
 										?></span>
 									</div>
-								</a>
+								</a>session_start();
 								<ul class="dropdown-menu">
 									
 									<li>
-										<a href="profileofficer.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">
+										<a href="profileofficer.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">
 											<i class="fa fa-user"></i>
 											<span class="hidden-sm text">Profile</span>
 										</a>
@@ -122,11 +122,11 @@ if(isset($_POST['updatebutton']))
 
 <!--Start Container-->
 <div id="main" class="container-fluid">
-	<div class="row">
+	<div class="row">session_start();
 		<div id="sidebar-left" class="col-xs-2 col-sm-2">
 			<ul class="nav main-menu">
 				<li>
-					<a href="homeOIC.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">
+					<a href="homeOIC.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">
 						<i class="fa fa-dashboard"></i>
 						<span class="hidden-xs">Home</span>
 					</a>
@@ -134,12 +134,12 @@ if(isset($_POST['updatebutton']))
 
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle">
-						<i class="fa fa-medkit"></i>
+						<i class="fa fa-medkit"></i>session_start();
 						<span class="hidden-xs">Activities/Programs</span>
-					</a>
+					</a>session_start();
 					<ul class="dropdown-menu">
-						<li><a href="updateactivity.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Update Activities/Programs</a></li>
-						<li><a href="addactivity.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Add Activities/Programs</a></li>
+						<li><a href="updateactivity.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">Update Activities/Programs</a></li>
+						<li><a href="addactivity.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">Add Activities/Programs</a></li>
 
 					</ul>
 				</li>
@@ -151,23 +151,23 @@ if(isset($_POST['updatebutton']))
 					<ul class="dropdown-menu">
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle">
-								<i class="fa fa-plus-square"></i>
-								<span class="hidden-xs">Patient Enrollment Records</span>
-							</a>
+								<i class="fa fa-plus-square"></i>session_start();
+								<span class="hidden-xs">Patient Enrollment Records</span>session_start();
+							</a>session_start();
 							<ul class="dropdown-menu">
-								<li><a href="viewPER.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">List of Records</a></li>
-								<li><a href="updatePER.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Update Records</a></li>
-								<li><a href="addPER.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Add Record</a></li>
+								<li><a href="viewPER.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">List of Records</a></li>
+								<li><a href="updatePER.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">Update Records</a></li>
+								<li><a href="addPER.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">Add Record</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle">
-								<i class="fa fa-plus-square"></i>
-								<span class="hidden-xs">Individual Treatment Record</span>
+								<i class="fa fa-plus-square"></i>session_start();
+								<span class="hidden-xs">Individual Treatment Record</span>session_start();
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="viewITR.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">List of Records</a></li>
-								<li><a href="updateITR.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Update Records</a></li>
+								<li><a href="viewITR.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">List of Records</a></li>
+								<li><a href="updateITR.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">Update Records</a></li>
 							</ul>
 						</li>
 					</ul>				
@@ -187,41 +187,41 @@ if(isset($_POST['updatebutton']))
                                if(($count) or ($count1))
                                {
                                 echo "<span class='badge'>" . $sum . "</span>	";
-                               }
+                               }session_start();
                                ?>	
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href="uploadPER.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">PER from User<?php
+						<li><a href="uploadPER.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">PER from User<?php
                                 $sql="SELECT count(*) as cntupload from temp_per where added_by='user'";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
                                $count = $row['cntupload'];
                                if($count)
-                               {
+                               {session_start();
                                 echo "<span class='badge'>". $count ."</span>";
                                }
                                ?></a></li>
-						<li><a href="uploadITR.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">ITR from User<?php
+						<li><a href="uploadITR.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">ITR from User<?php
                                 $sql="SELECT count(*) as cntupload from temp_itr where added_by='user'";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
                                $count = $row['cntupload'];
                                if($count)
-                               {
+                               {session_start();
                                 echo "<span class='badge'>". $count ."</span>";
                                }
                                ?></a></li>
-                        <li><a href="uploadPERbrgy.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">PER from Barangay<?php
+                        <li><a href="uploadPERbrgy.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">PER from Barangay<?php
                                 $sql="SELECT count(*) as cntupload from temp_per where added_by='brgy'";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
                                $count = $row['cntupload'];
                                if($count)
-                               {
+                               {session_start();
                                 echo "<span class='badge'>". $count ."</span>";
                                }
                                ?></a></li>
-						<li><a href="uploadITRbrgy.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">ITR from Barangay<?php
+						<li><a href="uploadITRbrgy.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">ITR from Barangay<?php
                                 $sql="SELECT count(*) as cntupload from temp_itr where added_by='brgy'";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
@@ -244,11 +244,11 @@ if(isset($_POST['updatebutton']))
 		</div>
 		<!--Start Content-->
 		<div id="content" class="col-xs-12 col-sm-10">
-			
+			session_start();
 <div class="row">
 	<div id="breadcrumb" class="col-md-12">
 		<ol class="breadcrumb">
-			<li><a href="homeOIC.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Home</a></li>
+			<li><a href="homeOIC.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">Home</a></li>
 			<li><a href="#">Profile</a></li>
 		</ol>
 	</div>

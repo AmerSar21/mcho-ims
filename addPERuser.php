@@ -1,12 +1,6 @@
  <?php
 include("db_connect.php");
-
-
-
-
-
-
-
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,7 +57,7 @@ include("db_connect.php");
 	<div class="container-fluid expanded-panel">
 		<div class="row">
 			<div id="logo" class="col-xs-12 col-sm-2">
-				<a href="homeuser.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">MCHOIMS</a>
+				<a href="homeuser.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">MCHOIMS</a>
 			</div>
 			<div id="top-panel" class="col-xs-12 col-sm-10">
 				<div class="row">
@@ -80,7 +74,7 @@ include("db_connect.php");
 									<i class="fa fa-angle-down pull-right"></i>
 									<div class="user-mini pull-right">
 										<span class="welcome">Welcome,</span>
-										<span><?php $id=$_GET['userid'];
+										<span><?php $id=$_SESSION['userid'];
 										$sql = "SELECT fname, lname from acc_info where ai_id=$id";
 										$result = mysqli_query($con,$sql);
 										$row = mysqli_fetch_array($result);
@@ -97,7 +91,7 @@ include("db_connect.php");
 								<ul class="dropdown-menu">
 									
 									<li>
-										<a href="profileuser.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">
+										<a href="profileuser.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">
 											<i class="fa fa-user"></i>
 											<span class="hidden-sm text">Profile</span>
 										</a>
@@ -123,7 +117,7 @@ include("db_connect.php");
 		<div id="sidebar-left" class="col-xs-2 col-sm-2">
 			<ul class="nav main-menu">
 				<li>
-					<a href="homeuser.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">
+					<a href="homeuser.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">
 						<i class="fa fa-dashboard"></i>
 						<span class="hidden-xs">Home</span>
 					</a>
@@ -134,8 +128,8 @@ include("db_connect.php");
 						<span class="hidden-xs">Patient Enrollment Records</span>
 					</a>
 						<ul class="dropdown-menu">
-							<li><a href="viewPERuser.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">List of Records</a></li>
-							<li><a href="addPERuser.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Add Record</a></li>
+							<li><a href="viewPERuser.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">List of Records</a></li>
+							<li><a href="addPERuser.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">Add Record</a></li>
 						</ul>
 				</li>
 				<li class="dropdown">
@@ -144,8 +138,8 @@ include("db_connect.php");
 								<span class="hidden-xs">Individual Treatment Record</span>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="viewITRuser.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">List of Records</a></li>
-								<li><a href="addITRuser.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Add Record</a></li>
+								<li><a href="viewITRuser.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">List of Records</a></li>
+								<li><a href="addITRuser.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">Add Record</a></li>
 							</ul>
 					</li>
 									
@@ -165,13 +159,13 @@ include("db_connect.php");
 <div class="row">
 	<div id="breadcrumb" class="col-md-12">
 		<ol class="breadcrumb">
-			<li><a href="homeuser.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Home</a></li>
+			<li><a href="homeuser.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">Home</a></li>
 			<li><a href="#">Patient Enrollment Record</a></li>
 			<li><a href="#">Add</a></li>
 		</ol>
 	</div>
 </div>
-<form class="form-horizontal" action="uploadPERcsv.php?userid=<?php $id=$_GET['userid']; echo $id; ?>" method="post" name="upload_csv" enctype="multipart/form-data">
+<form class="form-horizontal" action="uploadPERcsv.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>" method="post" name="upload_csv" enctype="multipart/form-data">
 
 <div class="form-group">
                     
@@ -525,7 +519,7 @@ if(isset($_POST['addbutton']))
     $phnumber = $_POST['f_phnumber'];
     $phcategory = $_POST['f_phcategory'];
 
-    $userid = $_GET['userid'];
+    $userid = $_SESSION['userid'];
  	$sql = "SELECT fname, lname from acc_info where ai_id=$userid";
 	$result = mysqli_query($con,$sql);
 	$row = mysqli_fetch_array($result);

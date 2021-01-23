@@ -1,6 +1,8 @@
 <?php
 include("db_connect.php");
 session_start();
+$tempid = $_GET['tempid'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

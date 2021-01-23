@@ -1,7 +1,5 @@
 <?php
-
 include("db_connect.php");
-
 
 if(isset($_POST['tempitr']))
 {

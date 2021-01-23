@@ -1,6 +1,6 @@
 <?php
 
-$con = new mysqli("127.0.0.1", "root", "", "mchoims_database");
+include("db_connect.php");
 
 
 if(isset($_POST['accid']))

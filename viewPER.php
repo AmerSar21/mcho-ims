@@ -1,9 +1,8 @@
 <?php
-include ("db_connect.php");
+include "db_connect.php";
 
 if(isset($_POST['subbutton']))
 {
-
     $patientid = $_POST['f_patientid'];
     $brgyid = $_POST['f_brgy'];
 
@@ -226,7 +225,7 @@ if(isset($_POST['subbutton']))
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="uploadPER.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">PER from User<?php
-                                $sql="SELECT count(*) as cntupload from temp_per";
+                                $sql="SELECT count(*) as cntupload from temp_per where added_by='user'";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
                                $count = $row['cntupload'];
@@ -236,7 +235,7 @@ if(isset($_POST['subbutton']))
                                }
                                ?></a></li>
                         <li><a href="uploadITR.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">ITR from User<?php
-                                $sql="SELECT count(*) as cntupload from temp_itr";
+                                $sql="SELECT count(*) as cntupload from temp_itr where added_by='user'";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
                                $count = $row['cntupload'];

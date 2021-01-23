@@ -1,6 +1,6 @@
 <?php
 include "db_connect.php";
-
+session_start();
 if(isset($_POST['subbutton']))
 {
 	$brgy = $_POST['f_brgy'];
@@ -8,7 +8,7 @@ if(isset($_POST['subbutton']))
 	$result = mysqli_query($con,$sql) or die(mysqli_error($con));
 	$sqlreport = "INSERT INTO report(barangay) values('$brgy')";
 	$resultreport = mysqli_query($con,$sqlreport) or die(mysqli_error($con));
-	$id = $_GET['userid'];
+	$id = $_SESSION['userid'];
     $sql = "SELECT fname, lname from acc_info where ai_id=$id";
     $result = mysqli_query($con,$sql);
     $rowuser = mysqli_fetch_array($result);
@@ -82,7 +82,7 @@ if(isset($_POST['subbutton']))
 	<div class="container-fluid expanded-panel">
 		<div class="row">
 			<div id="logo" class="col-xs-12 col-sm-2">
-				<a href="homeadmin.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">MCHOIMS</a>
+				<a href="homeadmin.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">MCHOIMS</a>
 			</div>
 			<div id="top-panel" class="col-xs-12 col-sm-10">
 				<div class="row">
@@ -99,7 +99,7 @@ if(isset($_POST['subbutton']))
 									<i class="fa fa-angle-down pull-right"></i>
 									<div class="user-mini pull-right">
 										<span class="welcome">Welcome,</span>
-										<span><?php $id=$_GET['userid'];
+										<span><?php $id=$_SESSION['userid'];
 										$sql = "SELECT fname, lname from acc_info where ai_id=$id";
 										$result = mysqli_query($con,$sql);
 										$row = mysqli_fetch_array($result);
@@ -116,7 +116,7 @@ if(isset($_POST['subbutton']))
 								<ul class="dropdown-menu">
 									
 									<li>
-										<a href="profileadmin.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">
+										<a href="profileadmin.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">
 											<i class="fa fa-user"></i>
 											<span class="hidden-sm text">Profile</span>
 										</a>
@@ -143,25 +143,25 @@ if(isset($_POST['subbutton']))
 
 			<ul class="nav main-menu">
 				<li>
-					<a href="homeadmin.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">
+					<a href="homeadmin.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">
 						<i class="fa fa-user"></i>
 						<span class="hidden-xs">Home</span>
 					</a>
 				</li>
 				<li>
-					<a href="updateacc.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">
+					<a href="updateacc.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">
 						<i class="fa fa-edit"></i>
 						<span class="hidden-xs">Update Account</span>
 					</a>
 				</li>
 				<li>
-					<a href="addacc.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">
+					<a href="addacc.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">
 						<i class="fa fa-plus-square"></i>
 						<span class="hidden-xs">Add Account</span>
 					</a>
 				</li>
 				<li>
-					<a href="accreq.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">
+					<a href="accreq.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">
 						<i class="fa fa-mail-forward "></i>
 						<span class="hidden-xs">Account Request<?php
                                 $sql="SELECT count(*) as cntupload from acc_req";
@@ -176,7 +176,7 @@ if(isset($_POST['subbutton']))
 					</a>
 				</li>
 				<li>
-					<a href="viewarchiveacc.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">
+					<a href="viewarchiveacc.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">
 						<i class="fa fa-archive"></i>
 						<span class="hidden-xs">Archived Accounts</span>
 					</a>

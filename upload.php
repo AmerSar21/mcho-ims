@@ -1,6 +1,6 @@
  
  <?php  
- $connect = mysqli_connect("localhost", "root", "", "mchoims_database");  
+ include ("db_connect.php");
  include ("PHPExcel/IOFactory.php");  
 
 $filename=$_POST['filename'];
