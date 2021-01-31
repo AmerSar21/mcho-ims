@@ -1,7 +1,193 @@
 <?php
 include("db_connect.php");
 session_start();
-$tempid = $_GET['tempid'];
+	$tempid = $_GET['tempid'];
+	$sqlselect = "SELECT * from temp_itr where tempitr_id = '$tempid'";
+	$resultselect = mysqli_query($con,$sqlselect);
+	$rowb = mysqli_fetch_array($resultselect);
+	$patientid = $rowb['patient_id'];
+	$age = $rowb['age'];
+	$mdtr = $rowb['mode_transaction'];
+	$dcon = $rowb['date_consultation'];
+	$tcon = $rowb['time_consultation'];
+	$bpress = $rowb['blood_pressure'];
+	$tmp = $rowb['temperature'];
+	$hght = $rowb['height'];
+	$wght = $rowb['weight'];
+	$noa = $rowb['name_of_attending'];
+	$ccomp = $rowb['chief_complaints'];
+	$dgns = $rowb['diagnosis'];
+	$mdc = $rowb['medication'];
+	$lbf = $rowb['lab_findings'];
+	$nhc = $rowb['name_health_careprovider'];
+	$plt = $rowb['performed_lab_test'];
+	$rffr = $rowb['referred_from'];
+	$rfft = $rowb['referred_to'];
+	$ror = $rowb['reason_of_referral'];
+	$rffb = $rowb['referred_by'];
+	$adby = $rowb['added_by'];
+	$sbby = $rowb['submitted_by'];
+	$dsub = $rowb['date_submitted'];
+
+	$chckPer = "SELECT count(*) as cnt FROM patient_enrollment WHERE patient_id = '$patientid'";
+	$res = mysqli_query($con,$chckPer);
+	$row = mysqli_fetch_array($res);
+	$check = $row['cnt'];
+
+	if($check > 0){
+	    $sqlselectother = "SELECT patient_enrollment.family_serial_no, name.lname, name.fname, name.mname, name.suffix, contact_info.home_no, contact_info.street,contact_info.barangay, contact_info.city, temp_itr.nature_of_visit, patient_enrollment.patient_id  from temp_itr inner join patient_enrollment inner join name inner join contact_info on contact_info.ci_id=patient_enrollment.ci_id and name.n_id=patient_enrollment.n_id and patient_enrollment.patient_id='$patientid'";
+	    $resultselectother = mysqli_query($con,$sqlselectother);
+	    $row = mysqli_fetch_array($resultselectother);
+	    $fsrno = $row['family_serial_no'];
+	    $lnm = $row['lname'];
+	    $fnm = $row['fname'];
+	    $mnm = $row['mname'];
+	    if($row['suffix'] == ''){
+	    	$sfx = 'None';
+	    }else{
+		    $sfx = $row['suffix'];						    	
+	    }
+	    $hmno = $row['home_no'];
+	    $strt = $row['street'];
+	    $brngy = $row['barangay'];
+	    $cty = $row['city'];
+	    $ntv = $row['nature_of_visit'];
+	}else{
+		echo "<script type='text/javascript'>
+	            alert('No Enrolment Record Found.');
+	          </script>";						    
+	}
+
+
+if(isset($_POST['acceptbutton']))
+{
+    $patientid = $_POST['f_patientid'];
+    $serialno = $_POST['f_serialno'];
+    $lname = $_POST['f_lname'];
+    $mname = $_POST['f_mname'];
+    $fname = $_POST['f_fname'];
+    $suffix = $_POST['f_suffix'];
+    $age = $_POST['f_age'];
+    $address = $_POST['f_address'];
+    $dateconsult = $_POST['f_dateofconsult'];
+    $timeconsult = $_POST['f_consulttime'];
+    $bloodpressure = $_POST['f_bloodpressure'];
+    $temperature = $_POST['f_temp'];
+    $height = $_POST['f_height'];
+    $weight = $_POST['f_weight'];
+    $nameofattending = $_POST['f_attendingofficer'];
+	$modetransact = $_POST['f_modeoftransact'];
+    if($modetransact == 'Referral'){
+	    $referredfrom = $_POST['f_referredfrom'];
+	    $referredto = $_POST['f_referredto'];
+	    $reasonofref = $_POST['f_reasonofref'];
+	    $referredby = $_POST['f_referredby'];
+	    $chiefcomplaints = $_POST['f_chiefcomplaints'];
+    }else{
+    	$referredfrom = 'None';
+    	$referredto = 'None';
+    	$reasonofref = 'None';
+    	$referredby = 'None';    	    	    	
+	    $chiefcomplaints = 'None';    	
+    }
+    $natureofvisit = $_POST['f_natureofvisit'];
+    $diagnosis = $_POST['f_diagnosis'];
+    $medication = $_POST['f_medication'];
+    $labfindings = $_POST['f_labfindings'];
+    $healthcare = $_POST['f_healthcare'];
+    $labtest = $_POST['f_labtest'];
+
+    $chckPer = "SELECT count(*) as cnt FROM patient_enrollment WHERE patient_id = '$patientid'";
+	$res = mysqli_query($con,$chckPer);
+	$row = mysqli_fetch_array($res);
+	$check = $row['cnt'];
+
+	if($check > 0){
+		$sqlselectenroll = "SELECT pe_id from patient_enrollment where patient_id = '$patientid'";
+	    $resultselectenroll = mysqli_query($con, $sqlselectenroll) or die (mysqli_error($con)); 
+	    $patientenroll = mysqli_fetch_assoc($resultselectenroll);
+	    $patientenrollID = $patientenroll['pe_id'];
+
+	    $sqlinsertforchurhu = "INSERT INTO for_chu_rhu (mode_transaction, date_consultation, time_consultation, blood_pressure, temperature, height, weight, name_of_attending, age) VALUES ('$modetransact', '$dateconsult' , '$timeconsult' , '$bloodpressure', '$temperature' , '$height', '$weight' ,'$nameofattending', '$age')";
+	    $resultinsertforchurhu  = mysqli_query($con, $sqlinsertforchurhu) or die (mysqli_error($con));
+	    $forchurhuID = mysqli_insert_id($con);
+
+	    if($modetransact == 'Referral'){
+		    $sqlinsertrefertransact = "INSERT INTO referral_transaction (referred_from, referred_to, reason_of_referral, referred_by) VALUES ('$referredfrom', '$referredto' , '$reasonofref' , '$referredby')";
+		    $resultinsertrefertransact  = mysqli_query($con, $sqlinsertrefertransact) or die (mysqli_error($con));
+		    $refertransactID = mysqli_insert_id($con);
+	    }else{
+		    $sqlinsertrefertransact = "INSERT INTO referral_transaction (referred_from, referred_to, reason_of_referral, referred_by) VALUES ('none', 'none' , 'none' , 'none')";
+		    $resultinsertrefertransact  = mysqli_query($con, $sqlinsertrefertransact) or die (mysqli_error($con));
+		    $refertransactID = mysqli_insert_id($con);    	
+	    }
+
+	    $sqlinserttreatment = "INSERT INTO treatment (nature_of_visit, chief_complaints, diagnosis, medication, lab_findings, name_health_careprovider, performed_lab_test) VALUES ('$natureofvisit', '$chiefcomplaints' , '$diagnosis' , '$medication', '$labfindings' , '$healthcare', '$labtest')";
+	    $resultinserttreatment  = mysqli_query($con, $sqlinserttreatment) or die (mysqli_error($con));
+	    $treatmentID = mysqli_insert_id($con);
+
+
+
+	    $userid = $_SESSION['userid'];
+	    $sql = "SELECT fname, lname from acc_info where ai_id=$userid";
+	    $result = mysqli_query($con,$sql);
+	    $row = mysqli_fetch_array($result);
+	    $addedby =$row['fname']." ".$row['lname'];
+
+	    $sqlinsertITR = "INSERT INTO indiv_treat_rec (pe_id, fcr_id, treatment_id, ref_tran_id, added_by, status) VALUES ('$patientenrollID' , '$forchurhuID' , '$treatmentID', '$refertransactID','$addedby','active')";
+	    $resultinsertITR  = mysqli_query($con, $sqlinsertITR) or die (mysqli_error($con));
+	    if(!$resultinsertITR and !$resultinsertforchurhu and !$resultinsertrefertransact and !$resultinserttreatment)
+	    {
+	        echo "<script type='text/javascript'>
+	                alert('Unsuccessfully Inserted');
+	            </script>";
+	    }   
+	    else
+	    {
+	        echo "<script type='text/javascript'>
+	                alert('Successfully Inserted');
+	            </script>";
+	    }
+
+	    $sqldeletetemp = "DELETE FROM temp_itr where tempitr_id='$tempid'";
+	    $deletetemp =mysqli_query($con,$sqldeletetemp);
+	}else{
+		echo "<script type='text/javascript'>
+	            alert('No Enrolment Record Found.');
+	          </script>";		
+	}
+
+
+   
+}else if(isset($_POST['adddoctorbtn']))
+{	
+	$chckDoc = "SELECT count(*) as Count from doctor where CONCAT(fname, ' ', lname) LIKE '$nhc'";
+	$res = mysqli_query($con,$chckDoc);
+	$row = mysqli_fetch_array($res);
+	$count = $row['Count'];
+
+	if($count > 0){
+		echo "<script type='text/javascript'>
+                alert('Doctor already Existing in Database.');
+            </script>";
+	}else{
+		$fname = $_POST['f_doctorfname'];
+		$lname = $_POST['f_doctorlname'];
+		$specialization = $_POST['f_specialization'];
+
+		$sqladd = "INSERT INTO doctor (fname,lname,specialization) VALUES ('$fname','$lname','$specialization') ";
+		if(!mysqli_query($con,$sqladd))
+		{
+			echo "not inserted to doctor";
+		}
+		else
+		{
+			echo "inserted to doctor";
+			echo '<meta http-equiv="refresh" content="0">';
+		}
+
+	}	
+}
 
 ?>
 <!DOCTYPE html>
@@ -250,84 +436,32 @@ $tempid = $_GET['tempid'];
 <div class="row">
 	<div class="col-xs-12 col-sm-12">
 		<div class="box">
-			<div class="box-header">
-				<div class="box-name">
-					<i class="fa fa-search"></i>
-					<span>Individual Treatment Record</span>
-				</div>
-				<div class="box-icons">
-					
-					<a class="expand-link">
-						<i class="fa fa-expand"></i>
-					</a>
-				</div>
-				<div class="no-move"></div>
-			</div>
 			<div class="box-content">
-				<h4 class="page-header">Add ITR form</h4>
+				<h4 class="page-header">Accept Individual Treatment</h4>
 				<form class='form-horizontal' role="form" method="post" enctype='multipart/form-data'>
 					<div class="form-group">
-						<?php
-                                            
-                                            if(isset($_GET['patientid']))
-                                            {
-                                                $patientid = $_GET['patientid'];
-                                                $sql="SELECT count(*) as cntno, n_id, ci_id, family_serial_no from patient_enrollment where patient_id = '$patientid'";
-                                                $result = mysqli_query($con,$sql);
-                                               $row = mysqli_fetch_array($result);
-                                               $serialno = $row['family_serial_no'];
-                                               $count = $row['cntno'];
-                                               $nameid = $row['n_id'];
-                                               $contactid = $row['ci_id'];
-                                               if($count)
-                                               {
-
-                                                $sqlname = "SELECT * from name where n_id = '$nameid'";
-                                                $resultname = mysqli_query($con,$sqlname);
-                                                $rowname = mysqli_fetch_array($resultname);
-                                                $firstname = $rowname['fname'];
-                                                $middlename = $rowname['mname'];
-                                                $lastname = $rowname['lname'];
-                                                $suffix = $rowname['suffix'];
-                                                $sqlcontact = "SELECT * from contact_info where ci_id = '$contactid'";
-                                                $resultcontact = mysqli_query($con,$sqlcontact);
-                                                $rowncontact = mysqli_fetch_array($resultcontact);
-                                                $homeno= $rowncontact['home_no'];
-                                                $street= $rowncontact['street'];
-                                                $barangay= $rowncontact['barangay'];
-                                                $city= $rowncontact['city'];
-                                                
-                                                }
-                                                
-                                            }
-                                            ?>
 						<label class="col-sm-2 control-label">Family Serial Number</label>						
 						<div class="col-sm-4">
-							<input class='form-control' placeholder='Serial Number' value='<?php echo $serialno; ?>' name='f_serialno' required readonly>
-
-							<input class='form-control' placeholder='Serial Number' type='hidden' value='<?php echo $patientid; ?>' name='f_patientid' required readonly>
+							<input class='form-control' placeholder='Serial Number' value='<?php echo $fsrno; ?>' name='f_serialno' required readonly>
+							<input class='form-control' placeholder='Serial Number' type='hidden' value='<?php echo $patientid;?>' name='f_patientid' required readonly>
 						</div>                                                    
 					</div>
-						
-						
-                                            <div class='form-group'>
-                                                    <label class='col-sm-2 control-label'>First name</label>
-													<div class='col-sm-4'>
-                                                    <input type='text' class='form-control' value='<?php echo $firstname; ?>' placeholder='First name' name='f_fname' readonly>
-													<input type='text' class='form-control' value='<?php echo $middlename; ?>' placeholder='Middle Name' name='f_mname' readonly>
-													<input type='text' class='form-control' value='<?php echo $lastname; ?>'  placeholder='Last Name' name='f_lname' readonly>
-													<input type='text' class='form-control' value='<?php echo $suffix; ?>' placeholder='Suffix e.g. Jr., Sr., II, III' name='f_suffix' readonly>
 
-                                                </div>
-                                                </div>
-                                                <div class='form-group'>
-													<label class='col-sm-2 control-label'>Residential Address</label>
-													<div class='col-sm-4'>
-                                                    <input class='form-control' value='<?php echo $homeno." ".$street." ".$barangay." ".$city; ?>' placeholder='Street, Barangay, City, Province' name='f_address' readonly>
-                                                	
-                                                </div>
-                                                </div>
-         
+					<div class='form-group'>
+						<label class='col-sm-2 control-label'>First name</label>
+						<div class='col-sm-4'>
+							<input type='text' class='form-control' value='<?php echo $fnm; ?>' placeholder='First name' name='f_fname' readonly>
+							<input type='text' class='form-control' value='<?php echo $mnm; ?>' placeholder='Middle Name' name='f_mname' readonly>
+							<input type='text' class='form-control' value='<?php echo $lnm; ?>'  placeholder='Last Name' name='f_lname' readonly>
+							<input type='text' class='form-control' value='<?php echo $sfx; ?>' placeholder='Suffix e.g. Jr., Sr., II, III' name='f_suffix' readonly>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-sm-2 control-label'>Residential Address</label>
+						<div class='col-sm-4'>
+							<input class='form-control' value='<?php echo $hmno." ".$strt." ".$brngy." ".$cty; ?>' placeholder='Street, Barangay, City, Province' name='f_address' readonly>
+						</div>
+					</div>
 					<div class="form-group">	
                     	<label class="col-sm-3">For CHU/RHU Personnel Only</label>
                     </div>
@@ -338,12 +472,14 @@ $tempid = $_GET['tempid'];
 									<option value="Walk-in">Walk-in</option>
 									<option value="Visited">Visited</option>
 									<option value="Referral">Referral</option>
-
 								</select>
+								<div>
+									<label class="control-label">Current Choice: <?php echo '<span style="color:green;">'.$mdtr.'</span>'?></label>
+								</div>
 							</div>
 						<label class="col-sm-2 control-label">Date of Consultation</label>
 						<div class="col-sm-4">
-							<input type="date" class="form-control" placeholder="Date"  name="f_dateofconsult" >
+							<input type="date" class="form-control" placeholder="Date" value='<?php echo $dcon;?>' name="f_dateofconsult" >
 						</div>
 						
 					</div>
@@ -352,11 +488,11 @@ $tempid = $_GET['tempid'];
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Consultation Time</label>
 						<div class="col-sm-4">
-							<input type="time" class="form-control" placeholder="e.g. 12:00 am " name="f_consulttime">
+							<input type="time" class="form-control" placeholder="e.g. 12:00 am" value='<?php echo $tcon;?>' name="f_consulttime">
 						</div>
 						<label class="col-sm-2 control-label">Age</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="Enter here" name="f_age">
+							<input type="text" class="form-control" placeholder="Enter here" value='<?php echo $age;?>' name="f_age">
 						</div>
 						
 					</div>
@@ -364,53 +500,53 @@ $tempid = $_GET['tempid'];
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Blood Pressure</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="e.g. 80/120" name="f_bloodpressure">
+							<input type="text" class="form-control" placeholder="e.g. 80/120" value='<?php echo $bpress;?>' name="f_bloodpressure">
 						</div>
 						<label class="col-sm-2 control-label">Height(cm)</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="" name="f_height">
+							<input type="text" class="form-control" placeholder="" name="f_height" value='<?php echo $hght;?>'>
 						</div>
-						
 					</div>
                    
 					<div class="form-group">
 							<label class="col-sm-2 control-label">Temperature</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="e.g. 36 degree C" name="f_temp">
+							<input type="text" class="form-control" placeholder="e.g. 36 degree C" name="f_temp" value='<?php echo $tmp;?>'>
 						</div>
 						<label class="col-sm-2 control-label">Weight(KG)</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="" name="f_weight">
+							<input type="text" class="form-control" placeholder="" name="f_weight" value='<?php echo $wght;?>'>
 						</div>
-							
 					</div>
 					<div class="form-group">
-						
 						<label class="col-sm-2 control-label">Name of Attending Officer</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="e.g. Juan Dela Cruz" name="f_attendingofficer">
+							<input type="text" class="form-control" placeholder="e.g. Juan Dela Cruz" name="f_attendingofficer" value='<?php echo $noa;?>'>
 						</div>
 						<label class="col-sm-2 control-label">Nature of Visit</label>
-							<div class="col-sm-4">
-								<select class="form-control" name="f_natureofvisit">
-                                                        <option>New Consultation/Case</option>
-                                                        <option>New Admission</option>
-                                                        <option>Follow-up Visit</option>
-                                                        <option>General</option>
-                                                        <option>Prenatal</option>
-                                                        <option>Dental Care</option>
-                                                        <option>Child Care</option>
-                                                        <option>Child Nutrition</option>
-                                                        <option>Injury</option>
-                                                        <option>Adult Immunization</option>
-                                                        <option>Family Planning</option>
-                                                        <option>Postpartum</option>
-                                                        <option>Tuberculosis</option>
-                                                        <option>Child Immunization</option>
-                                                        <option>Sick Children</option>
-                                                        <option>Firecracker Injury</option>
-                                                    </select>
+						<div class="col-sm-4">
+							<select class="form-control" name="f_natureofvisit">
+                                <option>New Consultation/Case</option>
+                                <option>New Admission</option>
+                                <option>Follow-up Visit</option>
+                                <option>General</option>
+                                <option>Prenatal</option>
+                                <option>Dental Care</option>
+                                <option>Child Care</option>
+                                <option>Child Nutrition</option>
+                                <option>Injury</option>
+                                <option>Adult Immunization</option>
+                                <option>Family Planning</option>
+                                <option>Postpartum</option>
+                                <option>Tuberculosis</option>
+                                <option>Child Immunization</option>
+                                <option>Sick Children</option>
+                                <option>Firecracker Injury</option>
+                            </select>
+                            <div>
+								<label class="control-label">Current Choice: <?php echo '<span style="color:green;">'.$ntv.'</span>'?></label>
 							</div>
+						</div>
 					</div>
 					<div class="form-group">	
                     	<label class="col-sm-3">For Referral Transaction Only</label>
@@ -419,59 +555,56 @@ $tempid = $_GET['tempid'];
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Referred From</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="Enter here" name="f_referredfrom" id="f_referredfrom">
+							<input type="text" class="form-control" placeholder='<?php echo $rffr;?>' name="f_referredfrom" id="f_referredfrom">
 						</div>
 						<label class="col-sm-2 control-label">Referred to</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="Enter here" name="f_referredto" id="f_referredto">
+							<input type="text" class="form-control" placeholder='<?php echo $rfft;?>' name="f_referredto" id="f_referredto"> 
 						</div>
 
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Referred by</label>
 						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="Juan Dela Cruz" name="f_referredby" id="f_referredby">
+							<input type="text" class="form-control" placeholder='<?php echo $rffb;?>' name="f_referredby" id="f_referredby">
 						</div>
-						
-						
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label" for="form-styles">Reason of Referral</label>
 						<div class="col-sm-4">
-								<textarea class="form-control" rows="4" name="f_reasonofref" id="f_reasonofref"></textarea>
+								<textarea class="form-control" rows="4" name="f_reasonofref" id="f_reasonofref" placeholder='<?php echo $ror;?>'></textarea>
 						</div>
 						<label class="col-sm-2 control-label" for="form-styles">Chief Complaints</label>
 						<div class="col-sm-4">
-								<textarea class="form-control" rows="4" name="f_chiefcomplaints" id="f_chiefcomplaints"></textarea>
+								<textarea class="form-control" rows="4" name="f_chiefcomplaints" id="f_chiefcomplaints" placeholder='<?php echo $ccomp;?>'></textarea>
 						</div>
-					
 					</div>
 
 										
 					 <div class="form-group">
 						<label class="col-sm-2 control-label" for="form-styles">Diagnosis</label>
 						<div class="col-sm-9">
-								<textarea class="form-control" rows="5" name="f_diagnosis"></textarea>
+							<textarea class="form-control" rows="5" name="f_diagnosis" placeholder='<?php echo $dgns;?>'></textarea>
 						</div>
 					</div>
 
 					 <div class="form-group">
 						<label class="col-sm-2 control-label" for="form-styles">Medication/Treatment</label>
 						<div class="col-sm-9">
-								<textarea class="form-control" rows="5" name="f_medication"></textarea>
+							<textarea class="form-control" rows="5" name="f_medication" placeholder='<?php echo $mdc;?>'></textarea>
 						</div>
 					</div>
 
 					 <div class="form-group">
 						<label class="col-sm-2 control-label" for="form-styles">Laboratory Findings/Impression</label>
 						<div class="col-sm-9">
-								<textarea class="form-control" rows="5" name="f_labfindings"></textarea>
+							<textarea class="form-control" rows="5" name="f_labfindings" placeholder='<?php echo $lbf;?>'></textarea>
 						</div>
 					</div>
 					 <div class="form-group">
 					  <label class="col-sm-2 control-label" for="form-styles">Performed Laboratory Test</label>
 						<div class="col-sm-4">
-								<textarea class="form-control" rows="4" name="f_labtest"></textarea>
+							<textarea class="form-control" rows="4" name="f_labtest" placeholder='<?php echo $plt;?>'></textarea>
 						</div>
 						<label class="col-sm-2 control-label">Name of Health Care Provider</label>
 						<div class="col-sm-4">
@@ -487,6 +620,9 @@ $tempid = $_GET['tempid'];
 							<select class="form-control" name="f_healthcare" > 
 								<?php echo $option; ?>
 							</select>
+							<div>
+								<label class="control-label">Current NHP: <?php echo '<span style="color:green;">'.$nhc.'</span>'?></label>
+							</div>
 							<div class="col-md-offset-8">
 							<button type="button" class="btn btn-primary add_doctor" >Add doctor</button>
 							</div>
@@ -495,8 +631,8 @@ $tempid = $_GET['tempid'];
 					</div>
 					<div class="form-group">
 					<div  class="col-md-3 col-md-offset-2">
-						 <input type="submit" name="addbutton" class="btn btn-primary" value="Submit">
-                                <button type="reset" class="btn btn-default ">Reset</button>
+						<input type="submit" name="acceptbutton" class="btn btn-primary" value="Accept">
+                        <button type="reset" class="btn btn-default ">Reset</button>
 					</div>
 					</div>
 				
@@ -506,41 +642,41 @@ $tempid = $_GET['tempid'];
 	</div>
 </div>
 
-                                <div class="modal fade" id="doctormodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                        <form role="form" method="post">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel">Add Doctor</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label>Firstname</label>
-                                                    <input class="form-control" placeholder="Firstname" name="f_doctorfname" id="m_actnumber" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Lastname</label>
-                                                    <input class="form-control" placeholder="Lastname" name="f_doctorlname" id="m_title" required>
-                                                </div>                                                   
-                                               
-                                                <div class="form-group">
-                                                    <label>Specialization</label>
-                                                    <input class="form-control" id="m_dateconducted" name="f_specialization" placeholder="Specialization" required>
-                                                </div>
-                                                
-                                            </div>
-                                            <div class='modal-footer'>
-                                           <button type='submit' name='adddoctorbtn' class='btn btn-primary'>Accept</button>
-                                            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
-                                            
-                                        </div>
-                                        </form>
-                                        </div>
-                                        <!-- /.modal-content -->
-                                    </div>
-                                    <!-- /.modal-dialog -->
+                <div class="modal fade" id="doctormodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <form role="form" method="post">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Add Doctor</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Firstname</label>
+                                    <input class="form-control" placeholder="Firstname" name="f_doctorfname" id="m_actnumber" required>
                                 </div>
+                                <div class="form-group">
+                                    <label>Lastname</label>
+                                    <input class="form-control" placeholder="Lastname" name="f_doctorlname" id="m_title" required>
+                                </div>                                                   
+                               
+                                <div class="form-group">
+                                    <label>Specialization</label>
+                                    <input class="form-control" id="m_dateconducted" name="f_specialization" placeholder="Specialization" required>
+                                </div>
+                                
+                            </div>
+                            <div class='modal-footer'>
+                           <button type='submit' name='adddoctorbtn' class='btn btn-primary'>Accept</button>
+                            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                            
+                        </div>
+                        </form>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
             </div>
 		</div>
 
@@ -609,99 +745,6 @@ $(document).ready(function() {
 </body>
 </html>
 <?php
-
-if(isset($_POST['adddoctorbtn']))
-{
-	$fname = $_POST['f_doctorfname'];
-	$lname = $_POST['f_doctorlname'];
-	$specialization = $_POST['f_specialization'];
-
-	$sqladd = "INSERT INTO doctor (fname,lname,specialization) VALUES ('$fname','$lname','$specialization') ";
-	if(!mysqli_query($con,$sqladd))
-	{
-		echo "not inserted to doctor";
-	}
-	else
-	{
-		echo "inserted to doctor";
-		echo '<meta http-equiv="refresh" content="0">';
-	}
-}
-
-if(isset($_POST['addbutton']))
-{
-	$patientid = $_POST['f_patientid'];
-    $serialno = $_POST['f_serialno'];
-    $lname = $_POST['f_lname'];
-    $mname = $_POST['f_mname'];
-    $fname = $_POST['f_fname'];
-    $suffix = $_POST['f_suffix'];
-    $age = $_POST['f_age'];
-    $address = $_POST['f_address'];
-    $modetransact = $_POST['f_modeoftransact'];
-    $dateconsult = $_POST['f_dateofconsult'];
-    $timeconsult = $_POST['f_consulttime'];
-    $bloodpressure = $_POST['f_bloodpressure'];
-    $temperature = $_POST['f_temp'];
-    $height = $_POST['f_height'];
-    $weight = $_POST['f_weight'];
-    $nameofattending = $_POST['f_attendingofficer'];    
-    $referredfrom = $_POST['f_referredfrom'];
-    $referredto = $_POST['f_referredto'];
-    $reasonofref = $_POST['f_reasonofref'];
-    $referredby = $_POST['f_referredby'];
-    $natureofvisit = $_POST['f_natureofvisit'];
-    $chiefcomplaints = $_POST['f_chiefcomplaints'];
-    $diagnosis = $_POST['f_diagnosis'];
-    $medication = $_POST['f_medication'];
-    $labfindings = $_POST['f_labfindings'];
-    $healthcare = $_POST['f_healthcare'];
-    $labtest = $_POST['f_labtest'];
-
-
-    $sqlselectenroll = "SELECT pe_id from patient_enrollment where patient_id='$patientid';";
-    $resultselectenroll = mysqli_query($con, $sqlselectenroll); 
-    $patientenroll = mysqli_fetch_assoc($resultselectenroll);
-    $patientenrollID = $patientenroll['pe_id'];
-
-    $sqlinsertforchurhu = "INSERT INTO for_chu_rhu (mode_transaction, date_consultation, time_consultation, blood_pressure, temperature, height, weight, name_of_attending, age) VALUES ('$modetransact', '$dateconsult' , '$timeconsult' , '$bloodpressure', '$temperature' , '$height', '$weight' ,'$nameofattending', '$age')";
-    $resultinsertforchurhu  = mysqli_query($con, $sqlinsertforchurhu);
-    $forchurhuID = mysqli_insert_id($con);
-
-    $sqlinsertrefertransact = "INSERT INTO referral_transaction (referred_from, referred_to, reason_of_referral, referred_by) VALUES ('$referredfrom', '$referredto' , '$reasonofref' , '$referredby')";
-    $resultinsertrefertransact  = mysqli_query($con, $sqlinsertrefertransact);
-    $refertransactID = mysqli_insert_id($con);
-
-    $sqlinserttreatment = "INSERT INTO treatment (nature_of_visit, chief_complaints, diagnosis, medication, lab_findings, name_health_careprovider, performed_lab_test) VALUES ('$natureofvisit', '$chiefcomplaints' , '$diagnosis' , '$medication', '$labfindings' , '$healthcare', '$labtest')";
-    $resultinserttreatment  = mysqli_query($con, $sqlinserttreatment);
-    $treatmentID = mysqli_insert_id($con);
-    $userid = $_SESSION['userid'];
-    $sql = "SELECT fname, lname from acc_info where ai_id=$userid";
-    $result = mysqli_query($con,$sql);
-    $row = mysqli_fetch_array($result);
-    $addedby =$row['fname']." ".$row['lname'];
-    $sqlinsertITR = "INSERT INTO indiv_treat_rec (pe_id, fcr_id, treatment_id, ref_tran_id,added_by,status) VALUES ('$patientenrollID' , '$forchurhuID' , '$treatmentID', '$refertransactID','$addedby','active')";
-    $resultinsertITR  = mysqli_query($con, $sqlinsertITR);
-    if(!$resultinsertITR and !$resultinsertforchurhu and !$resultinserttreatment and !$resultinsertrefertransact)
-    {
-        echo "<script type='text/javascript'>
-				alert('Unsuccesfully Added');
-				window.location.href = 'viewITR.php?userid=".$userid."'
-			</script> ";
-    }   
-    else
-    {
-    	$sqllog = "INSERT INTO system_log (date_time,action,user,subject) values( CURRENT_TIMESTAMP, 'Add Patient Treatment', '$addedby', '$fname $mname $lname')";
-        $resultlog = mysqli_query($con,$sqllog) or die(mysql_error($con));
-        echo "<script type='text/javascript'>
-				alert('Succesfully Added');
-				window.location.href = 'viewITR.php?userid=".$userid."'
-			</script>";
-    }       
-}
- 
-
-
 
 
 ?>

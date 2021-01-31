@@ -3,8 +3,9 @@ include("db_connect.php");
 include("updatePERquery.php");
 session_start();
 
-if (isset($_POST['deletebutton']))
-{
+$tempid = $_GET['tempid'];
+
+if (isset($_POST['deletebutton'])){
     $perid = $_POST['iddelete'];
 
     $sqlselect = "DELETE FROM temp_per where temPER_id = '$perid'";
@@ -22,11 +23,8 @@ if (isset($_POST['deletebutton']))
             </script>";
     }
 
-}
-
-if(isset($_POST['acceptbutton']))
-{
-    $perid = $_POST['f_perid'];
+}else if(isset($_POST['acceptbutton'])){
+	
     $patientid = $_POST['f_patientid'];
     $famserial = $_POST['f_serialno'];
     $lname = $_POST['f_lname'];
@@ -55,6 +53,34 @@ if(isset($_POST['acceptbutton']))
     $phnumber = $_POST['f_phnumber'];
     $phcategory = $_POST['f_phcategory'];
 
+    // echo $patientid;
+    // echo $famserial;
+    // echo $lname;
+    // echo $fname;
+    // echo $mname;
+    // echo $gender;
+    // echo $bdate;
+    // echo $bplace;
+    // echo $bloodtype;
+    // echo $civstat;
+    // echo $spouse;
+    // echo $educattain;          
+    // echo $employstat;          
+    // echo $famposition;          
+    // echo $suffix;          
+    // echo $mother;                                                                    
+    // echo $homeno;          
+    // echo $street;          
+    // echo $brgy;                                                  
+    // echo $city;          
+    // echo $province;          
+    // echo $contactno;       
+    // echo $dswd;                                                  
+    // echo $facilityno;          
+    // echo $phmember;          
+    // echo $phnumber;
+    // echo $phcategory;                          
+    // die();
 
     $sqlinsertname = "INSERT INTO name (lname, fname, mname, suffix) VALUES ('$lname' , '$fname' , '$mname', '$suffix')";
     $resultinsertname = mysqli_query($con,$sqlinsertname);
@@ -99,12 +125,10 @@ if(isset($_POST['acceptbutton']))
             </script>";
     }
 
-
-    $sqldeletetemp = "DELETE FROM temp_per where temPER_id='$perid'";
+    $sqldeletetemp = "DELETE FROM temp_per where temPER_id='$tempid'";
     $resultdeletee = mysqli_query($con,$sqldeletetemp);
 
 }
-
 
 ?>
 
@@ -177,17 +201,19 @@ if(isset($_POST['acceptbutton']))
                                     <i class="fa fa-angle-down pull-right"></i>
                                     <div class="user-mini pull-right">
                                         <span class="welcome">Welcome,</span>
-                                        <span><?php $id=$_SESSION['userid'];
-                                        $sql = "SELECT fname, lname from acc_info where ai_id=$id";
-                                        $result = mysqli_query($con,$sql);
-                                        $row = mysqli_fetch_array($result);
-                                        if(!$row)
-                                        {
-                                            header("Location: index.php");
-                                        }
-                                        else{
-                                        echo $row['fname'] . " " . $row['lname'];
-                                                                                    }
+                                        <span>
+                                        <?php 
+	                                        $id=$_SESSION['userid'];
+	                                        $sql = "SELECT fname, lname from acc_info where ai_id=$id";
+	                                        $result = mysqli_query($con,$sql);
+	                                        $row = mysqli_fetch_array($result);
+	                                        if(!$row)
+	                                        {
+	                                            header("Location: index.php");
+	                                        }
+	                                        else{
+	                                        	echo $row['fname'] . " " . $row['lname'];
+	                                    	}
                                         ?></span>
                                     </div>
                                 </a>
@@ -350,219 +376,257 @@ if(isset($_POST['acceptbutton']))
     </div>
 </div>
 <div class="row">
-    <div class="col-xs-12">
-        <div class="box">
-            <div class="box-header">
-                <div class="box-name">
-                    <i class="fa fa-medkit"></i>
-                    <span>List of New uploads</span>
-                </div>
-                <div class="box-icons">
-                    <a class="expand-link">
-                        <i class="fa fa-expand"></i>
-                    </a>
-                </div>
-                <div class="no-move"></div>
-            </div>
-            <div class="box-content no-padding">
-                <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
-                    <thead>
-                        <tr>
-                            <th>Family Serial No.</th>
-                                        <th>Lastname</th>
-                                        <th>Firstname</th>
-                                        <th>Middlename</th>
-                                        <th>Address</th>
-                                        <th>Submitted by</th>
-                                        <th>Date Submitted</th>
-                                        <th>Action</th>
-                        </tr>
-                    </thead>
-                    <?php
-                                    $sql = "SELECT * from temp_per";
-                                    $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
-                                ?>
-                                <tbody>
-                         <?php while ($row = mysqli_fetch_array($result)) { 
-                                        echo( "<tr>
-                                            <td class='serialno'>" . $row['family_serial_no'] . "</td>
-                                            <td class='lname'>" . $row[2] . "</td>
-                                            <td class='fname'>" . $row[3] . "</td>
-                                            <td class='mname'>" . $row[4] . "</td>                                            
-                                            <td class='address'>" . $row['home_no'] . " " . $row['street'] . " " .$row['barangay'] . " " .$row['city'] ."</td>
-                                            <td class='mname'>" . $row['submitted_by'] . "</td>
-                                            <td class='mname'>" . $row['date_submitted'] . "</td>                                              
-                                            <td><input type='button' value='View Full Details' id='".$row['temPER_id']."' class='btn btn-warning edit_data'/>
-                                            <button type='button' class='btn btn-warning'><a href='viewTempPer.php?tempid=".$row['temPER_id']."'>View Full Details</a></button>                                    
-                                            <button type='button' id='".$row['temPER_id']."' class='btn btn-danger btndelete'>Delete</button> 
-                                            </td>
-                                            
-                                          </tr>"); }
+	<div class="col-xs-12 col-sm-12">
+		<div class="box">
+			<div class="box-content">
+				<?php
+				$sqlselect = "SELECT * from temp_per where temPER_id = '$tempid'";
+				$resultselect = mysqli_query($con,$sqlselect);
+				$row = mysqli_fetch_array($resultselect);
+				$fsno = $row['family_serial_no'];
+				$pid = $row['patient_id'];
+				$lnm = $row['lname'];
+				$mnm = $row['mname'];
+				$fnm = $row['fname'];
+				$sx = $row['sex'];
+				$bdt = $row['b_date'];
+				$bplc = $row['b_place'];
+				$bldtp = $row['bloodtype'];
+				$cst = $row['civil_stat'];
+				$spnm = $row['spouse_name'];
+				$mtnm = $row['mothers_name'];
+				$fmpos = $row['fam_position'];
+				$hmno = $row['home_no'];
+				$strt = $row['street'];
+				$brngy = $row['barangay'];
+				$cty = $row['city'];
+				$prv = $row['province'];
+				$cntno = $row['contact_no'];
+				$edatt = $row['educ_attainment'];
+				$emstat = $row['employ_status'];
+				$phmm = $row['ph_member'];
+				$phno = $row['ph_no'];
+				$mmctg = $row['member_category'];
+				$fctyno = $row['facility_no'];
+				$dnhts = $row['dswdnhts'];
+				if($row['suffix'] == ''){
+					$sfx = 'none';
+				}else{
+					$sfx = $row['suffix'];
+				} 
+				$addby = $row['added_by'];
+				$subby = $row['submitted_by'];
+				$dsub = $row['date_submitted'];
+				?>
+				<h4 class="page-header">Accept Patient Enrollment</h4>
+				<form class="form-horizontal" role="form" method="post"enctype='multipart/form-data'>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Family Serial Number</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="Serial Number" readonly value="<?php echo $fsno;?>" name="f_serialno">
+						</div>
+						<label class="col-sm-2 control-label">Patient I.D.</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="Patient I.D." readonly value="<?php echo $pid;?>" name="f_patientid">
+						</div>
+					</div>
+					<div class="form-group">
 
-                                      ?>
-                    </tbody>
+						<label class="col-sm-2 control-label">First name</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="First name" name="f_fname" value="<?php echo $fnm;?>">
+							<input type="text" class="form-control" placeholder="Middle Name" name="f_mname" value="<?php echo $mnm;?>">
+							<input type="text" class="form-control" placeholder="Last Name" name="f_lname" value="<?php echo $lnm;?>">
+							<input type="text" class="form-control" placeholder="Suffix e.g. Jr., Sr., II, III"  name="f_suffix" value="<?php echo $sfx;?>">
+						</div>
+						<label class="col-sm-2 control-label">Residential Address</label>
+						<div class="col-sm-4">
+							<?php
+							 $sqlbrgy="SELECT brgy_name FROM barangay ORDER BY brgy_name ASC";
+							 $resultbrgy = mysqli_query($con,$sqlbrgy);
+							$option = '';
+							 while($row = mysqli_fetch_assoc($resultbrgy))
+							{
+							  $option .= '<option value = "'.$row['brgy_name'].'">'.$row['brgy_name'].'</option>';
+							}
+							?>
+							<input type="text" class="form-control" placeholder="Home no." name="f_homeno" value="<?php echo $hmno;?>">
+							<input type="text" class="form-control" placeholder="Street" name="f_street"  value="<?php echo $strt;?>">
+							<select name="f_brgy"> 
+								<?php
+								 echo $option;
+								?>
+							</select>
+							<input type="text" class="form-control" placeholder="City" name="f_city" value="<?php echo $cty;?>">
+							<input type="text" class="form-control" placeholder="Province" name="f_province" value="<?php echo $prv;?>">
+							<div>
+							</div>
+								<label class="control-label">Current Barangay: <?php echo '<span style="color:green;">'.$brngy.'</span>'?></label>
+						</div>
 
-                </table>
-            </div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Gender</label>
+						<div class="col-sm-4">
+							<select name="f_gender"value="<?php echo $sx;?>">
+								<option value="">Select..</option>
+								<option value="Male">Male</option>
+								<option value="Female">Female</option>
+							</select>
+							<div>
+								<label class="control-label">Current Gender: <?php echo '<span style="color:green;">'.$sx.'</span>'?></label>
+							</div>
+						</div>
+						<label class="col-sm-2 control-label">Mother's Name</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="Enter here" name="f_mother" value="<?php echo $mtnm;?>">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Birth Date</label>
+						<div class="col-sm-4">
+							<input type="date" class="form-control" placeholder="Date"  name="f_bdate" value="<?php echo $bdt;?>">
+						</div>
+						<label class="col-sm-2 control-label">Contact Number</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="0910-123-4567" name="f_contactno" value="<?php echo $cntno;?>">
+						</div>
 
-        </div>
-    </div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Birthplace</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="Street, Barangay, City, Province" name="f_bplace" value="<?php echo $bplc;?>">
+						</div>
+						<label class="col-sm-2 control-label">DSWD NHTS?</label>
+						<div class="col-sm-4">
+							<select name="f_dswd" placeholder="Select..." value="<?php echo $dnhts;?>">
+								<option value="Yes">Yes</option>
+								<option value="No">No</option>
+							</select>
+							<div>
+								<label class="control-label">Choice: <?php echo '<span style="color:green;">'.$dnhts.'</span>';?></label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Blood Type</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="A / B / AB / O" name="f_bloodtype" value="<?php echo $bldtp;?>">
+						</div>
+
+						<label class="col-sm-2 control-label">Facility Household No.</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="Enter here" name="f_facilityno" value="<?php echo $fctyno;?>">
+						</div>
+					</div>
+					<div class="form-group">
+							<label class="col-sm-2 control-label">Civil Status</label>
+							<div class="col-sm-4">
+								<select name="f_civstat">
+									<option value="">select</option>
+									<option value="Single">Single</option>
+									<option value="Married">Married</option>
+									<option value="Annulled">Annulled</option>
+									<option value="Widow/er">Widow/er</option>
+									<option value="Separated">Separated</option>
+									<option value="Co-habitation">Co-habitation</option>
+								</select>
+								<div>
+									<label class="control-label">Status: <?php echo '<span style="color:green;">'.$cst.'</span>'?></label>
+								</div>
+							</div><label class="col-sm-2 control-label">PhilHealth Member?</label>
+							<div class="col-sm-4">
+								<select name="f_phmember">
+									<option value="None">select</option>
+									<option value="Yes">Yes</option>
+									<option value="No">No</option>
+								</select>
+								<div>
+									<label class="control-label">Choice: <?php echo '<span style="color:green;">'.$phmm.'</span>';?></label>
+								</div>
+							</div>
+					</div>
+                    <div class="form-group">
+						<label class="col-sm-2 control-label">Spouse Name</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="Enter here" name="f_spouse" value="<?php echo $spnm;?>">
+						</div>
+						<label class="col-sm-2 control-label">PhilHealth Number</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" placeholder="Enter here" name="f_phnumber" value="<?php echo $phno;?>">
+						</div>
+					</div>
+					<div class="form-group">
+							<label class="col-sm-2 control-label">Educational Attainment</label>
+							<div class="col-sm-4">
+								<select name="f_educattain">
+									<option>No Formal Education</option>
+									<option>HighSchool</option>
+									<option>College</option>
+									<option>Elementary</option>
+									<option>Vocational</option>
+									<option>Post-graduate</option>
+								</select>
+								<div>
+									<label class="control-label">Choice: <?php echo '<span style="color:green;">'.$edatt.'</span>';?></label>
+								</div>
+							</div>
+							<label class="col-sm-2 control-label">If member, please indicate category</label>
+							<div class="col-sm-4">
+								<select name="f_phcategory">
+									<option value="None">select</option>
+									<option value="FE-Private">FE-Private</option>
+									<option value="FE-Government">FE-Government</option>
+									<option value="IE">IE</option>
+								</select>
+								<div>
+									<label class="control-label">Choice: <?php echo '<span style="color:green;">'.$mmctg.'</span>';?></label>
+								</div>
+							</div>
+					</div>
+					<div class="form-group">
+							<label class="col-sm-2 control-label">Employment Status</label>
+							<div class="col-sm-4">
+								<select name="f_employstat">
+									<option>Unknown</option>
+									<option>Student</option>
+									<option>Employed</option>
+									<option>Retired</option>
+									<option>None/Unemployed</option>
+								</select>
+								<div>
+									<label class="control-label">Choice: <?php echo '<span style="color:green;">'.$emstat.'</span>';?></label>
+								</div>
+							</div>
+					</div>
+					<div class="form-group">
+							<label class="col-sm-2 control-label">Family Position</label>
+							<div class="col-sm-4">
+								<select name="f_famposition">
+									<option>Father</option>
+									<option>Mother</option>
+									<option>Son</option>
+									<option>Daughter</option>
+								</select>
+								<div>
+									<label class="control-label">Choice: <?php echo '<span style="color:green;">'.$fmpos.'</span>';?></label>
+								</div>
+							</div>
+					</div> 
+					<div class="form-group">
+					<div  class="col-md-3 col-md-offset-2">
+						 <input type="submit" name="acceptbutton" class="btn btn-primary" value="Approve">
+                	</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
-
-
-
-
-
-
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                    <form role="form" method="post">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel">Full Information</h4>
-                                        </div>
-                                        <div class="modal-body" id="uploaddetail">                                            
-                                        
-
-                                        <div class='form-group'>
-                                            <label>Family Serial Number</label>
-                                            <input class='form-control' placeholder='Enter Serial Number' name='f_serialno' id='f_serialno' readonly >
-                                            <input class='form-control' type='hidden' placeholder='Enter Serial Number' name='f_perid' id='f_perid' readonly >
-                                            <label>Patient I.D.</label>
-                                            <input class='form-control' placeholder='Patient ID' name='f_patientid' id='f_patientid' readonly >
-                                        </div>
-                                        <div class='form-group'>
-                                            <label>Lastname</label>
-                                            <input class='form-control' placeholder='Lastname' id='f_lname' name='f_lname'>
-                                            <label>Firstname</label>
-                                            <input class='form-control' placeholder='Firstname' name='f_fname' id='f_fname'>
-                                            <label>Middlename</label>
-                                            <input class='form-control' placeholder='Middlename' name='f_mname' id='f_mname'>
-                                            <label>Suffix</label>
-                                            <input class='form-control' placeholder='e.g. Jr., Sr., II, III' name='f_suffix' id='f_suffix'>
-                                        </div>
-                                        <div class='form-group'>
-                                            <label>Gender</label>
-                                            <input class='form-control' placeholder='Female/Male' name='f_gender' id='f_gender'>
-                                        </div>
-                                        <div class='form-group'>
-                                            <label>Date of Birth</label>                                                    
-                                            <input class='form-control' placeholder='1990-01-01' name='f_bdate' id='f_bdate'>
-                                        </div>
-                                        <div class='form-group'>
-                                            <label>Birthplace</label>
-                                            <input class='form-control' placeholder='Street, Barangay, City, Province' name='f_bplace' id='f_bplace'>
-                                        </div>
-                                        <div class='form-group'>
-                                            <label>Bloodtype</label>
-                                            <input class='form-control' placeholder='A / B / AB / O' name='f_bloodtype' id='f_bloodtype'>
-                                        </div>  
-                                        <div class='form-group'>
-                                            <label>Civil Status</label>
-                                            <input class='form-control' name='f_civstat'  id='f_civstat'>
-                                        </div>
-                                        <div class='form-group'>
-                                            <label>Spouse's Name</label>
-                                            <input class='form-control' placeholder='Lastname, Firstname Middlename' name='f_spouse' id='f_spouse'>
-                                        </div>
-                                        <div class='form-group'>
-                                            <label>Educational Attainment</label>
-                                            <input class='form-control' name='f_educattain' id='f_educattain'>
-                                        </div>
-                                        <div class='form-group'>
-                                            <label>Employment Status</label>
-                                            <input class='form-control' name='f_employstat'  id='f_employstat'>
-                                        </div>
-                                        <div class='form-group'>
-                                            <label>Family Position</label>
-                                            <input class='form-control' name='f_famposition' id='f_famposition'>
-                                        </div>
-                                                                            
-                                        <div class='form-group'>
-                                            <label>Mother's Name</label>
-                                            <input class='form-control' placeholder='Enter here' name='f_mother' id='f_mother'>
-                                        </div>
-                                        <div class='form-group'>
-                                            <label>Residential Address</label>
-                                            <input class='form-control' placeholder='Home Number' name='f_homeno'  id='f_homeno'>
-                                        
-                                            <input class='form-control' placeholder='Street' name='f_street' id='f_street'>
-                                        
-                                            <input class='form-control' placeholder='Barangay' name='f_brgy' id='f_brgy'>
-                                        
-                                            <input class='form-control' placeholder='City' name='f_city' id='f_city'>
-                                        
-                                            <input class='form-control' placeholder='Province' name='f_province' id='f_province'>
-                                        </div>
-                                        <div class='form-group'>
-                                            <label>Contact Number</label>
-                                            <input class='form-control' placeholder='0910-123-4567' name='f_contactno'  id='f_contactno'>
-                                        </div>
-                                        <div class='form-group'>
-                                            <label>DSWD NHTS?</label>
-                                            <input class='form-control' name='f_dswd' id='f_dswd'>
-                                        </div>
-                                        <div class='form-group'>
-                                            <label>Facility Household No.</label>
-                                            <input class='form-control' name='f_facilityno' id='f_facilityno'>
-                                        </div>
-                                        <div class='form-group'>
-                                            <label>Philhealth Member</label>
-                                            <input class='form-control' name='f_phmember' id='f_phmember'>
-                                        </div>
-                                        <div class='form-group'>
-                                            <label>Philhealth Number</label>
-                                            <input class='form-control' name='f_phnumber' id='f_phnumber'>
-                                        </div>
-                                        <div class='form-group'>
-                                            <label>If member, please indicate Category</label>
-                                            <input class='form-control' name='f_phcategory' id='f_phcategory'>
-                                        </div>
-                                        <div class='modal-footer'>
-                                           <button type='submit' name='acceptbutton' class='btn btn-primary'>Accept</button>
-                                            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
-                                            
-                                        </div>
-                                    </div>
-                                    
-                                    </div>
-                                    </form>
-                                    <!-- /.modal-content -->
-                                </div>
-                                </div>                               
-                                
-
-        </div>
-        <!--End Content-->
-    </div>
-</div>
-<div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                        <form role="form" method="post">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel">Delete user</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure you want to delete this Record?</p>
-                                                <p class="text-danger">This action cannot be undone.</p>
-                                                <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                <button type="submit" name="deletebutton" class="btn btn-danger">Delete</button>
-                                            </div>
-                                        
-                                        </div>
-                                        <!-- /.modal-content -->
-                                    </form>
-                                    </div>
-                                    <!-- /.modal-dialog -->
-                                </div>
 
 <!--End Container-->
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <!--<script src="http://code.jquery.com/jquery.js"></script>-->
 <script src="plugins/jquery/jquery-2.1.0.min.js"></script>
