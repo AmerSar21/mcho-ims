@@ -69,7 +69,7 @@ body, html {
 
                                     if(isset($_POST['but_submit']))
                                     {
-                                        $con = mysqli_connect("localhost", "root", "", "mchoims_database");
+                                        include("db_connect.php");
                                         if(!$con)
                                         {
                                             echo "not connected to server";
