@@ -375,7 +375,9 @@ if(isset($_POST['acceptbutton']))
                         </tr>
                     </thead>
                     <?php
-                                    $sql = "SELECT patient_enrollment.family_serial_no,patient_enrollment.patient_id, name.lname, name.fname, name.mname, contact_info.home_no, contact_info.street,contact_info.barangay, contact_info.city, temp_itr.nature_of_visit, temp_itr.submitted_by, temp_itr.tempitr_id, temp_itr.date_submitted  from temp_itr inner join patient_enrollment inner join name inner join contact_info on contact_info.ci_id=patient_enrollment.ci_id and name.n_id=patient_enrollment.n_id and patient_enrollment.patient_id=temp_itr.patient_id";
+                                    // $sql = "SELECT patient_enrollment.family_serial_no,patient_enrollment.patient_id, name.lname, name.fname, name.mname, contact_info.home_no, contact_info.street,contact_info.barangay, contact_info.city, temp_itr.nature_of_visit, temp_itr.submitted_by, temp_itr.tempitr_id, temp_itr.date_submitted  from temp_itr inner join patient_enrollment inner join name inner join contact_info on contact_info.ci_id=patient_enrollment.ci_id and name.n_id=patient_enrollment.n_id and patient_enrollment.patient_id=temp_itr.patient_id";
+
+                                    $sql = "SELECT * from temp_itr";
                                     $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
                                 ?>
                                 <tbody>
