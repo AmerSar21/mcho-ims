@@ -302,7 +302,7 @@ if(isset($_POST['acceptbutton']))
                                }
                                ?></a></li>
                         <li><a href="uploadPERapp.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">PER from Mobile<?php
-                                $sql="SELECT count(*) as cntupload from temp_pe where added_by = 'userMobile'";
+                                $sql="SELECT count(*) as cntupload from temp_per where added_by = 'userMobile'";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
                                $count = $row['cntupload'];
