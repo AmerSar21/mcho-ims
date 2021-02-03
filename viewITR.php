@@ -199,7 +199,7 @@ session_start();
                                 echo "<span class='badge'>". $count ."</span>";
                                }
                                ?></a></li>
-                        <li><a href="uploadPER.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">PER from Mobile<?php
+                        <li><a href="uploadPERapp.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">PER from Mobile<?php
                                 $sql="SELECT count(*) as cntupload from temp_per";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
@@ -209,7 +209,7 @@ session_start();
                                 echo "<span class='badge'>". $count ."</span>";
                                }
                                ?></a></li>
-                        <li><a href="uploadITR.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">ITR from Mobile<?php
+                        <li><a href="uploadITRapp.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">ITR from Mobile<?php
                                 $sql="SELECT count(*) as cntupload from temp_itr";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
