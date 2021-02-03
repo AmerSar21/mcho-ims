@@ -364,7 +364,7 @@ if (isset($_POST['deletebutton'])){
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="uploadPER.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">PER from User<?php
-                                $sql="SELECT count(*) as cntupload from temp_per";
+                                $sql="SELECT count(*) as cntupload from temp_per where added_by = 'user'";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
                                $count = $row['cntupload'];
@@ -374,7 +374,7 @@ if (isset($_POST['deletebutton'])){
                                }
                                ?></a></li>
                         <li><a href="uploadITR.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">ITR from User<?php
-                                $sql="SELECT count(*) as cntupload from temp_itr";
+                                $sql="SELECT count(*) as cntupload from temp_itr where added_by = 'user'";
                                 $result = mysqli_query($con,$sql);
                                $row = mysqli_fetch_array($result);
                                $count = $row['cntupload'];
@@ -383,6 +383,26 @@ if (isset($_POST['deletebutton'])){
                                 echo "<span class='badge'>". $count ."</span>";
                                }
                                ?></a></li>
+                        <li><a href="uploadPER.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">PER from Mobile<?php
+                                $sql="SELECT count(*) as cntupload from temp_per where added_by = 'userMobile'";
+                                $result = mysqli_query($con,$sql);
+                               $row = mysqli_fetch_array($result);
+                               $count = $row['cntupload'];
+                               if($count)
+                               {
+                                echo "<span class='badge'>". $count ."</span>";
+                               }
+                               ?></a></li>
+                        <li><a href="uploadITR.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">ITR from Mobile<?php
+                                $sql="SELECT count(*) as cntupload from temp_itr where added_by = 'userMobile'";
+                                $result = mysqli_query($con,$sql);
+                               $row = mysqli_fetch_array($result);
+                               $count = $row['cntupload'];
+                               if($count)
+                               {
+                                echo "<span class='badge'>". $count ."</span>";
+                               }
+                               ?></a></li>       
                         <li><a href="uploadPERbrgy.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">PER from Barangay<?php
                                 $sql="SELECT count(*) as cntupload from temp_per where added_by='brgy'";
                                 $result = mysqli_query($con,$sql);
