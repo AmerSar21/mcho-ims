@@ -130,37 +130,6 @@ if (isset($_POST['deletebutton'])){
         $phcategory = $_POST['f_phcategory'];
     }
 
-    echo $patientid;
-    echo $famserial;
-    echo $lname;
-    echo $fname;
-    echo $mname;
-    echo $gender;
-    echo $bdate;
-    echo $bplace;
-    echo $bloodtype;
-    echo $civstat;
-    echo $spouse;
-    echo $educattain;
-    echo $employstat;
-    echo $famposition;
-    echo $suffix;
-    echo $mother;
-    echo $homeno;
-    echo $street;
-    echo $brgy;
-    echo $city;
-    echo $province;
-    echo $contactno;
-    echo $dswd;
-    echo $phmember;
-    echo $phnumber;
-    echo $phcategory;
-    die();
-
-
-
-
     $sqlinsertname = "INSERT INTO name (lname, fname, mname, suffix) VALUES ('$lname' , '$fname' , '$mname', '$suffix')";
     $resultinsertname = mysqli_query($con,$sqlinsertname);
     $nameID = mysqli_insert_id($con);
@@ -191,8 +160,12 @@ if (isset($_POST['deletebutton'])){
     $addedby =$row['fname']." ".$row['lname'];
 
     $sqlinsertPER = "INSERT INTO patient_enrollment (family_serial_no, n_id, oi_id, ri_id, ci_id, ee_id, pi_id,added_by, status, patient_id) VALUES ('$famserial', '$nameID', '$otherinfoID', '$relatedinfoID', '$contactinfoID', '$educemployID' ,'$philinfoID','$addedby', 'active','$patientid')";
+
+    var_dump(mysqli_query($con, $sqlinsertPER));
+    die();
+            
     if((!mysqli_query($con, $sqlinsertPER)) and (!mysqli_query($con, $resultinsertphilinfo)) and (!mysqli_query($con, $resultinserteducemploy)) and (!mysqli_query($con, $resultinsertcontactinfo)) and (!mysqli_query($con, $resultinsertrelatedinfo)) and (!mysqli_query($con, $resultinsertotherinfo)) and (!mysqli_query($con, $resultinsertname)))
-    {
+    {   
         echo "<script type='text/javascript'>
                 alert('Unsuccessfully Inserted');
             </script>";
