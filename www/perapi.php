@@ -6,9 +6,9 @@
 	header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 	header("Content-Type: application/json; charset=utf-8");
 
-	define('DB_NAME', 'No0gC5dY8q');
-	define('DB_USER', 'No0gC5dY8q');
-	define('DB_PASSWORD', 'U7ukpHfCbw');
+	define('DB_NAME', '6gENJc3N8G');
+	define('DB_USER', '6gENJc3N8G');
+	define('DB_PASSWORD', '0S5cFmCgSp');
 	define('DB_HOST', 'remotemysql.com');
 
 	$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
