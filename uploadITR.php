@@ -410,7 +410,6 @@ if(isset($_POST['acceptbutton']))
                                             <td class='mname'>" . $row['submitted_by'] . "</td>
                                             <td class='mname'>" . $row['date_submitted'] . "</td>
                                             <td> <input type='button' value='View Full Details' id='".$row['tempitr_id']."' class='btn btn-warning edit_data' />
-                                            <button type='button' class='btn btn-warning'><a href='viewTempItr.php?tempid=".$row['tempitr_id']."'>View Full Details</a></button>       
                                             <button type='button' id='".$row['tempitr_id']."' class='btn btn-danger btndelete'>Delete</button> 
                                             </td>
                                             

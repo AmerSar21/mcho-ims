@@ -412,8 +412,7 @@ if(isset($_POST['acceptbutton']))
                                             <td class='address'>" . $row['home_no'] . " " . $row['street'] . " " .$row['barangay'] . " " .$row['city'] ."</td>
                                             <td class='mname'>" . $row['submitted_by'] . "</td>
                                             <td class='mname'>" . $row['date_submitted'] . "</td>                                              
-                                            <td><input type='button' value='View Full Details' id='".$row['temPER_id']."' class='btn btn-warning edit_data'/>
-                                            <button type='button' class='btn btn-warning'><a href='viewTempPer.php?tempid=".$row['temPER_id']."'>View Full Details</a></button>                                    
+                                            <td><input type='button' value='View Full Details' id='".$row['temPER_id']."' class='btn btn-warning edit_data'/>                               
                                             <button type='button' id='".$row['temPER_id']."' class='btn btn-danger btndelete'>Delete</button> 
                                             </td>
                                             
