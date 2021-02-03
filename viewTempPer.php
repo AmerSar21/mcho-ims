@@ -154,6 +154,7 @@ if (isset($_POST['deletebutton'])){
     $resultinsertphilinfo = mysqli_query($con,$sqlinsertphilinfo);
     $philinfoID = mysqli_insert_id($con);
     $userid = $_SESSION['userid'];
+
     $sql = "SELECT fname, lname from acc_info where ai_id=$userid";
     $result = mysqli_query($con,$sql);
     $row = mysqli_fetch_array($result);
@@ -162,7 +163,7 @@ if (isset($_POST['deletebutton'])){
     $sqlinsertPER = "INSERT INTO patient_enrollment (family_serial_no, n_id, oi_id, ri_id, ci_id, ee_id, pi_id,added_by, status, patient_id) VALUES ('$famserial', '$nameID', '$otherinfoID', '$relatedinfoID', '$contactinfoID', '$educemployID' ,'$philinfoID','$addedby', 'active', '$patientid')";
     $resinsertPER = mysqli_query($con, $sqlinsertPER);
 
-    if(!$resinsertPER and !$resultinsertphilinfo and !$resultinserteducemploy !$resultinsertcontactinfo and !$resultinsertrelatedinfo and !$resultinsertotherinfo and !$resultinsertname)
+    if(!$resinsertPER and !$resultinsertphilinfo and !$resultinserteducemploy and !$resultinsertcontactinfo and !$resultinsertrelatedinfo and !$resultinsertotherinfo and !$resultinsertname)
     {   
         echo "<script type='text/javascript'>
                 alert('Unsuccessfully Inserted');
