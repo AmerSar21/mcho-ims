@@ -76,7 +76,11 @@ if(isset($_POST['acceptbutton']))
     $height = $_POST['f_height'];
     $weight = $_POST['f_weight'];
     $nameofattending = $_POST['f_attendingofficer'];
-	$modetransact = $_POST['f_modeoftransact'];
+    if($_POST['f_modeoftransact'] == ''){
+    	$modetransact = $mdtr;
+    }else{
+		$modetransact = $_POST['f_modeoftransact'];
+    }
     if($modetransact == 'Referral'){
 	    $referredfrom = $_POST['f_referredfrom'];
 	    $referredto = $_POST['f_referredto'];
@@ -90,12 +94,49 @@ if(isset($_POST['acceptbutton']))
     	$referredby = 'None';    	    	    	
 	    $chiefcomplaints = 'None';    	
     }
-    $natureofvisit = $_POST['f_natureofvisit'];
+    if($_POST['f_natureofvisit'] == ''){
+    	$natureofvisit = $ntv;
+    }else{
+	    $natureofvisit = $_POST['f_natureofvisit'];    	
+    }
     $diagnosis = $_POST['f_diagnosis'];
     $medication = $_POST['f_medication'];
     $labfindings = $_POST['f_labfindings'];
-    $healthcare = $_POST['f_healthcare'];
+    if($_POST['f_healthcare'] == ''){
+    	$healthcare = $nhc;
+    }else{
+	    $healthcare = $_POST['f_healthcare'];
+    }
     $labtest = $_POST['f_labtest'];
+
+ //    echo $patientid;
+ //    echo $serialno;
+ //    echo $lname;
+ //    echo $fname;
+ //    echo $mname;
+	// echo $suffix;    
+	// echo $age;
+	// echo $address;
+	// echo $dateconsult;
+	// echo $timeconsult;
+	// echo $bloodpressure;
+	// echo $temperature;
+	// echo $height;
+	// echo $weight;
+	// echo $nameofattending;
+	// echo $modetransact;
+	// echo $referredfrom;
+	// echo $referredto;
+	// echo $reasonofref;
+	// echo $referredby;
+	// echo $chiefcomplaints;
+	// echo $natureofvisit;
+	// echo $diagnosis;
+	// echo $medication;
+	// echo $labfindings;
+	// echo $healthcare;
+	// echo $labtest;
+ //    die();
 
     $chckPer = "SELECT count(*) as cnt FROM patient_enrollment WHERE patient_id = '$patientid'";
 	$res = mysqli_query($con,$chckPer);
@@ -469,6 +510,7 @@ if(isset($_POST['acceptbutton']))
 							<label class="col-sm-2 control-label">Mode of Transaction</label>
 							<div class="col-sm-4">
 								<select class="form-control" name="f_modeoftransact" id="f_modeoftransact">
+									<option value="">Select...</option>
 									<option value="Walk-in">Walk-in</option>
 									<option value="Visited">Visited</option>
 									<option value="Referral">Referral</option>
@@ -526,6 +568,7 @@ if(isset($_POST['acceptbutton']))
 						<label class="col-sm-2 control-label">Nature of Visit</label>
 						<div class="col-sm-4">
 							<select class="form-control" name="f_natureofvisit">
+								<option value="">Select..</option>
                                 <option>New Consultation/Case</option>
                                 <option>New Admission</option>
                                 <option>Follow-up Visit</option>
@@ -612,6 +655,7 @@ if(isset($_POST['acceptbutton']))
 						 $sql="SELECT fname,lname FROM doctor ORDER BY lname ASC";
 						 $result = mysqli_query($con,$sql);
 						$option = '';
+						$option .= '<option value="">Select..</option>';
 						 while($row = mysqli_fetch_assoc($result))
 						{
 						  $option .= '<option value = "'.$row['fname'].' '.$row['lname'].'">'.$row['fname'].' '.$row['lname'].'</option>';

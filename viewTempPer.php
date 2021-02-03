@@ -4,6 +4,43 @@ include("updatePERquery.php");
 session_start();
 
 $tempid = $_GET['tempid'];
+    $sqlselect = "SELECT * from temp_per where temPER_id = '$tempid'";
+    $resultselect = mysqli_query($con,$sqlselect);
+    $row = mysqli_fetch_array($resultselect);
+    $fsno = $row['family_serial_no'];
+    $pid = $row['patient_id'];
+    $lnm = $row['lname'];
+    $mnm = $row['mname'];
+    $fnm = $row['fname'];
+    $sx = $row['sex'];
+    $bdt = $row['b_date'];
+    $bplc = $row['b_place'];
+    $bldtp = $row['bloodtype'];
+    $cst = $row['civil_stat'];
+    $spnm = $row['spouse_name'];
+    $mtnm = $row['mothers_name'];
+    $fmpos = $row['fam_position'];
+    $hmno = $row['home_no'];
+    $strt = $row['street'];
+    $brngy = $row['barangay'];
+    $cty = $row['city'];
+    $prv = $row['province'];
+    $cntno = $row['contact_no'];
+    $edatt = $row['educ_attainment'];
+    $emstat = $row['employ_status'];
+    $phmm = $row['ph_member'];
+    $phno = $row['ph_no'];
+    $mmctg = $row['member_category'];
+    $fctyno = $row['facility_no'];
+    $dnhts = $row['dswdnhts'];
+    if($row['suffix'] == ''){
+        $sfx = 'none';
+    }else{
+        $sfx = $row['suffix'];
+    } 
+    $addby = $row['added_by'];
+    $subby = $row['submitted_by'];
+    $dsub = $row['date_submitted'];
 
 if (isset($_POST['deletebutton'])){
     $perid = $_POST['iddelete'];
@@ -24,63 +61,74 @@ if (isset($_POST['deletebutton'])){
     }
 
 }else if(isset($_POST['acceptbutton'])){
-	
+    
     $patientid = $_POST['f_patientid'];
     $famserial = $_POST['f_serialno'];
     $lname = $_POST['f_lname'];
     $fname = $_POST['f_fname'];
     $mname = $_POST['f_mname'];
-    $gender = $_POST['f_gender'];
+    if($_POST['f_gender'] == ''){
+        $gender = $sx;
+    }else{
+        $gender = $_POST['f_gender'];
+    }
     $bdate = $_POST['f_bdate'];
     $bplace = $_POST['f_bplace'];
     $bloodtype = $_POST['f_bloodtype'];
-    $civstat = $_POST['f_civstat'];
+    if($_POST['f_civstat'] == ''){
+        $civstat = $cst;
+    }else{
+        $civstat = $_POST['f_civstat'];
+    }
     $spouse = $_POST['f_spouse'];
-    $educattain = $_POST['f_educattain'];
-    $employstat = $_POST['f_employstat'];
-    $famposition = $_POST['f_famposition'];
+    if($_POST['f_educattain'] == ''){
+        $educattain = $edatt;
+    }else{    
+        $educattain = $_POST['f_educattain'];
+    }
+    if($_POST['f_employstat'] == ''){
+        $employstat = $emstat;
+    }else{
+        $employstat = $_POST['f_employstat'];
+    }
+    if($_POST['f_famposition'] == ''){
+        $famposition = $fmpos;
+    }else{
+        $famposition = $_POST['f_famposition'];
+    }
     $suffix = $_POST['f_suffix'];
     $mother = $_POST['f_mother'];
     $homeno = $_POST['f_homeno'];
     $street = $_POST['f_street'];
-    $brgy = $_POST['f_brgy'];
+    if($_POST['f_brgy'] == ''){
+        $brgy = $brngy;
+    }else{
+        $brgy = $_POST['f_brgy'];
+    }
     $city = $_POST['f_city'];
     $province = $_POST['f_province'];
     $contactno = $_POST['f_contactno'];
-    $dswd = $_POST['f_dswd'];
+    if($_POST['f_dswd'] == ''){
+        $dswd = $dnhts;
+    }else{
+        $dswd = $_POST['f_dswd'];
+    }
     $facilityno = $_POST['f_facilityno'];
-    $phmember = $_POST['f_phmember'];
-    $phnumber = $_POST['f_phnumber'];
-    $phcategory = $_POST['f_phcategory'];
-
-    // echo $patientid;
-    // echo $famserial;
-    // echo $lname;
-    // echo $fname;
-    // echo $mname;
-    // echo $gender;
-    // echo $bdate;
-    // echo $bplace;
-    // echo $bloodtype;
-    // echo $civstat;
-    // echo $spouse;
-    // echo $educattain;          
-    // echo $employstat;          
-    // echo $famposition;          
-    // echo $suffix;          
-    // echo $mother;                                                                    
-    // echo $homeno;          
-    // echo $street;          
-    // echo $brgy;                                                  
-    // echo $city;          
-    // echo $province;          
-    // echo $contactno;       
-    // echo $dswd;                                                  
-    // echo $facilityno;          
-    // echo $phmember;          
-    // echo $phnumber;
-    // echo $phcategory;                          
-    // die();
+    if($_POST['f_phmember'] == ''){
+        $phmember = $phmm;
+    }else{
+        $phmember = $_POST['f_phmember'];
+    }
+    if($_POST['f_phnumber'] == ''){
+        $phnumber = $phno;
+    }else{
+        $phnumber = $_POST['f_phnumber'];
+    }
+    if($_POST['f_phcategory'] == ''){
+        $phcategory = $mmctg;
+    }else{
+        $phcategory = $_POST['f_phcategory'];
+    }
 
     $sqlinsertname = "INSERT INTO name (lname, fname, mname, suffix) VALUES ('$lname' , '$fname' , '$mname', '$suffix')";
     $resultinsertname = mysqli_query($con,$sqlinsertname);
@@ -203,17 +251,17 @@ if (isset($_POST['deletebutton'])){
                                         <span class="welcome">Welcome,</span>
                                         <span>
                                         <?php 
-	                                        $id=$_SESSION['userid'];
-	                                        $sql = "SELECT fname, lname from acc_info where ai_id=$id";
-	                                        $result = mysqli_query($con,$sql);
-	                                        $row = mysqli_fetch_array($result);
-	                                        if(!$row)
-	                                        {
-	                                            header("Location: index.php");
-	                                        }
-	                                        else{
-	                                        	echo $row['fname'] . " " . $row['lname'];
-	                                    	}
+                                            $id=$_SESSION['userid'];
+                                            $sql = "SELECT fname, lname from acc_info where ai_id=$id";
+                                            $result = mysqli_query($con,$sql);
+                                            $row = mysqli_fetch_array($result);
+                                            if(!$row)
+                                            {
+                                                header("Location: index.php");
+                                            }
+                                            else{
+                                                echo $row['fname'] . " " . $row['lname'];
+                                            }
                                         ?></span>
                                     </div>
                                 </a>
@@ -376,253 +424,219 @@ if (isset($_POST['deletebutton'])){
     </div>
 </div>
 <div class="row">
-	<div class="col-xs-12 col-sm-12">
-		<div class="box">
-			<div class="box-content">
-				<?php
-				$sqlselect = "SELECT * from temp_per where temPER_id = '$tempid'";
-				$resultselect = mysqli_query($con,$sqlselect);
-				$row = mysqli_fetch_array($resultselect);
-				$fsno = $row['family_serial_no'];
-				$pid = $row['patient_id'];
-				$lnm = $row['lname'];
-				$mnm = $row['mname'];
-				$fnm = $row['fname'];
-				$sx = $row['sex'];
-				$bdt = $row['b_date'];
-				$bplc = $row['b_place'];
-				$bldtp = $row['bloodtype'];
-				$cst = $row['civil_stat'];
-				$spnm = $row['spouse_name'];
-				$mtnm = $row['mothers_name'];
-				$fmpos = $row['fam_position'];
-				$hmno = $row['home_no'];
-				$strt = $row['street'];
-				$brngy = $row['barangay'];
-				$cty = $row['city'];
-				$prv = $row['province'];
-				$cntno = $row['contact_no'];
-				$edatt = $row['educ_attainment'];
-				$emstat = $row['employ_status'];
-				$phmm = $row['ph_member'];
-				$phno = $row['ph_no'];
-				$mmctg = $row['member_category'];
-				$fctyno = $row['facility_no'];
-				$dnhts = $row['dswdnhts'];
-				if($row['suffix'] == ''){
-					$sfx = 'none';
-				}else{
-					$sfx = $row['suffix'];
-				} 
-				$addby = $row['added_by'];
-				$subby = $row['submitted_by'];
-				$dsub = $row['date_submitted'];
-				?>
-				<h4 class="page-header">Accept Patient Enrollment</h4>
-				<form class="form-horizontal" role="form" method="post"enctype='multipart/form-data'>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Family Serial Number</label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="Serial Number" readonly value="<?php echo $fsno;?>" name="f_serialno">
-						</div>
-						<label class="col-sm-2 control-label">Patient I.D.</label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="Patient I.D." readonly value="<?php echo $pid;?>" name="f_patientid">
-						</div>
-					</div>
-					<div class="form-group">
-
-						<label class="col-sm-2 control-label">First name</label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="First name" name="f_fname" value="<?php echo $fnm;?>">
-							<input type="text" class="form-control" placeholder="Middle Name" name="f_mname" value="<?php echo $mnm;?>">
-							<input type="text" class="form-control" placeholder="Last Name" name="f_lname" value="<?php echo $lnm;?>">
-							<input type="text" class="form-control" placeholder="Suffix e.g. Jr., Sr., II, III"  name="f_suffix" value="<?php echo $sfx;?>">
-						</div>
-						<label class="col-sm-2 control-label">Residential Address</label>
-						<div class="col-sm-4">
-							<?php
-							 $sqlbrgy="SELECT brgy_name FROM barangay ORDER BY brgy_name ASC";
-							 $resultbrgy = mysqli_query($con,$sqlbrgy);
-							$option = '';
-							 while($row = mysqli_fetch_assoc($resultbrgy))
-							{
-							  $option .= '<option value = "'.$row['brgy_name'].'">'.$row['brgy_name'].'</option>';
-							}
-							?>
-							<input type="text" class="form-control" placeholder="Home no." name="f_homeno" value="<?php echo $hmno;?>">
-							<input type="text" class="form-control" placeholder="Street" name="f_street"  value="<?php echo $strt;?>">
-							<select name="f_brgy"> 
-								<?php
-								 echo $option;
-								?>
-							</select>
-							<input type="text" class="form-control" placeholder="City" name="f_city" value="<?php echo $cty;?>">
-							<input type="text" class="form-control" placeholder="Province" name="f_province" value="<?php echo $prv;?>">
-							<div>
-							</div>
-								<label class="control-label">Current Barangay: <?php echo '<span style="color:green;">'.$brngy.'</span>'?></label>
-						</div>
-
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Gender</label>
-						<div class="col-sm-4">
-							<select name="f_gender"value="<?php echo $sx;?>">
-								<option value="">Select..</option>
-								<option value="Male">Male</option>
-								<option value="Female">Female</option>
-							</select>
-							<div>
-								<label class="control-label">Current Gender: <?php echo '<span style="color:green;">'.$sx.'</span>'?></label>
-							</div>
-						</div>
-						<label class="col-sm-2 control-label">Mother's Name</label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="Enter here" name="f_mother" value="<?php echo $mtnm;?>">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Birth Date</label>
-						<div class="col-sm-4">
-							<input type="date" class="form-control" placeholder="Date"  name="f_bdate" value="<?php echo $bdt;?>">
-						</div>
-						<label class="col-sm-2 control-label">Contact Number</label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="0910-123-4567" name="f_contactno" value="<?php echo $cntno;?>">
-						</div>
-
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Birthplace</label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="Street, Barangay, City, Province" name="f_bplace" value="<?php echo $bplc;?>">
-						</div>
-						<label class="col-sm-2 control-label">DSWD NHTS?</label>
-						<div class="col-sm-4">
-							<select name="f_dswd" placeholder="Select..." value="<?php echo $dnhts;?>">
-								<option value="Yes">Yes</option>
-								<option value="No">No</option>
-							</select>
-							<div>
-								<label class="control-label">Choice: <?php echo '<span style="color:green;">'.$dnhts.'</span>';?></label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Blood Type</label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="A / B / AB / O" name="f_bloodtype" value="<?php echo $bldtp;?>">
-						</div>
-
-						<label class="col-sm-2 control-label">Facility Household No.</label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="Enter here" name="f_facilityno" value="<?php echo $fctyno;?>">
-						</div>
-					</div>
-					<div class="form-group">
-							<label class="col-sm-2 control-label">Civil Status</label>
-							<div class="col-sm-4">
-								<select name="f_civstat">
-									<option value="">select</option>
-									<option value="Single">Single</option>
-									<option value="Married">Married</option>
-									<option value="Annulled">Annulled</option>
-									<option value="Widow/er">Widow/er</option>
-									<option value="Separated">Separated</option>
-									<option value="Co-habitation">Co-habitation</option>
-								</select>
-								<div>
-									<label class="control-label">Status: <?php echo '<span style="color:green;">'.$cst.'</span>'?></label>
-								</div>
-							</div><label class="col-sm-2 control-label">PhilHealth Member?</label>
-							<div class="col-sm-4">
-								<select name="f_phmember">
-									<option value="None">select</option>
-									<option value="Yes">Yes</option>
-									<option value="No">No</option>
-								</select>
-								<div>
-									<label class="control-label">Choice: <?php echo '<span style="color:green;">'.$phmm.'</span>';?></label>
-								</div>
-							</div>
-					</div>
+    <div class="col-xs-12 col-sm-12">
+        <div class="box">
+            <div class="box-content">
+                <h4 class="page-header">Accept Patient Enrollment</h4>
+                <form class="form-horizontal" role="form" method="post"enctype='multipart/form-data'>
                     <div class="form-group">
-						<label class="col-sm-2 control-label">Spouse Name</label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="Enter here" name="f_spouse" value="<?php echo $spnm;?>">
-						</div>
-						<label class="col-sm-2 control-label">PhilHealth Number</label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control" placeholder="Enter here" name="f_phnumber" value="<?php echo $phno;?>">
-						</div>
-					</div>
-					<div class="form-group">
-							<label class="col-sm-2 control-label">Educational Attainment</label>
-							<div class="col-sm-4">
-								<select name="f_educattain">
-									<option>No Formal Education</option>
-									<option>HighSchool</option>
-									<option>College</option>
-									<option>Elementary</option>
-									<option>Vocational</option>
-									<option>Post-graduate</option>
-								</select>
-								<div>
-									<label class="control-label">Choice: <?php echo '<span style="color:green;">'.$edatt.'</span>';?></label>
-								</div>
-							</div>
-							<label class="col-sm-2 control-label">If member, please indicate category</label>
-							<div class="col-sm-4">
-								<select name="f_phcategory">
-									<option value="None">select</option>
-									<option value="FE-Private">FE-Private</option>
-									<option value="FE-Government">FE-Government</option>
-									<option value="IE">IE</option>
-								</select>
-								<div>
-									<label class="control-label">Choice: <?php echo '<span style="color:green;">'.$mmctg.'</span>';?></label>
-								</div>
-							</div>
-					</div>
-					<div class="form-group">
-							<label class="col-sm-2 control-label">Employment Status</label>
-							<div class="col-sm-4">
-								<select name="f_employstat">
-									<option>Unknown</option>
-									<option>Student</option>
-									<option>Employed</option>
-									<option>Retired</option>
-									<option>None/Unemployed</option>
-								</select>
-								<div>
-									<label class="control-label">Choice: <?php echo '<span style="color:green;">'.$emstat.'</span>';?></label>
-								</div>
-							</div>
-					</div>
-					<div class="form-group">
-							<label class="col-sm-2 control-label">Family Position</label>
-							<div class="col-sm-4">
-								<select name="f_famposition">
-									<option>Father</option>
-									<option>Mother</option>
-									<option>Son</option>
-									<option>Daughter</option>
-								</select>
-								<div>
-									<label class="control-label">Choice: <?php echo '<span style="color:green;">'.$fmpos.'</span>';?></label>
-								</div>
-							</div>
-					</div> 
-					<div class="form-group">
-					<div  class="col-md-3 col-md-offset-2">
-						 <input type="submit" name="acceptbutton" class="btn btn-primary" value="Approve">
-                	</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+                        <label class="col-sm-2 control-label">Family Serial Number</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="Serial Number" readonly value="<?php echo $fsno;?>" name="f_serialno">
+                        </div>
+                        <label class="col-sm-2 control-label">Patient I.D.</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="Patient I.D." readonly value="<?php echo $pid;?>" name="f_patientid">
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <label class="col-sm-2 control-label">First name</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="First name" name="f_fname" value="<?php echo $fnm;?>">
+                            <input type="text" class="form-control" placeholder="Middle Name" name="f_mname" value="<?php echo $mnm;?>">
+                            <input type="text" class="form-control" placeholder="Last Name" name="f_lname" value="<?php echo $lnm;?>">
+                            <input type="text" class="form-control" placeholder="Suffix e.g. Jr., Sr., II, III"  name="f_suffix" value="<?php echo $sfx;?>">
+                        </div>
+                        <label class="col-sm-2 control-label">Residential Address</label>
+                        <div class="col-sm-4">
+                            <?php
+                             $sqlbrgy="SELECT brgy_name FROM barangay ORDER BY brgy_name ASC";
+                             $resultbrgy = mysqli_query($con,$sqlbrgy);
+                            $option = '';
+                            $option .='<option value="">Select..</option>';
+                             while($row = mysqli_fetch_assoc($resultbrgy))
+                            {
+                              $option .= '<option value = "'.$row['brgy_name'].'">'.$row['brgy_name'].'</option>';
+                            }
+                            ?>
+                            <input type="text" class="form-control" placeholder="Home no." name="f_homeno" value="<?php echo $hmno;?>">
+                            <input type="text" class="form-control" placeholder="Street" name="f_street"  value="<?php echo $strt;?>">
+                            <select name="f_brgy"> 
+                                <?php
+                                 echo $option;
+                                ?>
+                            </select>
+                            <input type="text" class="form-control" placeholder="City" name="f_city" value="<?php echo $cty;?>">
+                            <input type="text" class="form-control" placeholder="Province" name="f_province" value="<?php echo $prv;?>">
+                            <div>
+                            </div>
+                                <label class="control-label">Current Barangay: <?php echo '<span style="color:green;">'.$brngy.'</span>'?></label>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Gender</label>
+                        <div class="col-sm-4">
+                            <select name="f_gender"value="<?php echo $sx;?>">
+                                <option value="">Select..</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                            <div>
+                                <label class="control-label">Current Gender: <?php echo '<span style="color:green;">'.$sx.'</span>'?></label>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label">Mother's Name</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="Enter here" name="f_mother" value="<?php echo $mtnm;?>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Birth Date</label>
+                        <div class="col-sm-4">
+                            <input type="date" class="form-control" placeholder="Date"  name="f_bdate" value="<?php echo $bdt;?>">
+                        </div>
+                        <label class="col-sm-2 control-label">Contact Number</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="0910-123-4567" name="f_contactno" value="<?php echo $cntno;?>">
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Birthplace</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="Street, Barangay, City, Province" name="f_bplace" value="<?php echo $bplc;?>">
+                        </div>
+                        <label class="col-sm-2 control-label">DSWD NHTS?</label>
+                        <div class="col-sm-4">
+                            <select name="f_dswd" placeholder="Select..." value="<?php echo $dnhts;?>">
+                                <option value="">Select..</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                            <div>
+                                <label class="control-label">Choice: <?php echo '<span style="color:green;">'.$dnhts.'</span>';?></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Blood Type</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="A / B / AB / O" name="f_bloodtype" value="<?php echo $bldtp;?>">
+                        </div>
+
+                        <label class="col-sm-2 control-label">Facility Household No.</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="Enter here" name="f_facilityno" value="<?php echo $fctyno;?>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                            <label class="col-sm-2 control-label">Civil Status</label>
+                            <div class="col-sm-4">
+                                <select name="f_civstat">
+                                    <option value="">Select..</option>
+                                    <option value="Single">Single</option>
+                                    <option value="Married">Married</option>
+                                    <option value="Annulled">Annulled</option>
+                                    <option value="Widow/er">Widow/er</option>
+                                    <option value="Separated">Separated</option>
+                                    <option value="Co-habitation">Co-habitation</option>
+                                </select>
+                                <div>
+                                    <label class="control-label">Status: <?php echo '<span style="color:green;">'.$cst.'</span>'?></label>
+                                </div>
+                            </div><label class="col-sm-2 control-label">PhilHealth Member?</label>
+                            <div class="col-sm-4">
+                                <select name="f_phmember">
+                                    <option value="">Select..</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <div>
+                                    <label class="control-label">Choice: <?php echo '<span style="color:green;">'.$phmm.'</span>';?></label>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Spouse Name</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="Enter here" name="f_spouse" value="<?php echo $spnm;?>">
+                        </div>
+                        <label class="col-sm-2 control-label">PhilHealth Number</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="Enter here" name="f_phnumber" value="<?php echo $phno;?>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                            <label class="col-sm-2 control-label">Educational Attainment</label>
+                            <div class="col-sm-4">
+                                <select name="f_educattain">
+                                    <option value="">Select..</option>
+                                    <option value="No Formal Education">No Formal Education</option>
+                                    <option value="HighSchool">HighSchool</option>
+                                    <option value="College">College</option>
+                                    <option value="Elementary">Elementary</option>
+                                    <option value="Vocational">Vocational</option>
+                                    <option value="Post-graduate">Post-graduate</option>
+                                </select>
+                                <div>
+                                    <label class="control-label">Choice: <?php echo '<span style="color:green;">'.$edatt.'</span>';?></label>
+                                </div>
+                            </div>
+                            <label class="col-sm-2 control-label">If member, please indicate category</label>
+                            <div class="col-sm-4">
+                                <select name="f_phcategory">
+                                    <option value="">Select..</option>
+                                    <option value="FE-Private">FE-Private</option>
+                                    <option value="FE-Government">FE-Government</option>
+                                    <option value="IE">IE</option>
+                                </select>
+                                <div>
+                                    <label class="control-label">Choice: <?php echo '<span style="color:green;">'.$mmctg.'</span>';?></label>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="form-group">
+                            <label class="col-sm-2 control-label">Employment Status</label>
+                            <div class="col-sm-4">
+                                <select name="f_employstat">
+                                    <option value="">Select..</option>
+                                    <option value="Unknown">Unknown</option>
+                                    <option value="Student">Student</option>
+                                    <option value="Employed">Employed</option>
+                                    <option value="Retired">Retired</option>
+                                    <option value="None/Unemployed">None/Unemployed</option>
+                                </select>
+                                <div>
+                                    <label class="control-label">Choice: <?php echo '<span style="color:green;">'.$emstat.'</span>';?></label>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="form-group">
+                            <label class="col-sm-2 control-label">Family Position</label>
+                            <div class="col-sm-4">
+                                <select name="f_famposition">
+                                    <option value="">Select..</option>
+                                    <option value="Father">Father</option>
+                                    <option value="Mother">Mother</option>
+                                    <option value="Son">Son</option>
+                                    <option value="Daughter">Daughter</option>
+                                </select>
+                                <div>
+                                    <label class="control-label">Choice: <?php echo '<span style="color:green;">'.$fmpos.'</span>';?></label>
+                                </div>
+                            </div>
+                    </div> 
+                    <div class="form-group">
+                    <div  class="col-md-3 col-md-offset-2">
+                         <input type="submit" name="acceptbutton" class="btn btn-primary" value="Approve">
+                    </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!--End Container-->
