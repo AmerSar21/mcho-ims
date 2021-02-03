@@ -130,6 +130,37 @@ if (isset($_POST['deletebutton'])){
         $phcategory = $_POST['f_phcategory'];
     }
 
+    echo $patientid;
+    echo $famserial;
+    echo $lname;
+    echo $fname;
+    echo $mname;
+    echo $gender;
+    echo $bdate;
+    echo $bplace;
+    echo $bloodtype;
+    echo $civstat;
+    echo $spouse;
+    echo $educattain;
+    echo $employstat;
+    echo $famposition;
+    echo $suffix;
+    echo $mother;
+    echo $homeno;
+    echo $street;
+    echo $brgy;
+    echo $city;
+    echo $province;
+    echo $contactno;
+    echo $dswd;
+    echo $phmember;
+    echo $phnumber;
+    echo $phcategory;
+    die();
+
+
+
+
     $sqlinsertname = "INSERT INTO name (lname, fname, mname, suffix) VALUES ('$lname' , '$fname' , '$mname', '$suffix')";
     $resultinsertname = mysqli_query($con,$sqlinsertname);
     $nameID = mysqli_insert_id($con);
