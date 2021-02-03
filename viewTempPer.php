@@ -160,7 +160,7 @@ if (isset($_POST['deletebutton'])){
     $row = mysqli_fetch_array($result);
     $addedby =$row['fname']." ".$row['lname'];
 
-    $sqlinsertPER = "INSERT INTO patient_enrollment (family_serial_no, n_id, oi_id, ri_id, ci_id, ee_id, pi_id,added_by, status, patient_id) VALUES ('$famserial', '$nameID', '$otherinfoID', '$relatedinfoID', '$contactinfoID', '$educemployID' ,'$philinfoID','$addedby', 'active', '$patientid')";
+    $sqlinsertPER = "INSERT INTO patient_enrollment(family_serial_no, n_id, oi_id, ri_id, ci_id, ee_id, pi_id,added_by, status, patient_id) VALUES ('$famserial', '$nameID', '$otherinfoID', '$relatedinfoID', '$contactinfoID', '$educemployID' ,'$philinfoID','$addedby', 'active', '$patientid')";
     $resinsertPER = mysqli_query($con, $sqlinsertPER);
 
     if(!$resinsertPER and !$resultinsertphilinfo and !$resultinserteducemploy and !$resultinsertcontactinfo and !$resultinsertrelatedinfo and !$resultinsertotherinfo and !$resultinsertname)
