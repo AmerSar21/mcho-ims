@@ -399,7 +399,7 @@ if(isset($_POST['acceptbutton']))
                         </tr>
                     </thead>
                     <?php
-                                    $sql = "SELECT * from temp_per";
+                                    $sql = "SELECT * from temp_per where added_by = 'userMobile'";
                                     $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
                                 ?>
                                 <tbody>
