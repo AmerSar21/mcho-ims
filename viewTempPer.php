@@ -161,7 +161,13 @@ if (isset($_POST['deletebutton'])){
 
     $sqlinsertPER = "INSERT INTO patient_enrollment (family_serial_no, n_id, oi_id, ri_id, ci_id, ee_id, pi_id,added_by, status, patient_id) VALUES ('$famserial', '$nameID', '$otherinfoID', '$relatedinfoID', '$contactinfoID', '$educemployID' ,'$philinfoID','$addedby', 'active','$patientid')";
 
-    echo $addedby;
+    var_dump(mysqli_query($con, $sqlinsertPER));
+    var_dump(mysqli_query($con, $resultinsertphilinfo));
+    var_dump(mysqli_query($con, $resultinserteducemploy));
+    var_dump(mysqli_query($con, $resultinsertcontactinfo));
+    var_dump(mysqli_query($con, $resultinsertrelatedinfo));
+    var_dump(mysqli_query($con, $resultinsertotherinfo));
+    var_dump(mysqli_query($con, $resultinsertname));
     die();
             
     if((!mysqli_query($con, $sqlinsertPER)) and (!mysqli_query($con, $resultinsertphilinfo)) and (!mysqli_query($con, $resultinserteducemploy)) and (!mysqli_query($con, $resultinsertcontactinfo)) and (!mysqli_query($con, $resultinsertrelatedinfo)) and (!mysqli_query($con, $resultinsertotherinfo)) and (!mysqli_query($con, $resultinsertname)))
