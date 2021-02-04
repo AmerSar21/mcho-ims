@@ -63,6 +63,7 @@ if (isset($_POST['deletebutton'])){
 }else if(isset($_POST['acceptbutton'])){
     
     $patientid = $_POST['f_patientid'];
+    echo $pid;
     $famserial = $_POST['f_serialno'];
     $lname = $_POST['f_lname'];
     $fname = $_POST['f_fname'];
@@ -163,14 +164,14 @@ if (isset($_POST['deletebutton'])){
     $sqlinsertPER = "INSERT INTO patient_enrollment(family_serial_no, n_id, oi_id, ri_id, ci_id, ee_id, pi_id,added_by, status, patient_id) VALUES ('$famserial', '$nameID', '$otherinfoID', '$relatedinfoID', '$contactinfoID', '$educemployID' ,'$philinfoID','$addedby', 'active', '$patientid')";
     $resinsertPER = mysqli_query($con, $sqlinsertPER);
 
-    echo $famserial;
-    echo $nameID;
-    echo $otherinfoID;
-    echo $relatedinfoID;
-    echo $contactinfoID;
-    echo $educemployID;
-    echo $philinfoID;
-    echo $addedby;
+    // echo $famserial;
+    // echo $nameID;
+    // echo $otherinfoID;
+    // echo $relatedinfoID;
+    // echo $contactinfoID;
+    // echo $educemployID;
+    // echo $philinfoID;
+    // echo $addedby;
     echo $patientid;
     die();
 
