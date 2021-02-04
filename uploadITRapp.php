@@ -615,6 +615,37 @@ if(isset($_POST['acceptbutton']))
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
 </body>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    TinyMCEStart('#wysiwig_simple', null);
+    TinyMCEStart('#wysiwig_full', 'extreme');
+    WinMove();
+    // Load TimePicker plugin and callback all time and date pickers
+    LoadTimePickerScript(AllTimePickers);
+    // Create jQuery-UI tabs
+    $("#tabs").tabs();
+    // Sortable for elements
+    $(".sort").sortable({
+        items: "div.col-sm-2",
+        appendTo: 'div.box-content'
+    });
+    // Droppable for example of trash
+    $(".drop div.col-sm-2").draggable({containment: '.dropbox' });
+    $('#trash').droppable({
+        drop: function(event, ui) {
+            $(ui.draggable).remove();
+        }
+    });
+    var icons = {
+        header: "ui-icon-circle-arrow-e",
+        activeHeader: "ui-icon-circle-arrow-s"
+    };
+    // Add Drag-n-Drop to boxes
+    WinMove();
+});
+</script>
+
 <script type="text/javascript">
 $(document).ready(function() {
     // Load TimePicker plugin and callback all time and date pickers
@@ -646,7 +677,7 @@ $(document).ready(function() {
 });
 </script>
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 // Run Datables plugin and create 3 variants of settings
 function AllTables(){
     TestTable1();
@@ -659,21 +690,6 @@ function MakeSelect2(){
     $('.dataTables_filter').each(function(){
         $(this).find('label input[type=text]').attr('placeholder', 'Search');
     });
-}
-$(document).ready(function() {
-    // Load Datatables and run plugin on tables 
-    LoadDataTablesScripts(AllTables);
-    // Add Drag-n-Drop feature
-    WinMove();
-});
-</script> -->
-
-<script type="text/javascript">
-// Run Datables plugin and create 3 variants of settings
-function AllTables(){
-    TestTable1();
-    TestTable2();
-    TestTable3();
 }
 $(document).ready(function() {
     // Load Datatables and run plugin on tables 
