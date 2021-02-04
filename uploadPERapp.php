@@ -599,6 +599,7 @@ if(isset($_POST['acceptbutton']))
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
 </body>
+
 <script type="text/javascript">
 $(document).ready(function() {
     // Load TimePicker plugin and callback all time and date pickers
