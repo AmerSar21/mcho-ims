@@ -1,109 +1,6 @@
 <?php
-include("db_connect.php");
-include("updatePERquery.php");
-
-if (isset($_POST['deletebutton']))
-{
-    $tempitr = $_POST['iddelete'];
-
-    $sqlselect = "DELETE FROM temp_itr where tempitr_id = '$tempitr'";
-
-    if(!mysqli_query($con,$sqlselect))
-    {
-        echo "<script type='text/javascript'>
-                alert('Unsuccessfully Deleted');
-            </script>";
-    }
-        else
-    {
-        echo "<script type='text/javascript'>
-                alert('Successfully Deleted');
-            </script>";
-    }
-
-}
-
-if(isset($_POST['acceptbutton']))
-{
-    $patientid= $_POST['f_patientid'];
-    $serialno = $_POST['f_serialno'];
-    $lname = $_POST['f_lname'];
-    $mname = $_POST['f_mname'];
-    $fname = $_POST['f_fname'];
-    $suffix = $_POST['f_suffix'];
-    $age = $_POST['f_age'];
-    $address = $_POST['f_address'];
-    $modetransact = $_POST['f_modeoftransact'];
-    $dateconsult = $_POST['f_dateofconsult'];
-    $timeconsult = $_POST['f_consulttime'];
-    $bloodpressure = $_POST['f_bloodpressure'];
-    $temperature = $_POST['f_temp'];
-    $height = $_POST['f_height'];
-    $weight = $_POST['f_weight'];
-    $nameofattending = $_POST['f_attendingofficer'];    
-    $referredfrom = $_POST['f_referredfrom'];
-    $referredto = $_POST['f_referredto'];
-    $reasonofref = $_POST['f_reasonofref'];
-    $referredby = $_POST['f_referredby'];
-    $natureofvisit = $_POST['f_natureofvisit'];
-    $chiefcomplaints = $_POST['f_chiefcomplaints'];
-    $diagnosis = $_POST['f_diagnosis'];
-    $medication = $_POST['f_medication'];
-    $labfindings = $_POST['f_labfindings'];
-    $healthcare = $_POST['f_healthcare'];
-    $labtest = $_POST['f_labtest'];
-
-    $sqlselectenroll = "SELECT pe_id from patient_enrollment where patient_id = '$patientid'";
-    $resultselectenroll = mysqli_query($con, $sqlselectenroll) or die (mysqli_error($con)); 
-    $patientenroll = mysqli_fetch_assoc($resultselectenroll);
-    $patientenrollID = $patientenroll['pe_id'];
-
-    $sqlinsertforchurhu = "INSERT INTO for_chu_rhu (mode_transaction, date_consultation, time_consultation, blood_pressure, temperature, height, weight, name_of_attending, age) VALUES ('$modetransact', '$dateconsult' , '$timeconsult' , '$bloodpressure', '$temperature' , '$height', '$weight' ,'$nameofattending', '$age')";
-    $resultinsertforchurhu  = mysqli_query($con, $sqlinsertforchurhu) or die (mysqli_error($con));
-    $forchurhuID = mysqli_insert_id($con);
-
-
-
-    $sqlinsertrefertransact = "INSERT INTO referral_transaction (referred_from, referred_to, reason_of_referral, referred_by) VALUES ('$referredfrom', '$referredto' , '$reasonofref' , '$referredby')";
-    $resultinsertrefertransact  = mysqli_query($con, $sqlinsertrefertransact) or die (mysqli_error($con));
-    $refertransactID = mysqli_insert_id($con);
-
-
-
-    $sqlinserttreatment = "INSERT INTO treatment (nature_of_visit, chief_complaints, diagnosis, medication, lab_findings, name_health_careprovider, performed_lab_test) VALUES ('$natureofvisit', '$chiefcomplaints' , '$diagnosis' , '$medication', '$labfindings' , '$healthcare', '$labtest')";
-    $resultinserttreatment  = mysqli_query($con, $sqlinserttreatment) or die (mysqli_error($con));
-    $treatmentID = mysqli_insert_id($con);
-
-
-
-    $userid = $_GET['userid'];
-    $sql = "SELECT fname, lname from acc_info where ai_id=$userid";
-    $result = mysqli_query($con,$sql);
-    $row = mysqli_fetch_array($result);
-    $addedby =$row['fname']." ".$row['lname'];
-
-    $sqlinsertITR = "INSERT INTO indiv_treat_rec (pe_id, fcr_id, treatment_id, ref_tran_id, added_by, status) VALUES ('$patientenrollID' , '$forchurhuID' , '$treatmentID', '$refertransactID','$addedby','active')";
-    $resultinsertITR  = mysqli_query($con, $sqlinsertITR) or die (mysqli_error($con));
-    if(!$resultinsertITR and !$resultinsertforchurhu and !$resultinsertrefertransact and !$resultinserttreatment)
-    {
-        echo "<script type='text/javascript'>
-                alert('Unsuccessfully Inserted');
-            </script>";
-    }   
-    else
-    {
-        echo "<script type='text/javascript'>
-                alert('Successfully Inserted');
-            </script>";
-    }
-
-    $sqldeletetemp = "DELETE FROM temp_itr where patient_id='$patientid'";
-    $deletetemp =mysqli_query($con,$sqldeletetemp);
-   
-}
-
+include "db_connect.php";
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -360,11 +257,72 @@ if(isset($_POST['acceptbutton']))
     <div id="breadcrumb" class="col-md-12">
         <ol class="breadcrumb">
             <li><a href="homeOIC.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Home</a></li>
-            <li><a href="#">Uploads</a></li>
-            <li><a href="#">ITR</a></li>
+            <li><a href="#">Patient Enrollment Record</a></li>
+            <li><a href="#">View</a></li>
         </ol>
     </div>
 </div>
+
+<!--         <div class="row">
+            <div class="col-xs-12">
+                <input type='button' value='Transfer to barangay'  class='btn btn-info btn-warning transfer'/>
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="fa fa-medkit"></i>
+                            <span>List of Enrolled Patients</span>
+                        </div>
+                        <div class="box-icons">
+                            <a class="expand-link">
+                                <i class="fa fa-expand"></i>
+                            </a>
+                        </div>
+                        <div class="no-move"></div>
+                    </div>
+                    <div class="box-content no-padding">
+                        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
+                            <thead>
+                                <tr>
+                                    <th>Patient I.D.</th>
+                                                <th>Lastname</th>
+                                                <th>Firstname</th>
+                                                <th>Middlename</th>
+                                                <th>Address</th>
+                                                <th>Added/Approved</th>
+                                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <?php
+                                            $sql = "SELECT patient_enrollment.family_serial_no , name.lname, name.fname, name.mname, contact_info.home_no , contact_info.street , contact_info.barangay, contact_info.city, patient_enrollment.added_by ,patient_enrollment.patient_id from patient_enrollment inner join name inner join contact_info on name.n_id = patient_enrollment.n_id and patient_enrollment.status='active' and contact_info.ci_id = patient_enrollment.ci_id";
+                                            $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
+                                        ?>
+                            <tbody>
+                                 <?php while ($row = mysqli_fetch_array($result)) { 
+                                                echo( "<tr class='trID_" .$row['family_serial_no']. "'>
+                                                    <td class='serialno'>" . $row['patient_id'] . "</td>
+                                                    <td class='lname'>" . $row[1] . "</td>
+                                                    <td class='fname'>" . $row[2] . "</td>
+                                                    <td class='mname'>" . $row[3] . "</td>
+                                                    <td class='address'>" . $row[4] . " " . $row[5] . " " .$row[6] . " " .$row[7] ."</td>                                            
+                                                    <td class='added'>" . $row[8] . "</td>
+                                                    
+                                                    <td>
+                                                        <input type='button' value='View' id='".$row['patient_id']."' class='btn btn-info btn-primary view_data'/>
+                                                        <input type='button' value='Update' id='".$row['patient_id']."' class='btn btn-info btn-warning update_patient'/>
+                                                    </td>
+                                                    
+                                                  </tr>"); }
+
+                                              ?>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div> -->
+
 <div class="row">
     <div class="col-xs-12">
         <div class="box">
@@ -425,173 +383,13 @@ if(isset($_POST['acceptbutton']))
         </div>
     </div>
 </div>
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                    <form role="form" method="post">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel">Full Information</h4>
-                                        </div>
-                                        <div class="modal-body" id="uploaddetail">                                            
-                                        
 
-                                        <div class="form-group">
-                                                    <label>Family Serial Number</label>
-                                                    
-                                                    <input class="form-control" placeholder="Serial Number" id="m_serialno" name="f_serialno" readonly>
-                                                    <label>Patient ID</label>
-                                                    <input class="form-control"  id="m_patientid" name="f_patientid" readonly>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Fullname</label>
-                                                    <input class="form-control" placeholder="Firstname" id="m_fname" name="f_fname" readonly>
-                                                </div>
-                                                 <div class="form-group">   
-                                                    <input class="form-control" placeholder="Middlename" id="m_mname" name="f_mname" readonly>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input class="form-control" placeholder="Lastname" id="m_lname" name="f_lname" readonly>
-                                                </div>
 
-                                                <div class="form-group">
-                                                    <input class="form-control" placeholder="e.g. Jr., Sr., II, III" id="m_suffix" name="f_suffix" readonly>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Residential Address</label>
-                                                    <input class="form-control" placeholder="Street, Barangay, City, Province" id="m_address" name="f_address" readonly>
-                                                </div>
-
-                                                <div>
-                                                    <label> For CHU/RHU Personnel only</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Mode of Transaction</label>
-                                                    <input class="form-control" placeholder="Walk-in/Visited/Referral" id="m_modeoftransact" name="f_modeoftransact">                                                                                                             
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Date of Consultation</label>
-                                                    <input type="date" class="form-control" name="f_dateofconsult" id="m_dateofconsult" placeholder="">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Consultation time</label>
-                                                    <input class="form-control" placeholder="e.g. 12:00 am " id="m_consulttime" name="f_consulttime">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Age</label>
-                                                    <input class="form-control" placeholder="Enter here" id="m_age" name="f_age">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Blood Pressure</label>
-                                                    <input class="form-control" placeholder="e.g. 80/120" id="m_bloodpressure" name="f_bloodpressure">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Height</label>
-                                                    <input class="form-control" placeholder="e.g. 5.4 ft (Do NOT use apostrophe)" id="m_height" name="f_height">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Temperature</label>
-                                                    <input class="form-control" placeholder="e.g. 36 degree C" id="m_temp" name="f_temp">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Weight</label>
-                                                    <input class="form-control" placeholder="e.g. 50 kg" id="m_weight" name="f_weight">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Name of attending Officer</label>
-                                                    <input class="form-control" placeholder="Juan Dela Cruz" id="m_attendingofficer" name="f_attendingofficer">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Nature of Visit</label>
-                                                     <input class="form-control" placeholder="Enter here" name="f_natureofvisit" id="m_natureofvisit">
-                                                </div>
-                                                
-                                                <div>
-                                                    <label> For Referral Transaction Only</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Referred from</label>
-                                                    <input class="form-control" placeholder="Enter here" id="m_referredfrom" name="f_referredfrom">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Referred to</label>
-                                                    <input class="form-control" placeholder="Enter here" id="m_referredto" name="f_referredto">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Reason for referral</label>
-                                                    <textarea class="form-control" rows="3" id="m_reasonofref" name="f_reasonofref"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Referred by</label>
-                                                    <input class="form-control" placeholder="Juan Dela Cruz" id="m_referredby" name="f_referredby">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Chief Complaints</label>
-                                                    <textarea class="form-control" rows="5" id="m_chiefcomplaints" name="f_chiefcomplaints"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Name of Health Care Provider</label>
-                                                    <textarea class="form-control" rows="3" id="m_healthcare" name="f_healthcare"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Performed Laboratory Test</label>
-                                                    <textarea class="form-control" rows="3" id="m_labtest" name="f_labtest"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Diagnosis</label>
-                                                    <textarea class="form-control" rows="5" id="m_diagnosis" name="f_diagnosis"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                            <label>Medication/Treatment</label>
-                                                            <textarea class="form-control" rows="5" id="m_medication" name="f_medication"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                            <label>Laboratory Findings/Impression</label>
-                                                            <textarea class="form-control" rows="5" id="m_labfindings" name="f_labfindings"></textarea>
-                                                </div>
-                                        <div class='modal-footer'>
-                                           <button type='submit' name='acceptbutton' class='btn btn-primary'>Accept</button>
-                                            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
-                                            
-                                        </div>
-                                    </div>
-                                    
-                                    </div>
-                                    </form>
-                                    <!-- /.modal-content -->
-                                </div>
-                                </div>                               
-                                
 
         </div>
         <!--End Content-->
     </div>
 </div>
-<div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                        <form role="form" method="post">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel">Delete user</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure you want to delete this Record?</p>
-                                                <p class="text-danger">This action cannot be undone.</p>
-                                                <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                <button type="submit" name="deletebutton" class="btn btn-danger">Delete</button>
-                                            </div>
-                                        
-                                        </div>
-                                        <!-- /.modal-content -->
-                                    </form>
-                                    </div>
-                                    <!-- /.modal-dialog -->
-                                </div>
-
 <!--End Container-->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <!--<script src="http://code.jquery.com/jquery.js"></script>-->
@@ -604,18 +402,8 @@ if(isset($_POST['acceptbutton']))
 <script src="plugins/tinymce/jquery.tinymce.min.js"></script>
 <!-- All functions for this theme + document.ready processing -->
 <script src="js/devoops.js"></script>
-<script src="../vendor/jquery/jquery.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="../dist/js/sb-admin-2.js"></script>
 </body>
-
 <script type="text/javascript">
 $(document).ready(function() {
     TinyMCEStart('#wysiwig_simple', null);
@@ -645,51 +433,12 @@ $(document).ready(function() {
     WinMove();
 });
 </script>
-
-<script type="text/javascript">
-$(document).ready(function() {
-    // Load TimePicker plugin and callback all time and date pickers
-    LoadTimePickerScript(AllTimePickers);
-    // Create jQuery-UI tabs
-    $("#tabs").tabs();
-    // Sortable for elements
-    $(".sort").sortable({
-        items: "div.col-sm-2",
-        appendTo: 'div.box-content'
-    });
-    // Droppable for example of trash
-    $(".drop div.col-sm-2").draggable({containment: '.dropbox' });
-    $('#trash').droppable({
-        drop: function(event, ui) {
-            $(ui.draggable).remove();
-        }
-    });
-    var icons = {
-        header: "ui-icon-circle-arrow-e",
-        activeHeader: "ui-icon-circle-arrow-s"
-    };
-    // Make accordion feature of jQuery-UI
-    $("#accordion").accordion({icons: icons });
-    // Create UI spinner
-    $("#ui-spinner").spinner();
-    // Add Drag-n-Drop to boxes
-    WinMove();
-});
-</script>
-
 <script type="text/javascript">
 // Run Datables plugin and create 3 variants of settings
 function AllTables(){
     TestTable1();
     TestTable2();
     TestTable3();
-    LoadSelect2Script(MakeSelect2);
-}
-function MakeSelect2(){
-    $('select').select2();
-    $('.dataTables_filter').each(function(){
-        $(this).find('label input[type=text]').attr('placeholder', 'Search');
-    });
 }
 $(document).ready(function() {
     // Load Datatables and run plugin on tables 
@@ -701,64 +450,6 @@ $(document).ready(function() {
 
 <script type="text/javascript">
 
-
-    $(document).ready(function(){
-        $('.edit_data').click(function(){
-            var tempitr = $(this).attr("id");
-
-            $.ajax({
-                url:"viewITRuploadquery.php",
-                method:"post",
-                data:{tempitr:tempitr},
-                dataType:"json",
-                success:function(data){
-
-                    $('#m_patientid').val(data.patient_id);
-                    $('#m_serialno').val(data.family_serial_no);
-                    $('#m_lname').val(data.lname);
-                    $('#m_fname').val(data.fname);
-                    $('#m_mname').val(data.mname);
-                    $('#m_suffix').val(data.suffix);
-                    $('#m_age').val(data.age);
-                    $('#m_address').val(data.city);
-                    $('#m_modeoftransact').val(data.mode_transaction);
-                    $('#m_dateofconsult').val(data.date_consultation);
-                    $('#m_consulttime').val(data.time_consultation);
-                    $('#m_bloodpressure').val(data.blood_pressure);
-                    $('#m_temp').val(data.temperature);
-                    $('#m_height').val(data.height);
-                    $('#m_weight').val(data.weight);
-                    $('#m_attendingofficer').val(data.name_of_attending);
-                    $('#m_referredfrom').val(data.referred_from);
-                    $('#m_referredto').val(data.referred_to);
-                    $('#m_reasonofref').val(data.reason_of_referral);
-                    $('#m_referredby').val(data.referred_by);
-                    $('#m_natureofvisit').val(data.nature_of_visit);
-                    $('#m_chiefcomplaints').val(data.chief_complaints);
-                    $('#m_diagnosis').val(data.diagnosis);
-                    $('#m_medication').val(data.medication);
-                    $('#m_labfindings').val(data.lab_findings);
-                    $('#m_healthcare').val(data.name_health_careprovider);
-                    $('#m_labtest').val(data.performed_lab_test);
-                    $('#m_chronic').val(data.chronic_disease);
-                    $('#editModal').appendTo('body').modal("show");
-
-                }
-            })
-            
-        });
-
-    $('.btndelete').click(function(){
-            var tempitr = $(this).attr("id");
-
-            $('#m_iddelete').val(tempitr);
-            $('#deletemodal').modal('show');
-        });
-
-        
-
-    });
-    
 </script>
 </body>
 </html>
