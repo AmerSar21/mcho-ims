@@ -130,7 +130,12 @@ if (isset($_POST['deletebutton'])){
         $phcategory = $_POST['f_phcategory'];
     }
 
-    echo ($homeno, ' ', $street, ' ' $city, ' ', $province, ' ', $contactno, ' ', $brgy);
+    echo $homeno;
+    echo $street; 
+    echo $city;
+    echo $province;
+    echo $contactno;
+    echo $brgy;
     die();
 
     $sqlinsertname = "INSERT INTO name (lname, fname, mname, suffix) VALUES ('$lname' , '$fname' , '$mname', '$suffix')";
