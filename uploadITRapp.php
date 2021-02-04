@@ -645,7 +645,8 @@ $(document).ready(function() {
     WinMove();
 });
 </script>
-<script type="text/javascript">
+
+<!-- <script type="text/javascript">
 // Run Datables plugin and create 3 variants of settings
 function AllTables(){
     TestTable1();
@@ -665,8 +666,22 @@ $(document).ready(function() {
     // Add Drag-n-Drop feature
     WinMove();
 });
-</script>
+</script> -->
 
+<script type="text/javascript">
+// Run Datables plugin and create 3 variants of settings
+function AllTables(){
+    TestTable1();
+    TestTable2();
+    TestTable3();
+}
+$(document).ready(function() {
+    // Load Datatables and run plugin on tables 
+    LoadDataTablesScripts(AllTables);
+    // Add Drag-n-Drop feature
+    WinMove();
+});
+</script>
 
 <script type="text/javascript">
 
@@ -714,11 +729,8 @@ $(document).ready(function() {
 
                 }
             })
-
-
             
         });
-
 
     $('.btndelete').click(function(){
             var tempitr = $(this).attr("id");
