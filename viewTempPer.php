@@ -63,7 +63,6 @@ if (isset($_POST['deletebutton'])){
 }else if(isset($_POST['acceptbutton'])){
     
     $patientid = $_POST['f_patientid'];
-    echo $pid;
     $famserial = $_POST['f_serialno'];
     $lname = $_POST['f_lname'];
     $fname = $_POST['f_fname'];
@@ -130,6 +129,9 @@ if (isset($_POST['deletebutton'])){
     }else{
         $phcategory = $_POST['f_phcategory'];
     }
+
+    echo ($homeno, ' ', $street, ' ' $city, ' ', $province, ' ', $contactno, ' ', $brgy);
+    die();
 
     $sqlinsertname = "INSERT INTO name (lname, fname, mname, suffix) VALUES ('$lname' , '$fname' , '$mname', '$suffix')";
     $resultinsertname = mysqli_query($con,$sqlinsertname);
