@@ -163,6 +163,17 @@ if (isset($_POST['deletebutton'])){
     $sqlinsertPER = "INSERT INTO patient_enrollment(family_serial_no, n_id, oi_id, ri_id, ci_id, ee_id, pi_id,added_by, status, patient_id) VALUES ('$famserial', '$nameID', '$otherinfoID', '$relatedinfoID', '$contactinfoID', '$educemployID' ,'$philinfoID','$addedby', 'active', '$patientid')";
     $resinsertPER = mysqli_query($con, $sqlinsertPER);
 
+    echo $famserial;
+    echo $nameID;
+    echo $otherinfoID;
+    echo $relatedinfoID;
+    echo $contactinfoID;
+    echo $educemployID;
+    echo $philinfoID;
+    echo $addedby;
+    echo $patientid;
+    die();
+
     if(!$resinsertPER and !$resultinsertphilinfo and !$resultinserteducemploy and !$resultinsertcontactinfo and !$resultinsertrelatedinfo and !$resultinsertotherinfo and !$resultinsertname)
     {   
         echo "<script type='text/javascript'>

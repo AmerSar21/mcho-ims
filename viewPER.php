@@ -336,8 +336,13 @@ if(isset($_POST['subbutton']))
                                         <th>Added/Approved</th>
                                         <th>Action</th>
                         </tr>
-                    </thead>
+                    </thead>    
                     <?php
+
+                                    $sql2 = "SELECT patient_enrollment.family_serial_no ,name.lname,name.fname,name.mname,contact_info.home_no,contact_info.street,contact_info.barangay,contact_info.city,patient_enrollment.added_by,patient_enrollment.patient_id from ((patient_enrollment 
+                                        inner join name on name.n_id = patient_enrollment.n_id) 
+                                        inner join contact_info on contact_info.ci_id = patient_enrollment.ci_id)";
+                                        
                                     $sql = "SELECT patient_enrollment.family_serial_no , name.lname, name.fname, name.mname, contact_info.home_no , contact_info.street , contact_info.barangay, contact_info.city, patient_enrollment.added_by ,patient_enrollment.patient_id from patient_enrollment inner join name inner join contact_info on name.n_id = patient_enrollment.n_id and patient_enrollment.status='active' and contact_info.ci_id = patient_enrollment.ci_id";
                                     $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
                                 ?>
@@ -458,12 +463,8 @@ if(isset($_POST['subbutton']))
 
 </body>
 <script type="text/javascript">
-
-
 $(document).ready(function() {
-
-
-     TinyMCEStart('#wysiwig_simple', null);
+    TinyMCEStart('#wysiwig_simple', null);
     TinyMCEStart('#wysiwig_full', 'extreme');
     WinMove();
     // Load TimePicker plugin and callback all time and date pickers
