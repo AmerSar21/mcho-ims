@@ -130,14 +130,6 @@ if (isset($_POST['deletebutton'])){
         $phcategory = $_POST['f_phcategory'];
     }
 
-    echo $homeno;
-    echo $street; 
-    echo $city;
-    echo $province;
-    echo $contactno;
-    echo $brgy;
-    die();
-
     $sqlinsertname = "INSERT INTO name (lname, fname, mname, suffix) VALUES ('$lname' , '$fname' , '$mname', '$suffix')";
     $resultinsertname = mysqli_query($con,$sqlinsertname);
     $nameID = mysqli_insert_id($con);
@@ -150,7 +142,7 @@ if (isset($_POST['deletebutton'])){
     $resultinsertrelatedinfo = mysqli_query($con,$sqlinsertrelatedinfo);
     $relatedinfoID = mysqli_insert_id($con);
 
-    $sqlinsertcontactinfo = "INSERT INTO contact_info (home_no, street, city, province, contact_no, barangay) VALUES ('$homeno' , '$street' , '$city' , '$province' , '$contactno' , '$brgy')";
+    $sqlinsertcontactinfo = "INSERT INTO contact_info (home_no, barangay, street, city, province, contact_no) VALUES ('$homeno' , '$brgy', '$street' , '$city' , '$province' , '$contactno')";
     $resultinsertcontactinfo = mysqli_query($con,$sqlinsertcontactinfo);
     $contactinfoID = mysqli_insert_id($con);
 
@@ -161,6 +153,7 @@ if (isset($_POST['deletebutton'])){
     $sqlinsertphilinfo = "INSERT INTO phil_info (ph_member, ph_no, member_category, facility_no, dswdnhts) VALUES ('$phmember' , '$phnumber' , '$phmember', '$facilityno', '$dswd')";
     $resultinsertphilinfo = mysqli_query($con,$sqlinsertphilinfo);
     $philinfoID = mysqli_insert_id($con);
+
     $userid = $_SESSION['userid'];
 
     $sql = "SELECT fname, lname from acc_info where ai_id=$userid";
@@ -179,8 +172,8 @@ if (isset($_POST['deletebutton'])){
     // echo $educemployID;
     // echo $philinfoID;
     // echo $addedby;
-    echo $patientid;
-    die();
+    // echo $patientid;
+    // die();
 
     if(!$resinsertPER and !$resultinsertphilinfo and !$resultinserteducemploy and !$resultinsertcontactinfo and !$resultinsertrelatedinfo and !$resultinsertotherinfo and !$resultinsertname)
     {   
