@@ -32,7 +32,7 @@
 		
 		if(!$sqltemp_per){
 
-			echo "Record Failed to Upload";
+			echo ("Record Failed to Upload", var_dump($sqltemp_per));
 
 		}else{
 
