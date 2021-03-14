@@ -14,7 +14,7 @@
 	$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	
 	if(!$mysqli){
-		echo "Failed";
+		echo "Failed to Connect";
 	}else{
 		echo "True";
 	}

@@ -29,10 +29,9 @@
 				'gender' => $data['gender'],
 				'email' => $data['email']								
 			);
-			$usertype = $data['usertype']; 
 
 			if($data['status'] == 'Active'){
-				$result = json_encode(array('success' => true, 'result' => $datauser, 'utype' => $usertype));				
+				$result = json_encode(array('success' => true, 'result' => $datauser));				
 			}else if($data['status'] == 'Inactive'){
 				$result = json_encode(array('success' => false, 'msg' => 'Account Inactive'));	
 			}
@@ -42,6 +41,19 @@
 		}
 		echo $result;
 
+	}else if($postjson['aksi'] == 'getFullName'){
+		$sql = mysqli_query($mysqli, "SELECT CONCAT(per.fname, ' ', per.lname) as fullname FROM useraccount us inner join person per on per.personid = us.personid where us.userid = '$postjson[userid]'");
+		$count = mysqli_num_rows($sql);
+
+		 if($count>0){
+		 	$row = mysqli_fetch_array($sql);
+		 	$fullname = $row['fullname'];
+		 	$result = json_encode(array('success' => true, 'fullname' => $fullname));
+		 }else{
+			$result = json_encode(array('success' => false, 'msg' => '0'));								 	
+		 }
+
+		echo $result;
 	}else if($postjson['aksi'] == 'getNewUser'){
 		
 		$sql = mysqli_query($mysqli, "SELECT count(*) as accno FROM useraccount WHERE status='Pending'");
@@ -281,7 +293,31 @@
 
 		$data = array();
 
-		$sql = mysqli_query($mysqli, "SELECT * FROM activity WHERE status = 'active' ORDER BY act_id ASC LIMIT $postjson[start], $postjson[limit]");
+		$sql = mysqli_query($mysqli, "SELECT * FROM activity WHERE status = 'Active' AND added_by = '$postjson[added_by]' ORDER BY act_id ASC");
+
+		while ($row = mysqli_fetch_array($sql)) {
+			$data[] = array(
+				'act_id' => $row['act_id'],
+				'name' => $row['name'],
+				'description' => $row['description'],
+				'actdate' => $row['actdate'],
+				'status' => $row['status']
+			);
+		}
+
+		if ($sql){
+			$result = json_encode(array('success'=>true, 'result'=>$data));
+		}else{
+			$result = json_encode(array('success'=>false, 'msg' => 'Record Failed to Load'));	
+		} 
+
+		echo $result;
+
+	}else if($postjson['aksi'] == 'getActAll'){
+
+		$data = array();
+
+		$sql = mysqli_query($mysqli, "SELECT * FROM activity WHERE status = 'Active' ORDER BY act_id ASC");
 
 		while ($row = mysqli_fetch_array($sql)) {
 			$data[] = array(
@@ -469,6 +505,7 @@
 	}else if($postjson['aksi'] == 'getPer'){
 
 		$data = array();
+
 		$sql = mysqli_query($mysqli, "SELECT pe.pe_id, n.lname, n.fname, n.mname, n.suffix, oi.sex, oi.b_date,
 		 	oi.b_place, oi.bloodtype, oi.civil_stat, ri.spouse_name, ri.mothers_name, ri.fam_position,
 		 	ci.home_no, ci.barangay, ci.street, ci.city, ci.province, ci.contact_no,
@@ -479,7 +516,7 @@
 	        inner join related_info ri on ri.ri_id = pe.ri_id)
 	       	inner join contact_info ci on ci.ci_id = pe.ci_id)
 	      	inner join educ_employ ee on ee.ee_id = pe.ee_id)
-	      	inner join phil_info pi on pi.pi_id = pe.pi_id) where pe.status = 'active' ORDER BY pe.pe_id ASC LIMIT $postjson[start],$postjson[limit]");
+	      	inner join phil_info pi on pi.pi_id = pe.pi_id) where pe.status = 'active' AND pe.added_by LIKE '$postjson[added_by]' ORDER BY pe.pe_id ASC");
 
 		while ($row = mysqli_fetch_array($sql)) {
 			$data[] = array(
@@ -546,8 +583,7 @@
 
 	}else if($postjson['aksi'] == 'getTempPer'){
 		$data = array();
-		$sqlgetTemp = mysqli_query($mysqli, "SELECT family_serial_no,lname,fname,mname,suffix,sex,b_date,b_place,bloodtype,civil_stat,spouse_name,mothers_name,fam_position,home_no,barangay,street,city,province,contact_no,
-		educ_attainment,employ_status,ph_member,ph_no,member_category,facility_no,dswdnhts,added_by,patient_id,submitted_by,date_submitted from temp_per");
+		$sqlgetTemp = mysqli_query($mysqli, "SELECT family_serial_no,lname,fname,mname,suffix,sex,b_date,b_place,bloodtype,civil_stat,spouse_name,mothers_name,fam_position,home_no,barangay,street,city,province,contact_no,educ_attainment,employ_status,ph_member,ph_no,member_category,facility_no,dswdnhts,added_by,patient_id,submitted_by,date_submitted from temp_per where submitted_by LIKE '$postjson[added_by]'");
 
 		while ($row = mysqli_fetch_array($sqlgetTemp)) {
 			$data[] = array(
@@ -626,7 +662,7 @@
 
 	}else if($postjson['aksi'] == 'delAllTempPer'){
 
-		$sqldeltempPER = mysqli_query($mysql,"DELETE FROM temp_per");
+		$sqldeltempPER = mysqli_query($mysqli,"DELETE FROM temp_per where submitted_by = '$postjson[submitted_by]'");
 
 	    if($sqldeltempPER){
 			$result = json_encode(array('success'=>true, 'msg'=> 'Record Successfully Deleted'));	
@@ -807,7 +843,7 @@
 			inner join contact_info on contact_info.ci_id = patient_enrollment.ci_id) 
 			inner join referral_transaction on referral_transaction.ref_tran_id = indiv_treat_rec.ref_tran_id)
 			inner join for_chu_rhu on for_chu_rhu.fcr_id = indiv_treat_rec.fcr_id) 
-			inner join treatment on treatment.treatment_id = indiv_treat_rec.treatment_id) where indiv_treat_rec.status='active' ORDER BY indiv_treat_rec.itr_id ASC");
+			inner join treatment on treatment.treatment_id = indiv_treat_rec.treatment_id) where indiv_treat_rec.status='active' AND indiv_treat_rec.added_by LIKE '$postjson[added_by]' ORDER BY indiv_treat_rec.itr_id ASC");
 
 		while ($row = mysqli_fetch_array($sqlgetItr)) {
 			$data[] = array(
@@ -850,7 +886,7 @@
 	}else if($postjson['aksi'] == 'getTempItr'){
 		$data = array();
 		$sqlgetTemp = mysqli_query($mysqli, "SELECT family_serial_no,age,mode_transaction,date_consultation,time_consultation,
-			blood_pressure,temperature,height,weight,name_of_attending,nature_of_visit,chief_complaints,diagnosis,medication,lab_findings,name_health_careprovider,performed_lab_test,chronic_disease,referred_from,referred_to,reason_of_referral,referred_by,added_by,submitted_by,patient_id,date_submitted from temp_itr");
+			blood_pressure,temperature,height,weight,name_of_attending,nature_of_visit,chief_complaints,diagnosis,medication,lab_findings,name_health_careprovider,performed_lab_test,chronic_disease,referred_from,referred_to,reason_of_referral,referred_by,added_by,submitted_by,patient_id,date_submitted from temp_itr where submitted_by LIKE '$postjson[added_by]'");
 
 		while ($row = mysqli_fetch_array($sqlgetTemp)) {
 			$data[] = array(
@@ -945,7 +981,7 @@
 
 	}else if($postjson['aksi'] == 'delAllTempItr') {
 		
-		$sqldeltempITR = mysqli_query($mysqli, "DELETE FROM temp_itr");
+		$sqldeltempITR = mysqli_query($mysqli, "DELETE FROM temp_itr where submitted_by = '$postjson[added_by]");
 
 		if($sqldeltempITR){
 			$result = json_encode(array('success'=>true, 'msg'=> 'Record Successfully Deleted'));	
