@@ -418,7 +418,7 @@
 		
 	}else if($postjson['aksi'] == 'addPer'){
 
-		if(($postjson['lname'] == '') || ($postjson['fname'] == '') || ($postjson['mname'] == '') || ($postjson['suffix'] == '') || ($postjson['gender'] == '') || ($postjson['bdate'] == '') || ($postjson['bplace'] == '') || ($postjson['bltype'] == '') || ($postjson['cstat'] == '') || ($postjson['spname'] == '') || ($postjson['motname'] == '') || ($postjson['fampos'] == '') || ($postjson['homeno'] == '') || ($postjson['brgy'] == '') || ($postjson['street'] == '') || ($postjson['city'] == '') || ($postjson['prov'] == '') || ($postjson['contnum'] == '') || ($postjson['edatt'] == '') || ($postjson['empstat'] == '') || ($postjson['phmem'] == '') || ($postjson['phnum'] == '') || ($postjson['ctgry'] == '') || ($postjson['fhno'] == '') || ($postjson['nhts'] == '') || ($postjson['fcode'] == '') || ($postjson['pat_id'] == '')) {
+		if(($postjson['lname'] == '') || ($postjson['fname'] == '') || ($postjson['mname'] == '') || ($postjson['suffix'] == '') || ($postjson['gender'] == '') || ($postjson['bdate'] == '') || ($postjson['bplace'] == '') || ($postjson['bltype'] == '') || ($postjson['cstat'] == '') || ($postjson['spname'] == '') || ($postjson['motname'] == '') || ($postjson['fampos'] == '') || ($postjson['homeno'] == '') || ($postjson['brgy'] == '') || ($postjson['street'] == '') || ($postjson['city'] == '') || ($postjson['prov'] == '') || ($postjson['contnum'] == '') || ($postjson['edatt'] == '') || ($postjson['empstat'] == '') || ($postjson['fhno'] == '') || ($postjson['nhts'] == '') || ($postjson['fcode'] == '') || ($postjson['pat_id'] == '')) {
 
 			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));
 
@@ -464,14 +464,25 @@
 
 			$ee_id = mysqli_insert_id($mysqli);
 
-			$sqlphinfo = mysqli_query($mysqli, "INSERT INTO phil_info SET
+			if($postjson['phmem'] == 'No'){
+				$sqlphinfo = mysqli_query($mysqli, "INSERT INTO phil_info SET
+				ph_member = '$postjson[phmem]',
+				ph_no = '0',
+				member_category = 'none',
+				facility_no = '$postjson[fhno]',
+				dswdnhts = '$postjson[nhts]'");
+
+				$pi_id = mysqli_insert_id($mysqli);
+			}else{			
+				$sqlphinfo = mysqli_query($mysqli, "INSERT INTO phil_info SET
 				ph_member = '$postjson[phmem]',
 				ph_no = '$postjson[phnum]',
 				member_category = '$postjson[ctgry]',
 				facility_no = '$postjson[fhno]',
 				dswdnhts = '$postjson[nhts]'");
 
-			$pi_id = mysqli_insert_id($mysqli);
+				$pi_id = mysqli_insert_id($mysqli);
+			}
 
 			$sql = mysqli_query($mysqli, "SELECT CONCAT(p.fname, ' ', p.lname) as fullname from useraccount us inner join person p on p.personid = us.personid where us.userid = '$postjson[uid]'");
 			$data = mysqli_fetch_array($sql);
@@ -591,32 +602,31 @@
 				'lname' => $row['lname'],
 				'fname' => $row['fname'],
 				'mname' => $row['mname'],
-				'suffix' => $row['suffix'],
 				'sex' => $row['sex'],
-				'b_place' => $row['b_place'],				
 				'b_date' => $row['b_date'],
+				'b_place' => $row['b_place'],				
 				'bloodtype' => $row['bloodtype'],		
 				'civil_stat' => $row['civil_stat'],			
 				'spouse_name' => $row['spouse_name'],
-				'educ_attainment' => $row['educ_attainment'],
-				'employ_status' => $row['employ_status'],
+				'mothers_name' => $row['mothers_name'],				
 				'fam_position' => $row['fam_position'],
-				'patient_id' => $row['patient_id'],
 				'home_no' => $row['home_no'],
-				'barangay' => $row['barangay'],
 				'street' => $row['street'],
+				'barangay' => $row['barangay'],
 				'city' => $row['city'],
 				'province' => $row['province'],
-				'mothers_name' => $row['mothers_name'],				
 				'contact_no' => $row['contact_no'],
-				'dswdnhts' => $row['dswdnhts'],
-				'facility_no' => $row['facility_no'],
+				'educ_attainment' => $row['educ_attainment'],
+				'employ_status' => $row['employ_status'],
 				'ph_member' => $row['ph_member'],
 				'ph_no' => $row['ph_no'],						
 				'member_category' => $row['member_category'],
-				'patient_id' => $row['patient_id'],
+				'facility_no' => $row['facility_no'],
+				'dswdnhts' => $row['dswdnhts'],
+				'suffix' => $row['suffix'],
 				'added_by' => $row['added_by'],
 				'submitted_by' => $row['submitted_by'],			
+				'patient_id' => $row['patient_id'],
 				'date_submitted' => $row['date_submitted']
 			);
 		}
@@ -650,7 +660,13 @@
 
 	    $sqlupdEe = mysqli_query($mysqli, "UPDATE educ_employ SET educ_attainment = '$postjson[educ_attainment]', employ_status = '$postjson[employ_status]' where ee_id = '$ee_id'");
 
-	    $sqlupdPi = mysqli_query($mysqli, "UPDATE phil_info SET ph_member = '$postjson[ph_member]', ph_no = '$postjson[ph_no]', member_category = '$postjson[member_category]', facility_no = '$postjson[facility_no]', dswdnhts = '$postjson[dswdnhts]' where pi_id = '$pi_id'");
+	    if($postjson['ph_member'] == 'No'){
+
+		    $sqlupdPi = mysqli_query($mysqli, "UPDATE phil_info SET ph_member = '$postjson[ph_member]', ph_no = '0', member_category = 'none', facility_no = '$postjson[facility_no]', dswdnhts = '$postjson[dswdnhts]' where pi_id = '$pi_id'");
+	    }else{
+
+		    $sqlupdPi = mysqli_query($mysqli, "UPDATE phil_info SET ph_member = '$postjson[ph_member]', ph_no = '$postjson[ph_no]', member_category = '$postjson[member_category]', facility_no = '$postjson[facility_no]', dswdnhts = '$postjson[dswdnhts]' where pi_id = '$pi_id'");	    	
+	    }
 
     	if(($sqlupdPe) && ($sqlupdName) && ($sqlupdOi) && ($sqlupdRi) && ($sqlupdCon) && ($sqlupdEe) && ($sqlupdPi)){
 			$result = json_encode(array('success'=>true, 'msg'=> 'Record Successfully Updated'));	
@@ -690,39 +706,8 @@
 
 	    if($cntCheck > 0){
 
-			$sqldelPe = mysqli_query($mysqli, "DELETE from patient_enrollment where pe_id = '$postjson[pe_id]'");
-
-		    $sqlgetItr = mysqli_query($mysqli, "SELECT * from indiv_treat_rec where pe_id = '$postjson[pe_id]'");
-
-			$row = mysqli_fetch_array($sqlgetItr);
-			$fcr_id = $row['fcr_id'];
-			$treatment_id = $row['treatment_id'];
-			$ref_tran_id = $row['ref_tran_id'];
-
-			$sqldelfcr = mysqli_query($mysqli, "DELETE from for_chu_rhu where fcr_id = '$fcr_id' ");
-
-			$sqldelref = mysqli_query($mysqli, "DELETE from referral_transaction where ref_tran_id = '$ref_tran_id'");
-
-			$sqldelTr = mysqli_query($mysqli, "DELETE from treatment where treatment_id = '$treatment_id'");
-
-		    $sqldelName = mysqli_query($mysqli, "DELETE from name where n_id = '$n_id'");
-
-		    $sqldelOi = mysqli_query($mysqli, "DELETE from other_info where oi_id = '$oi_id'");
-
-		    $sqldelRi = mysqli_query($mysqli, "DELETE from related_info where ri_id = '$ri_id'");
-
-		    $sqldelCon = mysqli_query($mysqli, "DELETE from contact_info where ci_id = '$ci_id'");
-
-		    $sqldelEe = mysqli_query($mysqli, "DELETE from educ_employ where ee_id = '$ee_id'");
-
-		    $sqldelPi = mysqli_query($mysqli, "DELETE from phil_info where pi_id = '$pi_id'");
-
-		    if(($sqldelPe) && ($sqldelfcr) && ($sqldelref) && ($sqldelTr) && ($sqldelName) && ($sqldelOi) && ($sqldelRi) && ($sqldelCon) && ($sqldelEe) && ($sqldelPi)){
-				$result = json_encode(array('success'=>true, 'msg'=> 'Record Successfully Deleted'));	
-			}else{
-				$result = json_encode(array('success' => false, 'msg' => 'Record Failed to Delete'));
-			}
-
+			$result = json_encode(array('success' => false, 'msg' => 'Cannot Delete data.. (Referenced)'));
+		
 	    }else{
 		
 		    $sqldelPe = mysqli_query($mysqli, "DELETE from patient_enrollment where pe_id = '$postjson[pe_id]'");
@@ -885,8 +870,7 @@
 
 	}else if($postjson['aksi'] == 'getTempItr'){
 		$data = array();
-		$sqlgetTemp = mysqli_query($mysqli, "SELECT family_serial_no,age,mode_transaction,date_consultation,time_consultation,
-			blood_pressure,temperature,height,weight,name_of_attending,nature_of_visit,chief_complaints,diagnosis,medication,lab_findings,name_health_careprovider,performed_lab_test,chronic_disease,referred_from,referred_to,reason_of_referral,referred_by,added_by,submitted_by,patient_id,date_submitted from temp_itr where submitted_by LIKE '$postjson[added_by]'");
+		$sqlgetTemp = mysqli_query($mysqli, "SELECT family_serial_no,age,mode_transaction,date_consultation,time_consultation,blood_pressure,temperature,height,weight,name_of_attending,nature_of_visit,chief_complaints,diagnosis,medication,lab_findings,name_health_careprovider,performed_lab_test,chronic_disease,referred_from,referred_to,reason_of_referral,referred_by,added_by,submitted_by,patient_id,date_submitted from temp_itr where submitted_by LIKE '$postjson[added_by]'");
 
 		while ($row = mysqli_fetch_array($sqlgetTemp)) {
 			$data[] = array(
@@ -981,7 +965,7 @@
 
 	}else if($postjson['aksi'] == 'delAllTempItr') {
 		
-		$sqldeltempITR = mysqli_query($mysqli, "DELETE FROM temp_itr where submitted_by = '$postjson[added_by]");
+		$sqldeltempITR = mysqli_query($mysqli, "DELETE FROM temp_itr where submitted_by = '$postjson[submitted_by]'");
 
 		if($sqldeltempITR){
 			$result = json_encode(array('success'=>true, 'msg'=> 'Record Successfully Deleted'));	
@@ -999,8 +983,7 @@
 		if(!empty($data)){
 
 			foreach ($data as $item) {
-				$sqltemp_itr = mysqli_query($mysqli, "INSERT INTO temp_itr(family_serial_no,age,mode_transaction,date_consultation,time_consultation,
-			blood_pressure,temperature,height,weight,name_of_attending,nature_of_visit,chief_complaints,diagnosis,medication,lab_findings,name_health_careprovider,performed_lab_test,chronic_disease,referred_from,referred_to,reason_of_referral,referred_by,added_by,submitted_by,patient_id,date_submitted) VALUES ('".$item['family_serial_no']."','".$item['age']."','".$item['mode_transaction']."','".$item['date_consultation']."','".$item['time_consultation']."','".$item['blood_pressure']."','".$item['temperature']."','".$item['height']."','".$item['weight']."','".$item['name_of_attending']."','".$item['nature_of_visit']."','".$item['chief_complaints']."','".$item['diagnosis']."','".$item['medication']."','".$item['lab_findings']."','".$item['name_health_careprovider']."','".$item['performed_lab_test']."','none','".$item['referred_from']."','".$item['referred_to']."','".$item['reason_of_referral']."','".$item['referred_by']."','userMobile','".$item['added_by']."','".$item['patient_id']."','$currentDate')");
+				$sqltemp_itr = mysqli_query($mysqli, "INSERT INTO temp_itr(family_serial_no,age,mode_transaction,date_consultation,time_consultation,blood_pressure,temperature,height,weight,name_of_attending,nature_of_visit,chief_complaints,diagnosis,medication,lab_findings,name_health_careprovider,performed_lab_test,chronic_disease,referred_from,referred_to,reason_of_referral,referred_by,added_by,submitted_by,patient_id,date_submitted) VALUES ('".$item['family_serial_no']."','".$item['age']."','".$item['mode_transaction']."','".$item['date_consultation']."','".$item['time_consultation']."','".$item['blood_pressure']."','".$item['temperature']."','".$item['height']."','".$item['weight']."','".$item['name_of_attending']."','".$item['nature_of_visit']."','".$item['chief_complaints']."','".$item['diagnosis']."','".$item['medication']."','".$item['lab_findings']."','".$item['name_health_careprovider']."','".$item['performed_lab_test']."','none','".$item['referred_from']."','".$item['referred_to']."','".$item['reason_of_referral']."','".$item['referred_by']."','userMobile','".$item['added_by']."','".$item['patient_id']."','$currentDate')");
 			}
 		}
 
