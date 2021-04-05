@@ -14,31 +14,36 @@
 	//login query 
 	if($postjson['aksi'] == 'login'){
 		// $password = md5($postjson['password']);
-		$sql = mysqli_query($mysqli, "SELECT us.userid as userid, us.uname as uname, us.upass as upass, us.usertype as usertype, us.status as status, CONCAT(per.fname, ' ', per.lname) as fullname, per.bdate as bdate, per.gender as gender, per.email as email FROM useraccount us inner join person per on per.personid = us.personid where uname = '$postjson[username]' and upass ='$postjson[password]'");
-		$check = mysqli_num_rows($sql);
-
-		if($check>0){
-			$data = mysqli_fetch_array($sql);
-			$datauser = array(
-				'userid' => $data['userid'],
-				'uname' => $data['uname'],
-				'upass' => $data['upass'],
-				'usertype' => $data['usertype'],
-				'fullname' => $data['fullname'],
-				'bdate' => $data['bdate'],				
-				'gender' => $data['gender'],
-				'email' => $data['email']								
-			);
-
-			if($data['status'] == 'Active'){
-				$result = json_encode(array('success' => true, 'result' => $datauser));				
-			}else if($data['status'] == 'Inactive'){
-				$result = json_encode(array('success' => false, 'msg' => 'Account Inactive'));	
-			}
-
+		if($mysqli->connect_error){
+			$result = json_encode(array('failed' => true, 'msg' => 'Server Unavailable. Try again..'));	
+			die("Connection Failed " . $mysqli->connect_error);
 		}else{
-			$result = json_encode(array('success' => false, 'msg' => 'Account doesnt Exist'));					
-		}
+			$sql = mysqli_query($mysqli, "SELECT us.userid as userid, us.uname as uname, us.upass as upass, us.usertype as usertype, us.status as status, CONCAT(per.fname, ' ', per.lname) as fullname, per.bdate as bdate, per.gender as gender, per.email as email FROM useraccount us inner join person per on per.personid = us.personid where uname = '$postjson[username]' and upass ='$postjson[password]'");
+			$check = mysqli_num_rows($sql);
+
+			if($check>0){
+				$data = mysqli_fetch_array($sql);
+				$datauser = array(
+					'userid' => $data['userid'],
+					'uname' => $data['uname'],
+					'upass' => $data['upass'],
+					'usertype' => $data['usertype'],
+					'fullname' => $data['fullname'],
+					'bdate' => $data['bdate'],				
+					'gender' => $data['gender'],
+					'email' => $data['email']								
+				);
+
+				if($data['status'] == 'Active'){
+					$result = json_encode(array('success' => true, 'result' => $datauser));				
+				}else if($data['status'] == 'Inactive'){
+					$result = json_encode(array('success' => false, 'msg' => 'Account Inactive'));	
+				}
+
+			}else{
+				$result = json_encode(array('success' => false, 'msg' => 'Account doesnt Exist'));					
+			}
+		}		
 		echo $result;
 
 	}else if($postjson['aksi'] == 'getFullName'){
@@ -201,7 +206,7 @@
 		}
 		echo $result;
 	}else if($postjson['aksi'] == 'regAcc') {
-		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['cpass'] == '')|| ($postjson['usertype'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '')){
+		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['cpass'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '')){
 			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));			
 		}elseif($postjson['upass'] != $postjson['cpass']){
 			$result = json_encode(array('success' => false, 'msg' => 'Password not Match!'));
@@ -222,10 +227,10 @@
 				$sqlacc = mysqli_query($mysqli, "INSERT INTO useraccount SET 
 					uname = '$postjson[uname]',
 					upass = '$postjson[upass]',
-					usertype = '$postjson[usertype]',
+					usertype = 'User',
 					personid = '$personid',
 					added_by = 'none',
-					status = 'Pending',
+					status = 'Active',
 					archived_by = 'none'");
 
 				$userid = mysqli_insert_id($mysqli);
