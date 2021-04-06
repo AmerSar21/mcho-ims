@@ -12,7 +12,7 @@
 	$today = date('Y-m-d');
 
 	//login query 
-	if($postjson['aksi'] == 'login'){
+	if($postjson['action'] == 'login'){
 		// $password = md5($postjson['password']);
 		if($mysqli->connect_error){
 			$result = json_encode(array('failed' => true, 'msg' => 'Server Unavailable. Try again..'));	
@@ -46,7 +46,7 @@
 		}		
 		echo $result;
 
-	}else if($postjson['aksi'] == 'getFullName'){
+	}else if($postjson['action'] == 'getFullName'){
 		$sql = mysqli_query($mysqli, "SELECT CONCAT(per.fname, ' ', per.lname) as fullname FROM useraccount us inner join person per on per.personid = us.personid where us.userid = '$postjson[userid]'");
 		$count = mysqli_num_rows($sql);
 
@@ -59,7 +59,7 @@
 		 }
 
 		echo $result;
-	}else if($postjson['aksi'] == 'getNewUser'){
+	}else if($postjson['action'] == 'getNewUser'){
 		
 		$sql = mysqli_query($mysqli, "SELECT count(*) as accno FROM useraccount WHERE status='Pending'");
 		$count = mysqli_num_rows($sql);
@@ -74,7 +74,7 @@
 
 		echo $result;
 
-	}else if($postjson['aksi'] == 'checkPatId'){
+	}else if($postjson['action'] == 'checkPatId'){
 		
 		$sql = mysqli_query($mysqli, "SELECT * from patient_enrollment where patient_id = '$postjson[patid]'");
 		$check = mysqli_num_rows($sql);
@@ -93,7 +93,7 @@
 		}
 		echo $result;
 
-	}else if($postjson['aksi'] == 'getPatInfo') {
+	}else if($postjson['action'] == 'getPatInfo') {
 
 		$sql = mysqli_query($mysqli, "SELECT * from patient_enrollment where patient_id = '$postjson[patid]'");
 		$check = mysqli_num_rows($sql);
@@ -117,7 +117,7 @@
 		}
 		echo $result;
 
-	}else if($postjson['aksi'] == 'getAcc') {
+	}else if($postjson['action'] == 'getAcc') {
 		
 		$data = array();
 
@@ -146,7 +146,7 @@
 		
 		echo $result;		
 
-	}else if($postjson['aksi'] == 'delAcc') {
+	}else if($postjson['action'] == 'delAcc') {
 		
 		$sqlcheckPer = mysqli_query($mysqli, "SELECT * from useraccount where userid = '$postjson[accid]'");
 		$row = mysqli_fetch_array($sqlcheckPer);
@@ -164,7 +164,7 @@
 
 		echo $result;			
 
-	}else if($postjson['aksi'] == 'addAcc') {
+	}else if($postjson['action'] == 'addAcc') {
 		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['usertype'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '')){
 			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));			
 		}else {
@@ -205,7 +205,7 @@
 			}
 		}
 		echo $result;
-	}else if($postjson['aksi'] == 'regAcc') {
+	}else if($postjson['action'] == 'regAcc') {
 		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['cpass'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '')){
 			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));			
 		}elseif($postjson['upass'] != $postjson['cpass']){
@@ -242,7 +242,7 @@
 			}
 		}
 		echo $result;
-	}else if($postjson['aksi'] == 'updateAcc'){
+	}else if($postjson['action'] == 'updateAcc'){
 
 		$sqlgetPer = mysqli_query($mysqli, "SELECT personid FROM useraccount WHERE userid = '$postjson[accid]'");
 		$data = mysqli_fetch_array($sqlgetPer);
@@ -294,7 +294,7 @@
 
 		echo $result;	
 	
-	}else if($postjson['aksi'] == 'getAct'){
+	}else if($postjson['action'] == 'getAct'){
 
 		$data = array();
 
@@ -318,7 +318,7 @@
 
 		echo $result;
 
-	}else if($postjson['aksi'] == 'getActAll'){
+	}else if($postjson['action'] == 'getActAll'){
 
 		$data = array();
 
@@ -342,7 +342,7 @@
 
 		echo $result;
 
-	}else if($postjson['aksi'] == 'addAct'){
+	}else if($postjson['action'] == 'addAct'){
 		
 		if(($postjson['name'] == '') || ($postjson['actdate'] == '') || ($postjson['description'] == '')){
 
@@ -374,7 +374,7 @@
 
 		echo $result;
 
-	}else if($postjson['aksi'] == 'checkDate'){
+	}else if($postjson['action'] == 'checkDate'){
 
 		if($postjson['actdate'] == ''){
 			$result = json_encode(array('success' => false, 'msg' => 'Input Date to Verify'));			
@@ -395,7 +395,7 @@
 
 		echo $result;
 		
-	}else if($postjson['aksi'] == 'delAct'){
+	}else if($postjson['action'] == 'delAct'){
 		
 		$sqldelact = mysqli_query($mysqli, "DELETE from activity where act_id = '$postjson[act_id]'");
 
@@ -407,7 +407,7 @@
 
 		echo $result;
 
-	}else if($postjson['aksi'] == 'updateAct'){
+	}else if($postjson['action'] == 'updateAct'){
 		
 		$sql = mysqli_query($mysqli, "UPDATE activity SET
 			name = '$postjson[name]',
@@ -423,7 +423,7 @@
 
 		echo $result;
 		
-	}else if($postjson['aksi'] == 'addPer'){
+	}else if($postjson['action'] == 'addPer'){
 
 		if(($postjson['lname'] == '') || ($postjson['fname'] == '') || ($postjson['mname'] == '') || ($postjson['suffix'] == '') || ($postjson['gender'] == '') || ($postjson['bdate'] == '') || ($postjson['bplace'] == '') || ($postjson['bltype'] == '') || ($postjson['cstat'] == '') || ($postjson['spname'] == '') || ($postjson['motname'] == '') || ($postjson['fampos'] == '') || ($postjson['homeno'] == '') || ($postjson['brgy'] == '') || ($postjson['street'] == '') || ($postjson['city'] == '') || ($postjson['prov'] == '') || ($postjson['contnum'] == '') || ($postjson['edatt'] == '') || ($postjson['empstat'] == '') || ($postjson['fhno'] == '') || ($postjson['nhts'] == '') || ($postjson['fcode'] == '') || ($postjson['pat_id'] == '')) {
 
@@ -520,7 +520,7 @@
 
 		echo $result; 				
 
-	}else if($postjson['aksi'] == 'getPer'){
+	}else if($postjson['action'] == 'getPer'){
 
 		$data = array();
 
@@ -579,7 +579,7 @@
 		} 
 		echo $result;
 
-	}else if($postjson['aksi'] == 'insertPer') {
+	}else if($postjson['action'] == 'insertPer') {
 		
 		$data = $postjson['perArray'];
 		$currentDate = $postjson['cDate'];
@@ -599,7 +599,7 @@
 
 		echo $result;
 
-	}else if($postjson['aksi'] == 'getTempPer'){
+	}else if($postjson['action'] == 'getTempPer'){
 		$data = array();
 		$sqlgetTemp = mysqli_query($mysqli, "SELECT family_serial_no,lname,fname,mname,suffix,sex,b_date,b_place,bloodtype,civil_stat,spouse_name,mothers_name,fam_position,home_no,barangay,street,city,province,contact_no,educ_attainment,employ_status,ph_member,ph_no,member_category,facility_no,dswdnhts,added_by,patient_id,submitted_by,date_submitted from temp_per where submitted_by LIKE '$postjson[added_by]'");
 
@@ -644,7 +644,7 @@
 			$result = json_encode(array('success'=>false, 'msg' => 'Record Failed to Load'));	
 		} 
 		echo $result;
-	}else if($postjson['aksi'] == 'updatePer') {
+	}else if($postjson['action'] == 'updatePer') {
 		
 		$sqlgetPer = mysqli_query($mysqli, "SELECT * from patient_enrollment where pe_id = '$postjson[pe_id]'");
 		$row = mysqli_fetch_array($sqlgetPer);
@@ -683,7 +683,7 @@
 
 		echo $result;
 
-	}else if($postjson['aksi'] == 'delAllTempPer'){
+	}else if($postjson['action'] == 'delAllTempPer'){
 
 		$sqldeltempPER = mysqli_query($mysqli,"DELETE FROM temp_per where submitted_by = '$postjson[submitted_by]'");
 
@@ -696,7 +696,7 @@
 		echo $result;
 
 
-	}else if($postjson['aksi'] == 'delPerRec'){
+	}else if($postjson['action'] == 'delPerRec'){
 
 		$sqlgetPer = mysqli_query($mysqli, "SELECT * from patient_enrollment where pe_id = '$postjson[pe_id]'");
 		$row = mysqli_fetch_array($sqlgetPer);
@@ -740,7 +740,7 @@
 
 		echo $result;
 
-	}else if($postjson['aksi'] == 'addItr'){
+	}else if($postjson['action'] == 'addItr'){
 
 		$date = date('Y-m-d');
 		$time = time();
@@ -826,7 +826,7 @@
 				
 		echo $result; 			
 
-	}else if($postjson['aksi'] == 'getItr'){
+	}else if($postjson['action'] == 'getItr'){
 
 		$data = array();
 
@@ -875,7 +875,7 @@
 		} 
 		echo $result;
 
-	}else if($postjson['aksi'] == 'getTempItr'){
+	}else if($postjson['action'] == 'getTempItr'){
 		$data = array();
 		$sqlgetTemp = mysqli_query($mysqli, "SELECT family_serial_no,age,mode_transaction,date_consultation,time_consultation,blood_pressure,temperature,height,weight,name_of_attending,nature_of_visit,chief_complaints,diagnosis,medication,lab_findings,name_health_careprovider,performed_lab_test,chronic_disease,referred_from,referred_to,reason_of_referral,referred_by,added_by,submitted_by,patient_id,date_submitted from temp_itr where submitted_by LIKE '$postjson[added_by]'");
 
@@ -916,7 +916,7 @@
 			$result = json_encode(array('success'=>false, 'msg' => 'Record Failed to Load'));	
 		} 
 		echo $result;
-	}else if($postjson['aksi'] == 'updateItr') {
+	}else if($postjson['action'] == 'updateItr') {
 		
 		$sqlgetItr = mysqli_query($mysqli, "SELECT * from indiv_treat_rec where itr_id = '$postjson[itr_id]'");
 		$row = mysqli_fetch_array($sqlgetItr);
@@ -946,7 +946,7 @@
 
 		echo $result;
 
-	}else if($postjson['aksi'] == 'delItrRec'){
+	}else if($postjson['action'] == 'delItrRec'){
 
 		$sqlgetItr = mysqli_query($mysqli, "SELECT * from indiv_treat_rec where itr_id = '$postjson[itr_id]'");
 		$row = mysqli_fetch_array($sqlgetItr);
@@ -970,7 +970,7 @@
 
 		echo $result;
 
-	}else if($postjson['aksi'] == 'delAllTempItr') {
+	}else if($postjson['action'] == 'delAllTempItr') {
 		
 		$sqldeltempITR = mysqli_query($mysqli, "DELETE FROM temp_itr where submitted_by = '$postjson[submitted_by]'");
 
@@ -982,7 +982,7 @@
 
 		echo $result;
 
-	}else if($postjson['aksi'] == 'insertItr'){
+	}else if($postjson['action'] == 'insertItr'){
 
 		$data = $postjson['itrArray'];
 		$currentDate = $postjson['cDate'];
