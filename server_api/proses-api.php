@@ -298,7 +298,7 @@
 
 		$data = array();
 
-		$sql = mysqli_query($mysqli, "SELECT * FROM activity WHERE status = 'Active' AND added_by = '$postjson[added_by]' ORDER BY act_id ASC");
+		$sql = mysqli_query($mysqli, "SELECT * FROM activity WHERE added_by = '$postjson[added_by]' ORDER BY act_id ASC");
 
 		while ($row = mysqli_fetch_array($sql)) {
 			$data[] = array(
@@ -354,7 +354,9 @@
 				name = '$postjson[name]',
 				actdate = '$postjson[actdate]',
 				description = '$postjson[description]',
-				status = 'active'");
+				status = 'Active',
+				added_by = '$postjson[fullname]'
+				");
 
 			$act_id = mysqli_insert_id($mysqli);
 
