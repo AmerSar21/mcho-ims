@@ -425,141 +425,135 @@ if(isset($_POST['acceptbutton']))
     </div>
 </div>
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                    <form role="form" method="post">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel">Full Information</h4>
-                                        </div>
-                                        <div class="modal-body" id="uploaddetail">                                            
-                                        
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form role="form" method="post">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Full Information</h4>
+            </div>
+            <div class="modal-body" id="uploaddetail">
+                <div class="form-group">
+                    <label>Family Serial Number</label>
+                    <input class="form-control" placeholder="Serial Number" id="m_serialno" name="f_serialno" readonly>
+                    <label>Patient ID</label>
+                    <input class="form-control"  id="m_patientid" name="f_patientid" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Fullname</label>
+                    <input class="form-control" placeholder="Firstname" id="m_fname" name="f_fname" readonly>
+                </div>
+                <div class="form-group">   
+                    <input class="form-control" placeholder="Middlename" id="m_mname" name="f_mname" readonly>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" placeholder="Lastname" id="m_lname" name="f_lname" readonly>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" placeholder="e.g. Jr., Sr., II, III" id="m_suffix" name="f_suffix" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Residential Address</label>
+                    <input class="form-control" placeholder="Street, Barangay, City, Province" id="m_address" name="f_address" readonly>
+                </div>
 
-                                        <div class="form-group">
-                                                    <label>Family Serial Number</label>
-                                                    
-                                                    <input class="form-control" placeholder="Serial Number" id="m_serialno" name="f_serialno" readonly>
-                                                    <label>Patient ID</label>
-                                                    <input class="form-control"  id="m_patientid" name="f_patientid" readonly>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Fullname</label>
-                                                    <input class="form-control" placeholder="Firstname" id="m_fname" name="f_fname" readonly>
-                                                </div>
-                                                 <div class="form-group">   
-                                                    <input class="form-control" placeholder="Middlename" id="m_mname" name="f_mname" readonly>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input class="form-control" placeholder="Lastname" id="m_lname" name="f_lname" readonly>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <input class="form-control" placeholder="e.g. Jr., Sr., II, III" id="m_suffix" name="f_suffix" readonly>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Residential Address</label>
-                                                    <input class="form-control" placeholder="Street, Barangay, City, Province" id="m_address" name="f_address" readonly>
-                                                </div>
-
-                                                <div>
-                                                    <label> For CHU/RHU Personnel only</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Mode of Transaction</label>
-                                                    <input class="form-control" placeholder="Walk-in/Visited/Referral" id="m_modeoftransact" name="f_modeoftransact">                                                                                                             
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Date of Consultation</label>
-                                                    <input type="date" class="form-control" name="f_dateofconsult" id="m_dateofconsult" placeholder="">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Consultation time</label>
-                                                    <input class="form-control" placeholder="e.g. 12:00 am " id="m_consulttime" name="f_consulttime">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Age</label>
-                                                    <input class="form-control" placeholder="Enter here" id="m_age" name="f_age">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Blood Pressure</label>
-                                                    <input class="form-control" placeholder="e.g. 80/120" id="m_bloodpressure" name="f_bloodpressure">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Height</label>
-                                                    <input class="form-control" placeholder="e.g. 5.4 ft (Do NOT use apostrophe)" id="m_height" name="f_height">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Temperature</label>
-                                                    <input class="form-control" placeholder="e.g. 36 degree C" id="m_temp" name="f_temp">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Weight</label>
-                                                    <input class="form-control" placeholder="e.g. 50 kg" id="m_weight" name="f_weight">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Name of attending Officer</label>
-                                                    <input class="form-control" placeholder="Juan Dela Cruz" id="m_attendingofficer" name="f_attendingofficer">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Nature of Visit</label>
-                                                     <input class="form-control" placeholder="Enter here" name="f_natureofvisit" id="m_natureofvisit">
-                                                </div>
-                                                
-                                                <div>
-                                                    <label> For Referral Transaction Only</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Referred from</label>
-                                                    <input class="form-control" placeholder="Enter here" id="m_referredfrom" name="f_referredfrom">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Referred to</label>
-                                                    <input class="form-control" placeholder="Enter here" id="m_referredto" name="f_referredto">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Reason for referral</label>
-                                                    <textarea class="form-control" rows="3" id="m_reasonofref" name="f_reasonofref"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Referred by</label>
-                                                    <input class="form-control" placeholder="Juan Dela Cruz" id="m_referredby" name="f_referredby">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Chief Complaints</label>
-                                                    <textarea class="form-control" rows="5" id="m_chiefcomplaints" name="f_chiefcomplaints"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Name of Health Care Provider</label>
-                                                    <textarea class="form-control" rows="3" id="m_healthcare" name="f_healthcare"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Performed Laboratory Test</label>
-                                                    <textarea class="form-control" rows="3" id="m_labtest" name="f_labtest"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Diagnosis</label>
-                                                    <textarea class="form-control" rows="5" id="m_diagnosis" name="f_diagnosis"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                            <label>Medication/Treatment</label>
-                                                            <textarea class="form-control" rows="5" id="m_medication" name="f_medication"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                            <label>Laboratory Findings/Impression</label>
-                                                            <textarea class="form-control" rows="5" id="m_labfindings" name="f_labfindings"></textarea>
-                                                </div>
-                                        <div class='modal-footer'>
-                                           <button type='submit' name='acceptbutton' class='btn btn-primary'>Accept</button>
-                                            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
-                                            
-                                        </div>
-                                    </div>
-                                    
-                                    </div>
-                                    </form>
-                                    <!-- /.modal-content -->
-                                </div>
-                                </div>                               
+                <div>
+                    <label> For CHU/RHU Personnel only</label>
+                </div>
+                <div class="form-group">
+                    <label>Mode of Transaction</label>
+                    <input class="form-control" placeholder="Walk-in/Visited/Referral" id="m_modeoftransact" name="f_modeoftransact">                                                                                                             
+                </div>
+                <div class="form-group">
+                    <label>Date of Consultation</label>
+                    <input type="date" class="form-control" name="f_dateofconsult" id="m_dateofconsult" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label>Consultation time</label>
+                    <input class="form-control" placeholder="e.g. 12:00 am " id="m_consulttime" name="f_consulttime">
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input class="form-control" placeholder="Enter here" id="m_age" name="f_age">
+                </div>
+                <div class="form-group">
+                    <label>Blood Pressure</label>
+                    <input class="form-control" placeholder="e.g. 80/120" id="m_bloodpressure" name="f_bloodpressure">
+                </div>
+                <div class="form-group">
+                    <label>Height</label>
+                    <input class="form-control" placeholder="e.g. 5.4 ft (Do NOT use apostrophe)" id="m_height" name="f_height">
+                </div>
+                <div class="form-group">
+                    <label>Temperature</label>
+                    <input class="form-control" placeholder="e.g. 36 degree C" id="m_temp" name="f_temp">
+                </div>
+                <div class="form-group">
+                    <label>Weight</label>
+                    <input class="form-control" placeholder="e.g. 50 kg" id="m_weight" name="f_weight">
+                </div>
+                <div class="form-group">
+                    <label>Name of attending Officer</label>
+                    <input class="form-control" placeholder="Juan Dela Cruz" id="m_attendingofficer" name="f_attendingofficer">
+                </div>
+                <div class="form-group">
+                    <label>Nature of Visit</label>
+                     <input class="form-control" placeholder="Enter here" name="f_natureofvisit" id="m_natureofvisit">
+                </div>
+                <div>
+                    <label> For Referral Transaction Only</label>
+                </div>
+                <div class="form-group">
+                    <label>Referred from</label>
+                    <input class="form-control" placeholder="Enter here" id="m_referredfrom" name="f_referredfrom">
+                </div>
+                <div class="form-group">
+                    <label>Referred to</label>
+                    <input class="form-control" placeholder="Enter here" id="m_referredto" name="f_referredto">
+                </div>
+                <div class="form-group">
+                    <label>Reason for referral</label>
+                    <textarea class="form-control" rows="3" id="m_reasonofref" name="f_reasonofref"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Referred by</label>
+                    <input class="form-control" placeholder="Juan Dela Cruz" id="m_referredby" name="f_referredby">
+                </div>
+                <div class="form-group">
+                    <label>Chief Complaints</label>
+                    <textarea class="form-control" rows="5" id="m_chiefcomplaints" name="f_chiefcomplaints"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Name of Health Care Provider</label>
+                    <textarea class="form-control" rows="3" id="m_healthcare" name="f_healthcare"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Performed Laboratory Test</label>
+                    <textarea class="form-control" rows="3" id="m_labtest" name="f_labtest"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Diagnosis</label>
+                    <textarea class="form-control" rows="5" id="m_diagnosis" name="f_diagnosis"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Medication/Treatment</label>
+                    <textarea class="form-control" rows="5" id="m_medication" name="f_medication"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Laboratory Findings/Impression</label>
+                    <textarea class="form-control" rows="5" id="m_labfindings" name="f_labfindings"></textarea>
+                </div>
+                <div class='modal-footer'>
+                   <button type='submit' name='acceptbutton' class='btn btn-primary'>Accept</button>
+                    <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                </div>
+            </div>                                           
+            
+        </form>
+        <!-- /.modal-content -->
+        </div>
+    </div>
+</div>                               
                                 
 
         </div>
@@ -567,29 +561,49 @@ if(isset($_POST['acceptbutton']))
     </div>
 </div>
 <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                        <form role="form" method="post">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel">Delete user</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure you want to delete this Record?</p>
-                                                <p class="text-danger">This action cannot be undone.</p>
-                                                <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                <button type="submit" name="deletebutton" class="btn btn-danger">Delete</button>
-                                            </div>
-                                        
-                                        </div>
-                                        <!-- /.modal-content -->
-                                    </form>
-                                    </div>
-                                    <!-- /.modal-dialog -->
-                                </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form role="form" method="post">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Delete user</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this Record?</p>
+                <p class="text-danger">This action cannot be undone.</p>
+                <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" name="deletebutton" class="btn btn-danger">Delete</button>
+            </div>
+        
+        </div>
+        <!-- /.modal-content -->
+    </form>
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Full Information</h4>
+            </div>
+            <div class="modal-body" id="PERdetail">                                             
+                
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>    
 
 <!--End Container-->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -669,6 +683,19 @@ $(document).ready(function() {
 
 <script type="text/javascript">
 
+    $(document).ready(function(){
+        $('.view_data').click(function(){
+            var patientid = $(this).attr("id");
+            $.ajax({
+                url:"viewPERquery.php",
+                method:"post",
+                data:{patientid:patientid},
+                success:function(data){
+                    $('#PERdetail').html(data);
+                    $('#viewModal').appendTo('body').modal("show");
+                }
+        })
+    });
 
     $(document).ready(function(){
         $('.edit_data').click(function(){
@@ -721,7 +748,6 @@ $(document).ready(function() {
 
     $('.btndelete').click(function(){
             var tempitr = $(this).attr("id");
-
             $('#m_iddelete').val(tempitr);
             $('#deletemodal').modal('show');
         });

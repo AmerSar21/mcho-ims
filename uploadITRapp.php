@@ -1,5 +1,106 @@
 <?php
 include "db_connect.php";
+
+if (isset($_POST['deletebutton']))
+{
+    $tempitr = $_POST['iddelete'];
+
+    $sqlselect = "DELETE FROM temp_itr where tempitr_id = '$tempitr'";
+
+    if(!mysqli_query($con,$sqlselect))
+    {
+        echo "<script type='text/javascript'>
+                alert('Unsuccessfully Deleted');
+            </script>";
+    }
+        else
+    {
+        echo "<script type='text/javascript'>
+                alert('Successfully Deleted');
+            </script>";
+    }
+
+}
+
+if(isset($_POST['acceptbutton']))
+{
+    $patientid= $_POST['f_patientid'];
+    $serialno = $_POST['f_serialno'];
+    $lname = $_POST['f_lname'];
+    $mname = $_POST['f_mname'];
+    $fname = $_POST['f_fname'];
+    $suffix = $_POST['f_suffix'];
+    $age = $_POST['f_age'];
+    $address = $_POST['f_address'];
+    $modetransact = $_POST['f_modeoftransact'];
+    $dateconsult = $_POST['f_dateofconsult'];
+    $timeconsult = $_POST['f_consulttime'];
+    $bloodpressure = $_POST['f_bloodpressure'];
+    $temperature = $_POST['f_temp'];
+    $height = $_POST['f_height'];
+    $weight = $_POST['f_weight'];
+    $nameofattending = $_POST['f_attendingofficer'];    
+    $referredfrom = $_POST['f_referredfrom'];
+    $referredto = $_POST['f_referredto'];
+    $reasonofref = $_POST['f_reasonofref'];
+    $referredby = $_POST['f_referredby'];
+    $natureofvisit = $_POST['f_natureofvisit'];
+    $chiefcomplaints = $_POST['f_chiefcomplaints'];
+    $diagnosis = $_POST['f_diagnosis'];
+    $medication = $_POST['f_medication'];
+    $labfindings = $_POST['f_labfindings'];
+    $healthcare = $_POST['f_healthcare'];
+    $labtest = $_POST['f_labtest'];
+
+    $sqlselectenroll = "SELECT pe_id from patient_enrollment where patient_id = '$patientid'";
+    $resultselectenroll = mysqli_query($con, $sqlselectenroll) or die (mysqli_error($con)); 
+    $patientenroll = mysqli_fetch_assoc($resultselectenroll);
+    $patientenrollID = $patientenroll['pe_id'];
+
+    $sqlinsertforchurhu = "INSERT INTO for_chu_rhu (mode_transaction, date_consultation, time_consultation, blood_pressure, temperature, height, weight, name_of_attending, age) VALUES ('$modetransact', '$dateconsult' , '$timeconsult' , '$bloodpressure', '$temperature' , '$height', '$weight' ,'$nameofattending', '$age')";
+    $resultinsertforchurhu  = mysqli_query($con, $sqlinsertforchurhu) or die (mysqli_error($con));
+    $forchurhuID = mysqli_insert_id($con);
+
+
+
+    $sqlinsertrefertransact = "INSERT INTO referral_transaction (referred_from, referred_to, reason_of_referral, referred_by) VALUES ('$referredfrom', '$referredto' , '$reasonofref' , '$referredby')";
+    $resultinsertrefertransact  = mysqli_query($con, $sqlinsertrefertransact) or die (mysqli_error($con));
+    $refertransactID = mysqli_insert_id($con);
+
+
+
+    $sqlinserttreatment = "INSERT INTO treatment (nature_of_visit, chief_complaints, diagnosis, medication, lab_findings, name_health_careprovider, performed_lab_test) VALUES ('$natureofvisit', '$chiefcomplaints' , '$diagnosis' , '$medication', '$labfindings' , '$healthcare', '$labtest')";
+    $resultinserttreatment  = mysqli_query($con, $sqlinserttreatment) or die (mysqli_error($con));
+    $treatmentID = mysqli_insert_id($con);
+
+
+
+    $userid = $_GET['userid'];
+    $sql = "SELECT fname, lname from acc_info where ai_id=$userid";
+    $result = mysqli_query($con,$sql);
+    $row = mysqli_fetch_array($result);
+    $addedby =$row['fname']." ".$row['lname'];
+
+    $sqlinsertITR = "INSERT INTO indiv_treat_rec (pe_id, fcr_id, treatment_id, ref_tran_id, added_by, status) VALUES ('$patientenrollID' , '$forchurhuID' , '$treatmentID', '$refertransactID','$addedby','active')";
+    $resultinsertITR  = mysqli_query($con, $sqlinsertITR) or die (mysqli_error($con));
+    if(!$resultinsertITR and !$resultinsertforchurhu and !$resultinsertrefertransact and !$resultinserttreatment)
+    {
+        echo "<script type='text/javascript'>
+                alert('Unsuccessfully Inserted');
+            </script>";
+    }   
+    else
+    {
+        echo "<script type='text/javascript'>
+                alert('Successfully Inserted');
+            </script>";
+    }
+
+    $sqldeletetemp = "DELETE FROM temp_itr where patient_id='$patientid'";
+    $deletetemp =mysqli_query($con,$sqldeletetemp);
+   
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -263,65 +364,95 @@ include "db_connect.php";
     </div>
 </div>
 
-<!--         <div class="row">
-            <div class="col-xs-12">
-                <input type='button' value='Transfer to barangay'  class='btn btn-info btn-warning transfer'/>
-                <div class="box">
-                    <div class="box-header">
-                        <div class="box-name">
-                            <i class="fa fa-medkit"></i>
-                            <span>List of Enrolled Patients</span>
-                        </div>
-                        <div class="box-icons">
-                            <a class="expand-link">
-                                <i class="fa fa-expand"></i>
-                            </a>
-                        </div>
-                        <div class="no-move"></div>
-                    </div>
-                    <div class="box-content no-padding">
-                        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
-                            <thead>
-                                <tr>
-                                    <th>Patient I.D.</th>
-                                                <th>Lastname</th>
-                                                <th>Firstname</th>
-                                                <th>Middlename</th>
-                                                <th>Address</th>
-                                                <th>Added/Approved</th>
-                                                <th>Action</th>
-                                </tr>
-                            </thead>
-                            <?php
-                                            $sql = "SELECT patient_enrollment.family_serial_no , name.lname, name.fname, name.mname, contact_info.home_no , contact_info.street , contact_info.barangay, contact_info.city, patient_enrollment.added_by ,patient_enrollment.patient_id from patient_enrollment inner join name inner join contact_info on name.n_id = patient_enrollment.n_id and patient_enrollment.status='active' and contact_info.ci_id = patient_enrollment.ci_id";
-                                            $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
-                                        ?>
-                            <tbody>
-                                 <?php while ($row = mysqli_fetch_array($result)) { 
-                                                echo( "<tr class='trID_" .$row['family_serial_no']. "'>
-                                                    <td class='serialno'>" . $row['patient_id'] . "</td>
-                                                    <td class='lname'>" . $row[1] . "</td>
-                                                    <td class='fname'>" . $row[2] . "</td>
-                                                    <td class='mname'>" . $row[3] . "</td>
-                                                    <td class='address'>" . $row[4] . " " . $row[5] . " " .$row[6] . " " .$row[7] ."</td>                                            
-                                                    <td class='added'>" . $row[8] . "</td>
-                                                    
-                                                    <td>
-                                                        <input type='button' value='View' id='".$row['patient_id']."' class='btn btn-info btn-primary view_data'/>
-                                                        <input type='button' value='Update' id='".$row['patient_id']."' class='btn btn-info btn-warning update_patient'/>
-                                                    </td>
-                                                    
-                                                  </tr>"); }
-
-                                              ?>
-                            </tbody>
-
-                        </table>
-                    </div>
-
+<!-- <div class="row">
+    <div class="col-xs-12">
+        <input type='button' value='Transfer to barangay'  class='btn btn-info btn-warning transfer'/>
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-medkit"></i>
+                    <span>List of Enrolled Patients</span>
                 </div>
+                <div class="box-icons">
+                    <a class="expand-link">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                </div>
+                <div class="no-move"></div>
             </div>
-        </div> -->
+            <div class="box-content no-padding">
+                <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
+                    <thead>
+                        <tr>
+                            <th>Patient I.D.</th>
+                                        <th>Lastname</th>
+                                        <th>Firstname</th>
+                                        <th>Middlename</th>
+                                        <th>Address</th>
+                                        <th>Added/Approved</th>
+                                        <th>Action</th>
+                        </tr>
+                    </thead>
+                    <?php
+
+                                    $sql2 = "SELECT patient_enrollment.family_serial_no ,name.lname,name.fname,name.mname,contact_info.home_no,contact_info.street,contact_info.barangay,contact_info.city,patient_enrollment.added_by,patient_enrollment.patient_id from ((patient_enrollment 
+                                    inner join name on name.n_id = patient_enrollment.n_id) 
+                                    inner join contact_info on contact_info.ci_id = patient_enrollment.ci_id)";
+                                    
+                                    $sql = "SELECT patient_enrollment.family_serial_no , name.lname, name.fname, name.mname, contact_info.home_no , contact_info.street , contact_info.barangay, contact_info.city, patient_enrollment.added_by ,patient_enrollment.patient_id from patient_enrollment inner join name inner join contact_info on name.n_id = patient_enrollment.n_id and patient_enrollment.status='active' and contact_info.ci_id = patient_enrollment.ci_id";
+                                    $result = mysqli_query($con, $sql2) or die("Query fail: " . mysqli_error());
+                                ?>
+                    <tbody>
+                         <?php while ($row = mysqli_fetch_array($result)) { 
+                                        echo( "<tr class='trID_" .$row['family_serial_no']. "'>
+                                            <td class='serialno'>" . $row['patient_id'] . "</td>
+                                            <td class='lname'>" . $row[1] . "</td>
+                                            <td class='fname'>" . $row[2] . "</td>
+                                            <td class='mname'>" . $row[3] . "</td>
+                                            <td class='address'>" . $row[4] . " " . $row[5] . " " .$row[6] . " " .$row[7] ."</td>                                            
+                                            <td class='added'>" . $row[8] . "</td>
+                                            
+                                            <td>
+                                                <input type='button' value='View' id='".$row['patient_id']."' class='btn btn-info btn-primary view_data'/>
+                                                <input type='button' value='Update' id='".$row['patient_id']."' class='btn btn-info btn-warning update_patient'/>
+                                            </td>
+                                            
+                                          </tr>"); }
+
+                                      ?>
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+ -->
+<div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form role="form" method="post">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Delete user</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this Record?</p>
+                <p class="text-danger">This action cannot be undone.</p>
+                <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" name="deletebutton" class="btn btn-danger">Delete</button>
+            </div>
+        
+        </div>
+        <!-- /.modal-content -->
+    </form>
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 
 <div class="row">
     <div class="col-xs-12">
@@ -353,7 +484,7 @@ include "db_connect.php";
                         </tr>
                     </thead>
                     <?php
-                                    $sql = "SELECT patient_enrollment.family_serial_no,patient_enrollment.patient_id, name.lname, name.fname, name.mname, contact_info.home_no, contact_info.street,contact_info.barangay, contact_info.city, temp_itr.nature_of_visit, temp_itr.submitted_by, temp_itr.tempitr_id, temp_itr.date_submitted  from temp_itr inner join patient_enrollment inner join name inner join contact_info on contact_info.ci_id=patient_enrollment.ci_id and name.n_id=patient_enrollment.n_id and patient_enrollment.patient_id=temp_itr.patient_id";
+                                    $sql = "SELECT patient_enrollment.family_serial_no,patient_enrollment.patient_id, name.lname, name.fname, name.mname, contact_info.home_no, contact_info.street,contact_info.barangay, contact_info.city, temp_itr.nature_of_visit, temp_itr.submitted_by, temp_itr.tempitr_id, temp_itr.date_submitted  from temp_itr inner join patient_enrollment inner join name inner join contact_info on contact_info.ci_id=patient_enrollment.ci_id and name.n_id=patient_enrollment.n_id and patient_enrollment.patient_id=temp_itr.patient_id where temp_itr.added_by = 'userMobile'";
 
                                     $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
                                 ?>
@@ -383,6 +514,52 @@ include "db_connect.php";
         </div>
     </div>
 </div>
+    
+<div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form role="form" method="post">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Delete user</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this Record?</p>
+                <p class="text-danger">This action cannot be undone.</p>
+                <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" name="deletebutton" class="btn btn-danger">Delete</button>
+            </div>
+        
+        </div>
+        <!-- /.modal-content -->
+    </form>
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Full Information</h4>
+            </div>
+            <div class="modal-body" id="PERdetail">                                             
+                
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>                                
+      
 
 
 
@@ -449,7 +626,67 @@ $(document).ready(function() {
 </script>
 
 <script type="text/javascript">
+$(document).ready(function(){
+    $('.view_data').click(function(){
+        var patientid = $(this).attr("id");
+        $.ajax({
+            url:"viewPERquery.php",
+            method:"post",
+            data:{patientid:patientid},
+            success:function(data){
+                $('#PERdetail').html(data);
+                $('#viewModal').appendTo('body').modal("show");
+            }
+    })
+}); 
+$(document).ready(function(){
+    $('.edit_data').click(function(){
+        var serialnumber = $(this).attr("id");
+        $.ajax({
+            url:"viewITRuploadquery.php",
+            method:"post",
+            data:{serialnumber:serialnumber},
+            dataType:"json",
+            success:function(data){
+                $('#m_patientid').val(data.patient_id);
+                $('#m_serialno').val(data.family_serial_no);
+                $('#m_lname').val(data.lname);
+                $('#m_fname').val(data.fname);
+                $('#m_mname').val(data.mname);
+                $('#m_suffix').val(data.suffix);
+                $('#m_age').val(data.age);
+                $('#m_address').val(data.city);
+                $('#m_modeoftransact').val(data.mode_transaction);
+                $('#m_dateofconsult').val(data.date_consultation);
+                $('#m_consulttime').val(data.time_consultation);
+                $('#m_bloodpressure').val(data.blood_pressure);
+                $('#m_temp').val(data.temperature);
+                $('#m_height').val(data.height);
+                $('#m_weight').val(data.weight);
+                $('#m_attendingofficer').val(data.name_of_attending);
+                $('#m_referredfrom').val(data.referred_from);
+                $('#m_referredto').val(data.referred_to);
+                $('#m_reasonofref').val(data.reason_of_referral);
+                $('#m_referredby').val(data.referred_by);
+                $('#m_natureofvisit').val(data.nature_of_visit);
+                $('#m_chiefcomplaints').val(data.chief_complaints);
+                $('#m_diagnosis').val(data.diagnosis);
+                $('#m_medication').val(data.medication);
+                $('#m_labfindings').val(data.lab_findings);
+                $('#m_healthcare').val(data.name_health_careprovider);
+                $('#m_labtest').val(data.performed_lab_test);
+                $('#m_chronic').val(data.chronic_disease);
+                $('#editModal').appendTo('body').modal("show");
+            }
+        })            
+    });
 
+    $('.btndelete').click(function(){
+        var serialnumber = $(this).attr("id");
+
+        $('#m_iddelete').val(serialnumber);
+        $('#deletemodal').modal('show');
+    });
 </script>
 </body>
 </html>

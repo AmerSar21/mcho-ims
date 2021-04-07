@@ -349,7 +349,7 @@ if(isset($_POST['subbutton']))
                     <tbody>
                          <?php while ($row = mysqli_fetch_array($result)) { 
                                         echo( "<tr class='trID_" .$row['family_serial_no']. "'>
-                                            <td class='serialno'>" . $row['patient_id'] . "</td>
+                                            <td class='patientid'>" . $row['patient_id'] . "</td>
                                             <td class='lname'>" . $row[1] . "</td>
                                             <td class='fname'>" . $row[2] . "</td>
                                             <td class='mname'>" . $row[3] . "</td>
@@ -372,7 +372,7 @@ if(isset($_POST['subbutton']))
         </div>
     </div>
 </div>
-                            <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -522,8 +522,6 @@ $(document).ready(function() {
 
                 }
             })
-
-
             
         });
 
