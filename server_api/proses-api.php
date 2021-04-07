@@ -14,36 +14,31 @@
 	//login query 
 	if($postjson['action'] == 'login'){
 		// $password = md5($postjson['password']);
-		if($mysqli->connect_error){
-			$result = json_encode(array('failed' => true, 'msg' => 'Server Unavailable. Try again..'));	
-			die("Connection Failed " . $mysqli->connect_error);
-		}else{
-			$sql = mysqli_query($mysqli, "SELECT us.userid as userid, us.uname as uname, us.upass as upass, us.usertype as usertype, us.status as status, CONCAT(per.fname, ' ', per.lname) as fullname, per.bdate as bdate, per.gender as gender, per.email as email FROM useraccount us inner join person per on per.personid = us.personid where uname = '$postjson[username]' and upass ='$postjson[password]'");
-			$check = mysqli_num_rows($sql);
+		$sql = mysqli_query($mysqli, "SELECT us.userid as userid, us.uname as uname, us.upass as upass, us.usertype as usertype, us.status as status, CONCAT(per.fname, ' ', per.lname) as fullname, per.bdate as bdate, per.gender as gender, per.email as email FROM useraccount us inner join person per on per.personid = us.personid where uname = '$postjson[username]' and upass ='$postjson[password]'");
+		$check = mysqli_num_rows($sql);
 
-			if($check>0){
-				$data = mysqli_fetch_array($sql);
-				$datauser = array(
-					'userid' => $data['userid'],
-					'uname' => $data['uname'],
-					'upass' => $data['upass'],
-					'usertype' => $data['usertype'],
-					'fullname' => $data['fullname'],
-					'bdate' => $data['bdate'],				
-					'gender' => $data['gender'],
-					'email' => $data['email']								
-				);
+		if($check>0){
+			$data = mysqli_fetch_array($sql);
+			$datauser = array(
+				'userid' => $data['userid'],
+				'uname' => $data['uname'],
+				'upass' => $data['upass'],
+				'usertype' => $data['usertype'],
+				'fullname' => $data['fullname'],
+				'bdate' => $data['bdate'],				
+				'gender' => $data['gender'],
+				'email' => $data['email']								
+			);
 
-				if($data['status'] == 'Active'){
-					$result = json_encode(array('success' => true, 'result' => $datauser));				
-				}else if($data['status'] == 'Inactive'){
-					$result = json_encode(array('success' => false, 'msg' => 'Account Inactive'));	
-				}
-
-			}else{
-				$result = json_encode(array('success' => false, 'msg' => 'Account doesnt Exist'));					
+			if($data['status'] == 'Active'){
+				$result = json_encode(array('success' => true, 'result' => $datauser));				
+			}else if($data['status'] == 'Inactive'){
+				$result = json_encode(array('success' => false, 'msg' => 'Account Inactive'));	
 			}
-		}		
+
+		}else{
+			$result = json_encode(array('success' => false, 'msg' => 'Account doesnt Exist'));					
+		}
 		echo $result;
 
 	}else if($postjson['action'] == 'getFullName'){
@@ -152,8 +147,6 @@
 		$row = mysqli_fetch_array($sqlcheckPer);
 		$personid = $row['personid'];
 
-		$sqlCntPer = mysqli_query($mysqli, "SELECT ")
-
 		$sqldelUser = mysqli_query($mysqli, "DELETE from useraccount where userid = '$postjson[accid]'");
 
 		$sqldelAcc = mysqli_query($mysqli, "DELETE from person where personid = '$personid'");
@@ -209,7 +202,7 @@
 		echo $result;
 	}else if($postjson['action'] == 'regAcc') {
 		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '')){
-			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));			
+			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));	
 		}else{
 			$sqlper = mysqli_query($mysqli, "INSERT INTO person SET 
 				fname = '$postjson[fname]',
@@ -298,7 +291,7 @@
 
 		$data = array();
 
-		$sql = mysqli_query($mysqli, "SELECT * FROM activity WHERE added_by = '$postjson[added_by]' ORDER BY act_id ASC");
+		$sql = mysqli_query($mysqli, "SELECT * FROM activity WHERE status = 'Active' AND added_by = '$postjson[added_by]' ORDER BY act_id ASC");
 
 		while ($row = mysqli_fetch_array($sql)) {
 			$data[] = array(
@@ -354,9 +347,7 @@
 				name = '$postjson[name]',
 				actdate = '$postjson[actdate]',
 				description = '$postjson[description]',
-				status = 'Active',
-				added_by = '$postjson[fullname]'
-				");
+				status = 'active'");
 
 			$act_id = mysqli_insert_id($mysqli);
 
