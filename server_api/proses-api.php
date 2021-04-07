@@ -152,6 +152,8 @@
 		$row = mysqli_fetch_array($sqlcheckPer);
 		$personid = $row['personid'];
 
+		$sqlCntPer = mysqli_query($mysqli, "SELECT ")
+
 		$sqldelUser = mysqli_query($mysqli, "DELETE from useraccount where userid = '$postjson[accid]'");
 
 		$sqldelAcc = mysqli_query($mysqli, "DELETE from person where personid = '$personid'");
@@ -206,10 +208,8 @@
 		}
 		echo $result;
 	}else if($postjson['action'] == 'regAcc') {
-		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['cpass'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '')){
+		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '')){
 			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));			
-		}elseif($postjson['upass'] != $postjson['cpass']){
-			$result = json_encode(array('success' => false, 'msg' => 'Password not Match!'));
 		}else{
 			$sqlper = mysqli_query($mysqli, "INSERT INTO person SET 
 				fname = '$postjson[fname]',
