@@ -463,11 +463,11 @@
 
 			$ee_id = mysqli_insert_id($mysqli);
 
-			if($postjson['phmem'] == 'Yes'){
+			if($postjson['phmem'] == 'No'){
 				$sqlphinfo = mysqli_query($mysqli, "INSERT INTO phil_info SET
 				ph_member = '$postjson[phmem]',
-				ph_no = '$postjson[phnum]',
-				member_category = '$postjson[ctgry]',
+				ph_no = '0',
+				member_category = 'none',
 				facility_no = '$postjson[fhno]',
 				dswdnhts = '$postjson[nhts]'");
 
@@ -475,8 +475,8 @@
 			}else{			
 				$sqlphinfo = mysqli_query($mysqli, "INSERT INTO phil_info SET
 				ph_member = '$postjson[phmem]',
-				ph_no = '0',
-				member_category = 'none',
+				ph_no = '$postjson[phnum]',
+				member_category = '$postjson[ctgry]',
 				facility_no = '$postjson[fhno]',
 				dswdnhts = '$postjson[nhts]'");
 
