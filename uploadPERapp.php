@@ -588,16 +588,6 @@ if(isset($_POST['acceptbutton']))
 <script src="plugins/tinymce/jquery.tinymce.min.js"></script>
 <!-- All functions for this theme + document.ready processing -->
 <script src="js/devoops.js"></script>
-<script src="../vendor/jquery/jquery.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="../dist/js/sb-admin-2.js"></script>
 </body>
 
 <script type="text/javascript">
@@ -656,64 +646,53 @@ $(document).ready(function() {
 <script type="text/javascript">
 
 
-    $(document).ready(function(){
-        $('.edit_data').click(function(){
-            var perid = $(this).attr("id");
-
-            $.ajax({
-                url:"viewPERuploadquery.php",
-                method:"post",
-                data:{perid:perid},
-                dataType:"json",
-                success:function(data){
-                    $('#f_patientid').val(data.patient_id);
-                    $('#f_perid').val(perid);
-                    $('#f_serialno').val(data.family_serial_no);
-                    $('#f_lname').val(data.lname);
-                    $('#f_fname').val(data.fname);
-                    $('#f_mname').val(data.mname);
-                    $('#f_suffix').val(data.suffix);
-                    $('#f_gender').val(data.sex);
-                    $('#f_bdate').val(data.b_date);
-                    $('#f_bplace').val(data.b_place);
-                    $('#f_bloodtype').val(data.bloodtype);
-                    $('#f_civstat').val(data.civil_stat);
-                    $('#f_spouse').val(data.spouse_name);
-                    $('#f_mother').val(data.mothers_name);
-                    $('#f_famposition').val(data.fam_position);
-                    $('#f_educattain').val(data.educ_attainment);
-                    $('#f_employstat').val(data.employ_status);
-                    $('#f_homeno').val(data.home_no);
-                    $('#f_street').val(data.street);
-                    $('#f_city').val(data.city);
-                    $('#f_province').val(data.province);
-                    $('#f_contactno').val(data.contact_no);
-                    $('#f_brgy').val(data.barangay);
-                    $('#f_phmember').val(data.ph_member);
-                    $('#f_phnumber').val(data.ph_no);
-                    $('#f_phcategory').val(data.member_category);
-                    $('#f_facilityno').val(data.facility_no);
-                    $('#f_dswd').val(data.dswdnhts);
-                    $('#editModal').appendTo('body').modal("show");
-
-                }
-            })
-
-
-            
-        });
-
-
-    $('.btndelete').click(function(){
-            var perid = $(this).attr("id");
-
-            $('#m_iddelete').val(perid);
-            $('#deletemodal').modal('show');
-        });
-
-        
-
+$(document).ready(function(){
+    $('.edit_data').click(function(){
+        var perid = $(this).attr("id");
+        $.ajax({
+            url:"viewPERuploadquery.php",
+            method:"post",
+            data:{perid:perid},
+            dataType:"json",
+            success:function(data){
+                $('#f_patientid').val(data.patient_id);
+                $('#f_perid').val(perid);
+                $('#f_serialno').val(data.family_serial_no);
+                $('#f_lname').val(data.lname);
+                $('#f_fname').val(data.fname);
+                $('#f_mname').val(data.mname);
+                $('#f_suffix').val(data.suffix);
+                $('#f_gender').val(data.sex);
+                $('#f_bdate').val(data.b_date);
+                $('#f_bplace').val(data.b_place);
+                $('#f_bloodtype').val(data.bloodtype);
+                $('#f_civstat').val(data.civil_stat);
+                $('#f_spouse').val(data.spouse_name);
+                $('#f_mother').val(data.mothers_name);
+                $('#f_famposition').val(data.fam_position);
+                $('#f_educattain').val(data.educ_attainment);
+                $('#f_employstat').val(data.employ_status);
+                $('#f_homeno').val(data.home_no);
+                $('#f_street').val(data.street);
+                $('#f_city').val(data.city);
+                $('#f_province').val(data.province);
+                $('#f_contactno').val(data.contact_no);
+                $('#f_brgy').val(data.barangay);
+                $('#f_phmember').val(data.ph_member);
+                $('#f_phnumber').val(data.ph_no);
+                $('#f_phcategory').val(data.member_category);
+                $('#f_facilityno').val(data.facility_no);
+                $('#f_dswd').val(data.dswdnhts);
+                $('#editModal').appendTo('body').modal("show");
+            }
+        })    
     });
+    $('.btndelete').click(function(){
+        var perid = $(this).attr("id");
+        $('#m_iddelete').val(perid);
+        $('#deletemodal').modal('show');
+    });
+});
     
 </script>
 </body>
