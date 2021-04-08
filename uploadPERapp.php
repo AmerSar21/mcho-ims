@@ -79,6 +79,7 @@ if(isset($_POST['acceptbutton']))
     $sqlinsertphilinfo = "INSERT INTO phil_info (ph_member, ph_no, member_category, facility_no, dswdnhts) VALUES ('$phmember' , '$phnumber' , '$phmember', '$facilityno', '$dswd')";
     $resultinsertphilinfo = mysqli_query($con,$sqlinsertphilinfo);
     $philinfoID = mysqli_insert_id($con);
+    
     $userid = $_SESSION['userid'];
     $sql = "SELECT fname, lname from acc_info where ai_id=$userid";
     $result = mysqli_query($con,$sql);
@@ -86,7 +87,18 @@ if(isset($_POST['acceptbutton']))
     $addedby =$row['fname']." ".$row['lname'];
 
     $sqlinsertPER = "INSERT INTO patient_enrollment (family_serial_no, n_id, oi_id, ri_id, ci_id, ee_id, pi_id,added_by, status, patient_id) VALUES ('$famserial', '$nameID', '$otherinfoID', '$relatedinfoID', '$contactinfoID', '$educemployID' ,'$philinfoID','$addedby', 'active','$patientid')";
-    if((!mysqli_query($con, $sqlinsertPER)) and (!mysqli_query($con, $resultinsertphilinfo)) and (!mysqli_query($con, $resultinserteducemploy)) and (!mysqli_query($con, $resultinsertcontactinfo)) and (!mysqli_query($con, $resultinsertrelatedinfo)) and (!mysqli_query($con, $resultinsertotherinfo)) and (!mysqli_query($con, $resultinsertname)))
+    $resultinsertper = mysqli_query($con, $sqlinsertPER);
+
+    echo($resultinsertname);
+    echo($resultinsertotherinfo);
+    echo($resultinsertrelatedinfo);
+    echo($resultinsertcontactinfo);
+    echo($resultinserteducemploy);    
+    echo($resultinsertphilinfo);    
+    echo($result);       
+    die();       
+
+    if(!$resultinsertname && !$resultinsertotherinfo && !$resultinsertrelatedinfo && !$resultinsertcontactinfo && !$resultinserteducemploy && !$resultinsertphilinfo)
     {
         echo "<script type='text/javascript'>
                 alert('Unsuccessfully Inserted');
@@ -99,12 +111,10 @@ if(isset($_POST['acceptbutton']))
             </script>";
     }
 
-
     $sqldeletetemp = "DELETE FROM temp_per where temPER_id='$perid'";
     $resultdeletee = mysqli_query($con,$sqldeletetemp);
 
 }
-
 
 ?>
 
