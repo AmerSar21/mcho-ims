@@ -14,5 +14,4 @@ if($con->connect_error) {
 } else {
 	//echo "Successfully Connected";
 }
-
 ?>		
