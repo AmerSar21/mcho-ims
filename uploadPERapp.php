@@ -3,12 +3,6 @@ include("db_connect.php");
 include("updatePERquery.php");
 session_start();
 
-$userid = $_SESSION['userid'];
-$sql = "SELECT fname, lname from acc_info where ai_id=$userid";
-$result = mysqli_query($con,$sql);
-$row = mysqli_fetch_array($result);
-$addedby =$row['fname']." ".$row['lname'];
-
 if (isset($_POST['deletebutton']))
 {
     $perid = $_POST['iddelete'];
@@ -61,53 +55,59 @@ if(isset($_POST['acceptbutton']))
     $phnumber = $_POST['f_phnumber'];
     $phcategory = $_POST['f_phcategory'];
 
-    echo($perid, ' ', $patientid, ' ', $famserial, ' ', $lname, ' ', $fname, ' ', $mname, ' ', $gender, ' ', $bdate, ' ', $bplace, ' ', $bloodtype, ' ', $civstat, ' ', $spouse, ' ', $educattain, ' ', $employstat, ' ', $famposition, ' ', $patientid, ' ', $suffix, ' ', $mother, ' ', $homeno, ' ', $street, ' ', $brgy, ' ', $city, ' ', $province, ' ', $contactno, ' ', $dswd, ' ', $facilityno, ' ', $phmember, ' ', $phnumber, ' ', $phcategory);
-    die();
 
-    // $sqlinsertname = "INSERT INTO name (lname, fname, mname, suffix) VALUES ('$lname' , '$fname' , '$mname', '$suffix')";
-    // $resultinsertname = mysqli_query($con,$sqlinsertname);
-    // $nameID = mysqli_insert_id($con);
+    $sqlinsertname = "INSERT INTO name (lname, fname, mname, suffix) VALUES ('$lname' , '$fname' , '$mname', '$suffix')";
+    $resultinsertname = mysqli_query($con,$sqlinsertname);
+    $nameID = mysqli_insert_id($con);
 
-    // $sqlinsertotherinfo = "INSERT INTO other_info (sex, b_date, b_place, bloodtype, civil_stat) VALUES ('$gender' , '$bdate' , '$bplace' , '$bloodtype' , '$civstat');";
-    // $resultinsertotherinfo = mysqli_query($con,$sqlinsertotherinfo);
-    // $otherinfoID = mysqli_insert_id($con);
+    $sqlinsertotherinfo = "INSERT INTO other_info (sex, b_date, b_place, bloodtype, civil_stat) VALUES ('$gender' , '$bdate' , '$bplace' , '$bloodtype' , '$civstat');";
+    $resultinsertotherinfo = mysqli_query($con,$sqlinsertotherinfo);
+    $otherinfoID = mysqli_insert_id($con);
 
-    // $sqlinsertrelatedinfo = "INSERT INTO related_info (spouse_name, mothers_name, fam_position) VALUES ('$spouse' , '$mother' , '$famposition')";
-    // $resultinsertrelatedinfo = mysqli_query($con,$sqlinsertrelatedinfo);
-    // $relatedinfoID = mysqli_insert_id($con);
+    $sqlinsertrelatedinfo = "INSERT INTO related_info (spouse_name, mothers_name, fam_position) VALUES ('$spouse' , '$mother' , '$famposition')";
+    $resultinsertrelatedinfo = mysqli_query($con,$sqlinsertrelatedinfo);
+    $relatedinfoID = mysqli_insert_id($con);
 
-    // $sqlinsertcontactinfo = "INSERT INTO contact_info (home_no, street, city, province, contact_no, barangay) VALUES ('$homeno' , '$street' , '$city' , '$province' , '$contactno' , '$brgy')";
-    // $resultinsertcontactinfo = mysqli_query($con,$sqlinsertcontactinfo);
-    // $contactinfoID = mysqli_insert_id($con);
+    $sqlinsertcontactinfo = "INSERT INTO contact_info (home_no, barangay, street, city, province, contact_no) VALUES ('$homeno' , '$brgy', '$street' , '$city' , '$province' , '$contactno')";
+    $resultinsertcontactinfo = mysqli_query($con,$sqlinsertcontactinfo);
+    $contactinfoID = mysqli_insert_id($con);
 
-    // $sqlinserteducemploy = "INSERT INTO educ_employ (educ_attainment, employ_status) VALUES ('$educattain' , '$employstat')";
-    // $resultinserteducemploy = mysqli_query($con,$sqlinserteducemploy);
-    // $educemployID = mysqli_insert_id($con);
+    $sqlinserteducemploy = "INSERT INTO educ_employ (educ_attainment, employ_status) VALUES ('$educattain' , '$employstat')";
+    $resultinserteducemploy = mysqli_query($con,$sqlinserteducemploy);
+    $educemployID = mysqli_insert_id($con);
 
-    // $sqlinsertphilinfo = "INSERT INTO phil_info (ph_member, ph_no, member_category, facility_no, dswdnhts) VALUES ('$phmember' , '$phnumber' , '$phmember', '$facilityno', '$dswd')";
-    // $resultinsertphilinfo = mysqli_query($con,$sqlinsertphilinfo);
-    // $philinfoID = mysqli_insert_id($con);
+    $sqlinsertphilinfo = "INSERT INTO phil_info (ph_member, ph_no, member_category, facility_no, dswdnhts) VALUES ('$phmember' , '$phnumber' , '$phmember', '$facilityno', '$dswd')";
+    $resultinsertphilinfo = mysqli_query($con,$sqlinsertphilinfo);
+    $philinfoID = mysqli_insert_id($con);
+    
+    $userid = $_SESSION['userid'];
+    $sql = "SELECT fname, lname from acc_info where ai_id=$userid";
+    $result = mysqli_query($con,$sql);
+    $row = mysqli_fetch_array($result);
+    $addedby =$row['fname']." ".$row['lname'];
 
-    // $sqlinsertPER = "INSERT INTO patient_enrollment (family_serial_no, n_id, oi_id, ri_id, ci_id, ee_id, pi_id,added_by, status, patient_id) VALUES ('$famserial', '$nameID', '$otherinfoID', '$relatedinfoID', '$contactinfoID', '$educemployID' ,'$philinfoID','$addedby', 'active','$patientid')";
-    // $resultinsertper = mysqli_query($con, $sqlinsertPER);
+    $sqlinsertPER = "INSERT INTO patient_enrollment (family_serial_no, n_id, oi_id, ri_id, ci_id, ee_id, pi_id,added_by, status, patient_id) VALUES ('$famserial', '$nameID', '$otherinfoID', '$relatedinfoID', '$contactinfoID', '$educemployID' ,'$philinfoID','$addedby', 'active','$patientid')";
+    $resultinsertper = mysqli_query($con, $sqlinsertPER);
 
-    // if(!$resultinsertname && !$resultinsertotherinfo && !$resultinsertrelatedinfo && !$resultinsertcontactinfo && !$resultinserteducemploy && !$resultinsertphilinfo)
-    // {
-    //     echo "<script type='text/javascript'>
-    //             alert('Unsuccessfully Inserted');
-    //         </script>";
-    // }
-    // else
-    // {
-    //     echo " <script type='text/javascript'>
-    //             alert('Succesfully Inserted');
-    //         </script>";
-    // }
+    if(!$resultinsertname && !$resultinsertotherinfo && !$resultinsertrelatedinfo && !$resultinsertcontactinfo && !$resultinserteducemploy && !$resultinsertphilinfo)
+    {
+        echo "<script type='text/javascript'>
+                alert('Unsuccessfully Inserted');
+            </script>";
+    }
+    else
+    {
+        echo " <script type='text/javascript'>
+                alert('Succesfully Inserted');
+            </script>";
+    }
 
-    // $sqldeletetemp = "DELETE FROM temp_per where temPER_id='$perid'";
-    // $resultdeletee = mysqli_query($con,$sqldeletetemp);
+    $sqldeletetemp = "DELETE FROM temp_per where temPER_id='$perid'";
+    $resultdeletee = mysqli_query($con,$sqldeletetemp);
 
 }
+
+
 
 ?>
 
