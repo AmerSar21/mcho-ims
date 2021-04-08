@@ -31,7 +31,8 @@ if (isset($_POST['deletebutton']))
 }
 
 if(isset($_POST['acceptbutton']))
-{
+{   
+    $perid = $_POST['f_perid'];
     $patientid = $_POST['f_patientid'];
     $famserial = $_POST['f_serialno'];
     $lname = $_POST['f_lname'];
