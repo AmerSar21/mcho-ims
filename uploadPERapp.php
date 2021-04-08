@@ -89,15 +89,6 @@ if(isset($_POST['acceptbutton']))
     $sqlinsertPER = "INSERT INTO patient_enrollment (family_serial_no, n_id, oi_id, ri_id, ci_id, ee_id, pi_id,added_by, status, patient_id) VALUES ('$famserial', '$nameID', '$otherinfoID', '$relatedinfoID', '$contactinfoID', '$educemployID' ,'$philinfoID','$addedby', 'active','$patientid')";
     $resultinsertper = mysqli_query($con, $sqlinsertPER);
 
-    echo($resultinsertname);
-    echo($resultinsertotherinfo);
-    echo($resultinsertrelatedinfo);
-    echo($resultinsertcontactinfo);
-    echo($resultinserteducemploy);    
-    echo($resultinsertphilinfo);    
-    echo($result);       
-    die();       
-
     if(!$resultinsertname && !$resultinsertotherinfo && !$resultinsertrelatedinfo && !$resultinsertcontactinfo && !$resultinserteducemploy && !$resultinsertphilinfo)
     {
         echo "<script type='text/javascript'>
