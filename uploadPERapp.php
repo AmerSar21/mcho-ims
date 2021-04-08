@@ -60,13 +60,14 @@ if(isset($_POST['acceptbutton']))
     $phnumber = $_POST['f_phnumber'];
     $phcategory = $_POST['f_phcategory'];
 
-    // echo($homeno);
-    // echo($brgy);
-    // echo($street);
-    // echo($city);
-    // echo($province);
-    // echo($contactno);
+    echo($homeno);
+    echo($brgy);
+    echo($street);
+    echo($city);
+    echo($province);
+    echo($contactno);
 
+    die();
 
     $sqlinsertname = "INSERT INTO name (lname, fname, mname, suffix) VALUES ('$lname' , '$fname' , '$mname', '$suffix')";
     $resultinsertname = mysqli_query($con,$sqlinsertname);
@@ -79,6 +80,10 @@ if(isset($_POST['acceptbutton']))
     $sqlinsertrelatedinfo = "INSERT INTO related_info (spouse_name, mothers_name, fam_position) VALUES ('$spouse' , '$mother' , '$famposition')";
     $resultinsertrelatedinfo = mysqli_query($con,$sqlinsertrelatedinfo);
     $relatedinfoID = mysqli_insert_id($con);
+
+    $sqlinsertcontactinfo = "INSERT INTO contact_info (home_no, barangay, street, city, province, contact_no) VALUES ('$homeno' , '$brgy', '$street' , '$city' , '$province' , '$contactno')";
+    $resultinsertcontactinfo = mysqli_query($con,$sqlinsertcontactinfo);
+    $contactinfoID = mysqli_insert_id($con);
 
     $sqlinserteducemploy = "INSERT INTO educ_employ (educ_attainment, employ_status) VALUES ('$educattain' , '$employstat')";
     $resultinserteducemploy = mysqli_query($con,$sqlinserteducemploy);
