@@ -60,14 +60,12 @@ if(isset($_POST['acceptbutton']))
     $phnumber = $_POST['f_phnumber'];
     $phcategory = $_POST['f_phcategory'];
 
-    echo($homeno);
-    echo($brgy);
-    echo($street);
-    echo($city);
-    echo($province);
-    echo($contactno);
-
-    die();
+    // echo($homeno);
+    // echo($brgy);
+    // echo($street);
+    // echo($city);
+    // echo($province);
+    // echo($contactno);
 
     $sqlinsertname = "INSERT INTO name (lname, fname, mname, suffix) VALUES ('$lname' , '$fname' , '$mname', '$suffix')";
     $resultinsertname = mysqli_query($con,$sqlinsertname);
