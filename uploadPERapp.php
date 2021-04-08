@@ -32,7 +32,6 @@ if (isset($_POST['deletebutton']))
 
 if(isset($_POST['acceptbutton']))
 {
-    $perid = $_POST['f_perid'];
     $patientid = $_POST['f_patientid'];
     $famserial = $_POST['f_serialno'];
     $lname = $_POST['f_lname'];
@@ -86,7 +85,7 @@ if(isset($_POST['acceptbutton']))
     $resultinsertphilinfo = mysqli_query($con,$sqlinsertphilinfo);
     $philinfoID = mysqli_insert_id($con);
 
-    $sqlinsertPER = "INSERT INTO patient_enrollment (family_serial_no, n_id, oi_id, ri_id, ci_id, ee_id, pi_id,added_by, status, patient_id) VALUES ('$famserial', '$nameID', '$otherinfoID', '$relatedinfoID', '$contactinfoID', '$educemployID' ,'$philinfoID','$addedby', 'active','$patientid')";
+    $sqlinsertPER = "INSERT INTO patient_enrollment (family_serial_no,n_id,oi_id,ri_id,ci_id,ee_id,pi_id,added_by,status,archived_by,patient_id) VALUES ('$famserial', '$nameID', '$otherinfoID', '$relatedinfoID', '$contactinfoID', '$educemployID' ,'$philinfoID','$addedby', 'active', ,'none','$patientid')";
     $resultinsertper = mysqli_query($con, $sqlinsertPER);
 
     if(!$resultinsertname && !$resultinsertotherinfo && !$resultinsertrelatedinfo && !$resultinsertcontactinfo && !$resultinserteducemploy && !$resultinsertphilinfo)
