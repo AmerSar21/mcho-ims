@@ -3,6 +3,12 @@ include("db_connect.php");
 include("updatePERquery.php");
 session_start();
 
+$userid = $_SESSION['userid'];
+$sql = "SELECT fname, lname from acc_info where ai_id=$userid";
+$result = mysqli_query($con,$sql);
+$row = mysqli_fetch_array($result);
+$addedby =$row['fname']." ".$row['lname'];
+
 if (isset($_POST['deletebutton']))
 {
     $perid = $_POST['iddelete'];
@@ -79,12 +85,6 @@ if(isset($_POST['acceptbutton']))
     $sqlinsertphilinfo = "INSERT INTO phil_info (ph_member, ph_no, member_category, facility_no, dswdnhts) VALUES ('$phmember' , '$phnumber' , '$phmember', '$facilityno', '$dswd')";
     $resultinsertphilinfo = mysqli_query($con,$sqlinsertphilinfo);
     $philinfoID = mysqli_insert_id($con);
-    
-    $userid = $_SESSION['userid'];
-    $sql = "SELECT fname, lname from acc_info where ai_id=$userid";
-    $result = mysqli_query($con,$sql);
-    $row = mysqli_fetch_array($result);
-    $addedby =$row['fname']." ".$row['lname'];
 
     $sqlinsertPER = "INSERT INTO patient_enrollment (family_serial_no, n_id, oi_id, ri_id, ci_id, ee_id, pi_id,added_by, status, patient_id) VALUES ('$famserial', '$nameID', '$otherinfoID', '$relatedinfoID', '$contactinfoID', '$educemployID' ,'$philinfoID','$addedby', 'active','$patientid')";
     $resultinsertper = mysqli_query($con, $sqlinsertPER);
