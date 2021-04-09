@@ -25,7 +25,8 @@ if (isset($_POST['deletebutton']))
     }
 
 }else if(isset($_POST['acceptbutton']))
-{
+{   
+    $tempitr_id = $_POST['f_tempitr'];
     $patientid = $_POST['f_patientid'];
     $serialno = $_POST['f_serialno'];
     $lname = $_POST['f_lname'];
@@ -85,7 +86,7 @@ if (isset($_POST['deletebutton']))
         </script>";
     }
 
-    $sqldeletetemp = "DELETE FROM temp_itr where patient_id='$patientid'";
+    $sqldeletetemp = "DELETE FROM temp_itr where tempitr_id='$tempitr_id'";
     $res = mysqli_query($con,$sqldeletetemp);
 
     if(!$res){
@@ -428,6 +429,7 @@ if (isset($_POST['deletebutton']))
                             <div class="modal-body" id="uploaddetail">
                                 <div class="form-group">
                                     <label>Family Serial Number</label>
+                                    <input class="form-control" type="hidden" id="m_tempitr" name="f_tempitr" readonly>
                                     <input class="form-control" type="hidden" id="m_patientid" name="f_patientid" readonly>
                                     <input class="form-control" placeholder="Serial Number" id="m_serialno" name="f_serialno" readonly>
                                 </div>
@@ -653,6 +655,7 @@ $(document).ready(function(){
             dataType:"json",
             success:function(data){
                 $('#m_patientid').val(data.patient_id);
+                $('#m_tempitr').val(tempitr);
                 $('#m_serialno').val(data.family_serial_no);
                 $('#m_lname').val(data.lname);
                 $('#m_fname').val(data.fname);
