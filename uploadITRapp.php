@@ -1,6 +1,7 @@
 <?php
 include("db_connect.php");
 include("updatePERquery.php");
+session_start();
 
 if (isset($_POST['deletebutton']))
 {
