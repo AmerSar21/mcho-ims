@@ -352,150 +352,139 @@ if(isset($_POST['acceptbutton']))
             </div>
             <!--Start Content-->
             <div id="content" class="col-xs-12 col-sm-10">
-
-    <div class="row">
-        <div id="breadcrumb" class="col-md-12">
-            <ol class="breadcrumb">
-                <li><a href="homeOIC.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Home</a></li>
-                <li><a href="#">Patient Enrollment Record</a></li>
-                <li><a href="#">View</a></li>
-            </ol>
-        </div>
-    </div>
-
-    <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <form role="form" method="post">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Delete user</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this Record?</p>
-                    <p class="text-danger">This action cannot be undone.</p>
-                    <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" name="deletebutton" class="btn btn-danger">Delete</button>
-                </div>
-            
-            </div>
-            <!-- /.modal-content -->
-        </form>
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box">
-                <div class="box-header">
-                    <div class="box-name">
-                        <i class="fa fa-medkit"></i>
-                        <span>List of New uploads</span>
+                <div class="row">
+                    <div id="breadcrumb" class="col-md-12">
+                        <ol class="breadcrumb">
+                            <li><a href="homeOIC.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Home</a></li>
+                            <li><a href="#">Patient Enrollment Record</a></li>
+                            <li><a href="#">View</a></li>
+                        </ol>
                     </div>
-                    <div class="box-icons">
-                        <a class="expand-link">
-                            <i class="fa fa-expand"></i>
-                        </a>
+                </div>
+                <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <form role="form" method="post">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Delete user</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete this Record?</p>
+                                <p class="text-danger">This action cannot be undone.</p>
+                                <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="submit" name="deletebutton" class="btn btn-danger">Delete</button>
+                            </div>
+                        
+                        </form>
+                        <!-- /.modal-content -->
+                        </div>
                     </div>
-                    <div class="no-move"></div>
+                    <!-- /.modal-dialog -->
                 </div>
-                <div class="box-content no-padding">
-                    <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
-                        <thead>
-                            <tr>
-                                <th>Family Serial No.</th>
-                                            <th>Lastname</th>
-                                            <th>Firstname</th>
-                                            <th>Middlename</th>
-                                            <th>Address</th>
-                                            <th>Submitted by</th>
-                                            <th>Date Submitted</th>
-                                            <th>Action</th>
-                            </tr>
-                        </thead>
-                        <?php
-                                        $sql = "SELECT patient_enrollment.family_serial_no,patient_enrollment.patient_id, name.lname, name.fname, name.mname, contact_info.home_no, contact_info.street,contact_info.barangay, contact_info.city, temp_itr.nature_of_visit, temp_itr.submitted_by, temp_itr.tempitr_id, temp_itr.date_submitted  from temp_itr inner join patient_enrollment inner join name inner join contact_info on contact_info.ci_id=patient_enrollment.ci_id and name.n_id=patient_enrollment.n_id and patient_enrollment.patient_id=temp_itr.patient_id where temp_itr.added_by = 'userMobile'";
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-header">
+                                <div class="box-name">
+                                    <i class="fa fa-medkit"></i>
+                                    <span>List of New uploads</span>
+                                </div>
+                                <div class="box-icons">
+                                    <a class="expand-link">
+                                        <i class="fa fa-expand"></i>
+                                    </a>
+                                </div>
+                                <div class="no-move">
+                                </div>
+                            </div>
+                            <div class="box-content no-padding">
+                                <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
+                                    <thead>
+                                        <tr>
+                                            <th>Family Serial No.</th>
+                                                        <th>Lastname</th>
+                                                        <th>Firstname</th>
+                                                        <th>Middlename</th>
+                                                        <th>Address</th>
+                                                        <th>Submitted by</th>
+                                                        <th>Date Submitted</th>
+                                                        <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <?php
+                                                    $sql = "SELECT patient_enrollment.family_serial_no,patient_enrollment.patient_id, name.lname, name.fname, name.mname, contact_info.home_no, contact_info.street,contact_info.barangay, contact_info.city, temp_itr.nature_of_visit, temp_itr.submitted_by, temp_itr.tempitr_id, temp_itr.date_submitted  from temp_itr inner join patient_enrollment inner join name inner join contact_info on contact_info.ci_id=patient_enrollment.ci_id and name.n_id=patient_enrollment.n_id and patient_enrollment.patient_id=temp_itr.patient_id where temp_itr.added_by = 'userMobile'";
 
-                                        $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
-                                    ?>
-                                    <tbody>
-                             <?php while ($row = mysqli_fetch_array($result)) { 
-                                            echo( "<tr>
-                                                <td class='serialno'>" . $row['family_serial_no'] . "</td>
-                                                <td class='lname'>" . $row[2] . "</td>
-                                                <td class='fname'>" . $row[3] . "</td>
-                                                <td class='mname'>" . $row[4] . "</td>
-                                                <td class='address'>" . $row['home_no'] . " " . $row['street'] . " " .$row['barangay'] . " " .$row['city'] ."</td>
-                                                <td class='mname'>" . $row['submitted_by'] . "</td>
-                                                <td class='mname'>" . $row['date_submitted'] . "</td>
-                                                <td> <input type='button' value='View Full Details' id='".$row['tempitr_id']."' class='btn btn-warning edit_data'/>    
-                                                <button type='button' id='".$row['tempitr_id']."' class='btn btn-danger btndelete'>Delete</button> 
-                                                </td>
-                                                
-                                              </tr>"); }
+                                                    $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
+                                                ?>
+                                                <tbody>
+                                         <?php while ($row = mysqli_fetch_array($result)) { 
+                                                        echo( "<tr>
+                                                            <td class='serialno'>" . $row['family_serial_no'] . "</td>
+                                                            <td class='lname'>" . $row[2] . "</td>
+                                                            <td class='fname'>" . $row[3] . "</td>
+                                                            <td class='mname'>" . $row[4] . "</td>
+                                                            <td class='address'>" . $row['home_no'] . " " . $row['street'] . " " .$row['barangay'] . " " .$row['city'] ."</td>
+                                                            <td class='mname'>" . $row['submitted_by'] . "</td>
+                                                            <td class='mname'>" . $row['date_submitted'] . "</td>
+                                                            <td> <input type='button' value='View Full Details' id='".$row['tempitr_id']."' class='btn btn-warning edit_data'/>    
+                                                            <button type='button' id='".$row['tempitr_id']."' class='btn btn-danger btndelete'>Delete</button> 
+                                                            </td>
+                                                            
+                                                          </tr>"); }
 
-                                          ?>
-                        </tbody>
+                                                      ?>
+                                    </tbody>
 
-                    </table>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-            </div>
-        </div>
-    </div>
-        
-    <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <form role="form" method="post">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Delete user</h4>
+                <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <form role="form" method="post">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Delete user</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete this Record?</p>
+                                <p class="text-danger">This action cannot be undone.</p>
+                                <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="submit" name="deletebutton" class="btn btn-danger">Delete</button>
+                            </div>
+                        
+                        </form>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
                 </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this Record?</p>
-                    <p class="text-danger">This action cannot be undone.</p>
-                    <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
+                <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Full Information</h4>
+                            </div>
+                            <div class="modal-body" id="PERdetail">                                             
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" name="deletebutton" class="btn btn-danger">Delete</button>
-                </div>
-            
-            </form>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-
-    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Full Information</h4>
-                </div>
-                <div class="modal-body" id="PERdetail">                                             
-                    
-                    
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>                                
-          
-
-
-
             </div>
             <!--End Content-->
         </div>
