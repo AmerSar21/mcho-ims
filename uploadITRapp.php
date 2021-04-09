@@ -116,27 +116,27 @@ if (isset($_POST['deletebutton']))
         echo "User deleted from temporary itr";
     }
 
-    $userver = '192.168.1.4';
-    $user = 'noctis';
-    $pass = '1';
-    $conn = mysqli_connect($userver,$user,$pass,'2');
+    // $userver = '192.168.1.4';
+    // $user = 'noctis';
+    // $pass = '1';
+    // $conn = mysqli_connect($userver,$user,$pass,'2');
 
-    $sqlgetpeid = "SELECT pe_id from patient_enrollment where family_serial_no ='$serialno'";
-    $resultgetpeid = mysqli_query($conn,$sqlgetpeid);
-    $row = mysqli_fetch_array($resultgetpeid);
-    $peid = $row['pe_id'];
+    // $sqlgetpeid = "SELECT pe_id from patient_enrollment where family_serial_no ='$serialno'";
+    // $resultgetpeid = mysqli_query($conn,$sqlgetpeid);
+    // $row = mysqli_fetch_array($resultgetpeid);
+    // $peid = $row['pe_id'];
 
 
-    $sqlupdate = "UPDATE indiv_treat_rec SET status='approved', date_receive=now() where pe_id='$patientid'  ";
-    $result = mysqli_query($conn,$sqlupdate);
-    if($result)
-    {
-        echo "updated";
-    }
-    else
-    {
-        echo "not updated";
-    }       
+    // $sqlupdate = "UPDATE indiv_treat_rec SET status='approved', date_receive=now() where pe_id='$patientid'  ";
+    // $result = mysqli_query($conn,$sqlupdate);
+    // if($result)
+    // {
+    //     echo "updated";
+    // }
+    // else
+    // {
+    //     echo "not updated";
+    // }       
 }
 
 ?>
