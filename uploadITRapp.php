@@ -3,6 +3,12 @@ include("db_connect.php");
 include("updatePERquery.php");
 session_start();
 
+$userid = $_SESSION['userid'];
+$sql = "SELECT fname, lname from acc_info where ai_id=$userid";
+$result = mysqli_query($con,$sql);
+$row = mysqli_fetch_array($result);
+$addedby =$row['fname']." ".$row['lname'];
+
 if (isset($_POST['deletebutton']))
 {
     $famserial = $_POST['iddelete'];
@@ -19,7 +25,8 @@ if (isset($_POST['deletebutton']))
     }
 
 }else if(isset($_POST['acceptbutton']))
-{
+{   
+
     $patientid = $_POST['f_patientid'];
     $serialno = $_POST['f_serialno'];
     $lname = $_POST['f_lname'];
@@ -57,114 +64,31 @@ if (isset($_POST['deletebutton']))
     $sqlinsertforchurhu = "INSERT INTO for_chu_rhu (mode_transaction, date_consultation, time_consultation, blood_pressure, temperature, height, weight, name_of_attending, age) VALUES ('$modetransact', '$dateconsult' , '$timeconsult' , '$bloodpressure', '$temperature' , '$height', '$weight' ,'$nameofattending', '$age')";
     $resultinsertforchurhu  = mysqli_query($con, $sqlinsertforchurhu);
     $forchurhuID = mysqli_insert_id($con);
-    if((!$resultinsertforchurhu) AND (!$forchurhuID))
-    {
-        echo "not insert into for CHU and RHU ";
-        echo($resultinsertforchurhu);
-        echo($forchurhuID);
-        die();        
-    }   
-    else
-    {
-        echo "insert into for CHU and RHU " . $forchurhuID;
-        echo($resultinsertforchurhu);
-        echo($forchurhuID);
-        die();       
-    }
 
     $sqlinsertrefertransact = "INSERT INTO referral_transaction (referred_from, referred_to, reason_of_referral, referred_by) VALUES ('$referredfrom', '$referredto' , '$reasonofref' , '$referredby')";
     $resultinsertrefertransact  = mysqli_query($con, $sqlinsertrefertransact);
     $refertransactID = mysqli_insert_id($con);
-    if((!$resultinsertrefertransact) AND (!$refertransactID))
-    {
-        echo "not insert into referral Transaction";
-        echo($resultinsertrefertransact);
-        echo($refertransactID);
-        die();       
-    }   
-    else
-    {
-        echo "insert into referral transaction " . $refertransactID;
-        echo($resultinsertrefertransact);
-        echo($refertransactID);
-        die();           
-    }
 
     $sqlinserttreatment = "INSERT INTO treatment (nature_of_visit, chief_complaints, diagnosis, medication, lab_findings, name_health_careprovider, performed_lab_test, chronic_disease) VALUES ('$natureofvisit', '$chiefcomplaints' , '$diagnosis' , '$medication', '$labfindings' , '$healthcare', '$labtest', '$chronic')";
     $resultinserttreatment  = mysqli_query($con, $sqlinserttreatment);
     $treatmentID = mysqli_insert_id($con);
-    if((!$resultinserttreatment) AND (!$treatmentID))
-    {
-        echo "not insert into treatment ";
-        echo($resultinserttreatment);
-        echo($treatmentID);
-        die();   
-    }   
-    else
-    {
-        echo "insert into treatment " . $treatmentID;
-        echo($resultinserttreatment);
-        echo($treatmentID);
-        die(); 
-    }
-
-    $userid = $_SESSION['userid'];
-    $sql = "SELECT fname, lname from acc_info where ai_id=$userid";
-    $result = mysqli_query($con,$sql);
-    $row = mysqli_fetch_array($result);
-    $addedby =$row['fname']." ".$row['lname'];
 
     $sqlinsertITR = "INSERT INTO indiv_treat_rec (pe_id, fcr_id, treatment_id, ref_tran_id,added_by,status) VALUES ('$patientenrollID' , '$forchurhuID' , '$treatmentID', '$refertransactID', '$addedby','active')";
     $resultinsertITR  = mysqli_query($con, $sqlinsertITR);
-    if(!$resultinsertITR)
-    {
-        echo "not insert into ITR  ";
-        echo($resultinsertITR);
-        die(); 
-    }   
-    else
-    {
-        echo "insert into ITR ";
-        echo($resultinsertITR);
-        die();
+
+    if(!$resultinsertforchurhu && !$resultinsertrefertransact && !$resultinserttreatment && !$resultinsertITR){
+        echo "<script type='text/javascript'>
+            alert('Unsuccessfully Inserted');
+        </script>";
+    }else{
+        echo " <script type='text/javascript'>
+            alert('Succesfully Inserted');
+        </script>";
     }
 
     $sqldeletetemp = "DELETE FROM temp_itr where patient_id='$patientid'";
     $res = mysqli_query($con,$sqldeletetemp);
-    if(!$res)
-    {
-        echo "delete error from temporary itr";
-        echo($res);
-        die();
-    }
-        else
-    {
-        echo "User deleted from temporary itr";
-        echo($res);
-        die();        
-    }
-
-    // $userver = '192.168.1.4';
-    // $user = 'noctis';
-    // $pass = '1';
-    // $conn = mysqli_connect($userver,$user,$pass,'2');
-
-    // $sqlgetpeid = "SELECT pe_id from patient_enrollment where family_serial_no ='$serialno'";
-    // $resultgetpeid = mysqli_query($conn,$sqlgetpeid);
-    // $row = mysqli_fetch_array($resultgetpeid);
-    // $peid = $row['pe_id'];
-
-
-    // $sqlupdate = "UPDATE indiv_treat_rec SET status='approved', date_receive=now() where pe_id='$patientid'  ";
-    // $result = mysqli_query($conn,$sqlupdate);
-    // if($result)
-    // {
-    //     echo "updated";
-    // }
-    // else
-    // {
-    //     echo "not updated";
-    // }       
+       
 }
 
 ?>
@@ -500,7 +424,7 @@ if (isset($_POST['deletebutton']))
                             <div class="modal-body" id="uploaddetail">
                                 <div class="form-group">
                                     <label>Family Serial Number</label>
-                                    <input class="form-control" type="hidden" id="m_patientid" name="f_patientid" readonly>
+                                    <input class="form-control" type="hidden" id="f_itrid" name="f_itrid" readonly>
                                     <input class="form-control" placeholder="Serial Number" id="m_serialno" name="f_serialno" readonly>
                                 </div>
                                 <div class="form-group">
@@ -717,13 +641,14 @@ $(document).ready(function() {
 <script type="text/javascript">
 $(document).ready(function(){
     $('.edit_data').click(function(){
-        var tempitr = $(this).attr("id");
+        var itrid = $(this).attr("id");
         $.ajax({
             url:"viewITRuploadquery.php",
             method:"post",
-            data:{tempitr:tempitr},
+            data:{itrid:itrid},
             dataType:"json",
             success:function(data){
+                $('#m_itrid').val(itrid);
                 $('#m_patientid').val(data.patient_id);
                 $('#m_serialno').val(data.family_serial_no);
                 $('#m_lname').val(data.lname);
