@@ -512,6 +512,7 @@ if(isset($_POST['acceptbutton']))
     <script src="plugins/tinymce/jquery.tinymce.min.js"></script>
     <!-- All functions for this theme + document.ready processing -->
     <script src="js/devoops.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
             TinyMCEStart('#wysiwig_simple', null);
@@ -568,8 +569,6 @@ if(isset($_POST['acceptbutton']))
                         $('#viewModal').appendTo('body').modal("show");
                     }
             });
-        }); 
-        $(document).ready(function(){
             $('.edit_data').click(function(){
                 var serialnumber = $(this).attr("id");
                 $.ajax({
@@ -610,14 +609,13 @@ if(isset($_POST['acceptbutton']))
                     }
                 })            
             });
-
             $('.btndelete').click(function(){
                 var serialnumber = $(this).attr("id");
 
                 $('#m_iddelete').val(serialnumber);
                 $('#deletemodal').modal('show');
             });
-        });
+        }); 
     </script>
 </body>
 </html>
