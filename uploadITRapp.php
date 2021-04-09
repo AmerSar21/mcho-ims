@@ -533,9 +533,9 @@ if(isset($_POST['acceptbutton']))
                 <button type="submit" name="deletebutton" class="btn btn-danger">Delete</button>
             </div>
         
+        </form>
         </div>
         <!-- /.modal-content -->
-    </form>
     </div>
     <!-- /.modal-dialog -->
 </div>
