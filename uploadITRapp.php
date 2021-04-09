@@ -511,116 +511,112 @@ if(isset($_POST['acceptbutton']))
 <script src="plugins/tinymce/tinymce.min.js"></script>
 <script src="plugins/tinymce/jquery.tinymce.min.js"></script>
 <!-- All functions for this theme + document.ready processing -->
-<script src="js/devoops.js"></script>
-
-</body>
 <script type="text/javascript">
-$(document).ready(function() {
-    TinyMCEStart('#wysiwig_simple', null);
-    TinyMCEStart('#wysiwig_full', 'extreme');
-    WinMove();
-    // Load TimePicker plugin and callback all time and date pickers
-    LoadTimePickerScript(AllTimePickers);
-    // Create jQuery-UI tabs
-    $("#tabs").tabs();
-    // Sortable for elements
-    $(".sort").sortable({
-        items: "div.col-sm-2",
-        appendTo: 'div.box-content'
-    });
-    // Droppable for example of trash
-    $(".drop div.col-sm-2").draggable({containment: '.dropbox' });
-    $('#trash').droppable({
-        drop: function(event, ui) {
-            $(ui.draggable).remove();
-        }
-    });
-    var icons = {
-        header: "ui-icon-circle-arrow-e",
-        activeHeader: "ui-icon-circle-arrow-s"
+    $(document).ready(function() {
+        TinyMCEStart('#wysiwig_simple', null);
+        TinyMCEStart('#wysiwig_full', 'extreme');
+        WinMove();
+        // Load TimePicker plugin and callback all time and date pickers
+        LoadTimePickerScript(AllTimePickers);
+        // Create jQuery-UI tabs
+        $("#tabs").tabs();
+        // Sortable for elements
+        $(".sort").sortable({
+            items: "div.col-sm-2",
+            appendTo: 'div.box-content'
+        });
+        // Droppable for example of trash
+        $(".drop div.col-sm-2").draggable({containment: '.dropbox' });
+        $('#trash').droppable({
+            drop: function(event, ui) {
+                $(ui.draggable).remove();
+            }
+        });
+        var icons = {
+            header: "ui-icon-circle-arrow-e",
+            activeHeader: "ui-icon-circle-arrow-s"
+        };
+        // Add Drag-n-Drop to boxes
+        WinMove();
+});
+</script>
+<script type="text/javascript">
+    // Run Datables plugin and create 3 variants of settings
+    function AllTables(){
+        TestTable1();
+        TestTable2();
+        TestTable3();
     };
-    // Add Drag-n-Drop to boxes
-    WinMove();
-});
+    $(document).ready(function() {
+        // Load Datatables and run plugin on tables 
+        LoadDataTablesScripts(AllTables);
+        // Add Drag-n-Drop feature
+        WinMove();
+    });
 </script>
 <script type="text/javascript">
-// Run Datables plugin and create 3 variants of settings
-function AllTables(){
-    TestTable1();
-    TestTable2();
-    TestTable3();
-}
-$(document).ready(function() {
-    // Load Datatables and run plugin on tables 
-    LoadDataTablesScripts(AllTables);
-    // Add Drag-n-Drop feature
-    WinMove();
-});
-</script>
+    $(document).ready(function(){
+        $('.view_data').click(function(){
+            var patientid = $(this).attr("id");
+            $.ajax({
+                url:"viewPERquery.php",
+                method:"post",
+                data:{patientid:patientid},
+                success:function(data){
+                    $('#PERdetail').html(data);
+                    $('#viewModal').appendTo('body').modal("show");
+                }
+        });
+    }); 
+    $(document).ready(function(){
+        $('.edit_data').click(function(){
+            var serialnumber = $(this).attr("id");
+            $.ajax({
+                url:"viewITRuploadquery.php",
+                method:"post",
+                data:{serialnumber:serialnumber},
+                dataType:"json",
+                success:function(data){
+                    $('#m_patientid').val(data.patient_id);
+                    $('#m_serialno').val(data.family_serial_no);
+                    $('#m_lname').val(data.lname);
+                    $('#m_fname').val(data.fname);
+                    $('#m_mname').val(data.mname);
+                    $('#m_suffix').val(data.suffix);
+                    $('#m_age').val(data.age);
+                    $('#m_address').val(data.city);
+                    $('#m_modeoftransact').val(data.mode_transaction);
+                    $('#m_dateofconsult').val(data.date_consultation);
+                    $('#m_consulttime').val(data.time_consultation);
+                    $('#m_bloodpressure').val(data.blood_pressure);
+                    $('#m_temp').val(data.temperature);
+                    $('#m_height').val(data.height);
+                    $('#m_weight').val(data.weight);
+                    $('#m_attendingofficer').val(data.name_of_attending);
+                    $('#m_referredfrom').val(data.referred_from);
+                    $('#m_referredto').val(data.referred_to);
+                    $('#m_reasonofref').val(data.reason_of_referral);
+                    $('#m_referredby').val(data.referred_by);
+                    $('#m_natureofvisit').val(data.nature_of_visit);
+                    $('#m_chiefcomplaints').val(data.chief_complaints);
+                    $('#m_diagnosis').val(data.diagnosis);
+                    $('#m_medication').val(data.medication);
+                    $('#m_labfindings').val(data.lab_findings);
+                    $('#m_healthcare').val(data.name_health_careprovider);
+                    $('#m_labtest').val(data.performed_lab_test);
+                    $('#m_chronic').val(data.chronic_disease);
+                    $('#editModal').appendTo('body').modal("show");
+                }
+            })            
+        });
 
-<script type="text/javascript">
-$(document).ready(function(){
-    $('.view_data').click(function(){
-        var patientid = $(this).attr("id");
-        $.ajax({
-            url:"viewPERquery.php",
-            method:"post",
-            data:{patientid:patientid},
-            success:function(data){
-                $('#PERdetail').html(data);
-                $('#viewModal').appendTo('body').modal("show");
-            }
-    });
-}); 
-$(document).ready(function(){
-    $('.edit_data').click(function(){
-        var serialnumber = $(this).attr("id");
-        $.ajax({
-            url:"viewITRuploadquery.php",
-            method:"post",
-            data:{serialnumber:serialnumber},
-            dataType:"json",
-            success:function(data){
-                $('#m_patientid').val(data.patient_id);
-                $('#m_serialno').val(data.family_serial_no);
-                $('#m_lname').val(data.lname);
-                $('#m_fname').val(data.fname);
-                $('#m_mname').val(data.mname);
-                $('#m_suffix').val(data.suffix);
-                $('#m_age').val(data.age);
-                $('#m_address').val(data.city);
-                $('#m_modeoftransact').val(data.mode_transaction);
-                $('#m_dateofconsult').val(data.date_consultation);
-                $('#m_consulttime').val(data.time_consultation);
-                $('#m_bloodpressure').val(data.blood_pressure);
-                $('#m_temp').val(data.temperature);
-                $('#m_height').val(data.height);
-                $('#m_weight').val(data.weight);
-                $('#m_attendingofficer').val(data.name_of_attending);
-                $('#m_referredfrom').val(data.referred_from);
-                $('#m_referredto').val(data.referred_to);
-                $('#m_reasonofref').val(data.reason_of_referral);
-                $('#m_referredby').val(data.referred_by);
-                $('#m_natureofvisit').val(data.nature_of_visit);
-                $('#m_chiefcomplaints').val(data.chief_complaints);
-                $('#m_diagnosis').val(data.diagnosis);
-                $('#m_medication').val(data.medication);
-                $('#m_labfindings').val(data.lab_findings);
-                $('#m_healthcare').val(data.name_health_careprovider);
-                $('#m_labtest').val(data.performed_lab_test);
-                $('#m_chronic').val(data.chronic_disease);
-                $('#editModal').appendTo('body').modal("show");
-            }
-        })            
-    });
+        $('.btndelete').click(function(){
+            var serialnumber = $(this).attr("id");
 
-    $('.btndelete').click(function(){
-        var serialnumber = $(this).attr("id");
-
-        $('#m_iddelete').val(serialnumber);
-        $('#deletemodal').modal('show');
+            $('#m_iddelete').val(serialnumber);
+            $('#deletemodal').modal('show');
+        });
     });
-});
 </script>
 </body>
 </html>
