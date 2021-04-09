@@ -69,11 +69,11 @@ if (isset($_POST['deletebutton']))
     $resultinsertrefertransact  = mysqli_query($con, $sqlinsertrefertransact);
     $refertransactID = mysqli_insert_id($con);
 
-    $sqlinserttreatment = "INSERT INTO treatment (nature_of_visit, chief_complaints, diagnosis, medication, lab_findings, name_health_careprovider, performed_lab_test, chronic_disease) VALUES ('$natureofvisit', '$chiefcomplaints' , '$diagnosis' , '$medication', '$labfindings' , '$healthcare', '$labtest', '$chronic')";
+    $sqlinserttreatment = "INSERT INTO treatment (nature_of_visit,chief_complaints,diagnosis,medication,lab_findings,name_health_careprovider, performed_lab_test) VALUES ('$natureofvisit', '$chiefcomplaints' , '$diagnosis' , '$medication', '$labfindings' , '$healthcare', '$labtest')";
     $resultinserttreatment  = mysqli_query($con, $sqlinserttreatment);
     $treatmentID = mysqli_insert_id($con);
 
-    $sqlinsertITR = "INSERT INTO indiv_treat_rec (pe_id, fcr_id, treatment_id, ref_tran_id,added_by,status) VALUES ('$patientenrollID' , '$forchurhuID' , '$treatmentID', '$refertransactID', '$addedby','active')";
+    $sqlinsertITR = "INSERT INTO indiv_treat_rec(fcr_id,treatment_id,ref_tran_id,pe_id,added_by,status,archived_by) VALUES ('$forchurhuID','$treatmentID','$refertransactID','$patientenrollID','$addedby','active','none')";
     $resultinsertITR  = mysqli_query($con, $sqlinsertITR);
 
     if(!$resultinsertforchurhu && !$resultinsertrefertransact && !$resultinserttreatment && !$resultinsertITR){
