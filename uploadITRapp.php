@@ -406,39 +406,39 @@ if(isset($_POST['acceptbutton']))
                                     <thead>
                                         <tr>
                                             <th>Family Serial No.</th>
-                                                        <th>Lastname</th>
-                                                        <th>Firstname</th>
-                                                        <th>Middlename</th>
-                                                        <th>Address</th>
-                                                        <th>Submitted by</th>
-                                                        <th>Date Submitted</th>
-                                                        <th>Action</th>
+                                            <th>Lastname</th>
+                                            <th>Firstname</th>
+                                            <th>Middlename</th>
+                                            <th>Address</th>
+                                            <th>Submitted by</th>
+                                            <th>Date Submitted</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <?php
-                                                    $sql = "SELECT patient_enrollment.family_serial_no,patient_enrollment.patient_id, name.lname, name.fname, name.mname, contact_info.home_no, contact_info.street,contact_info.barangay, contact_info.city, temp_itr.nature_of_visit, temp_itr.submitted_by, temp_itr.tempitr_id, temp_itr.date_submitted  from temp_itr inner join patient_enrollment inner join name inner join contact_info on contact_info.ci_id=patient_enrollment.ci_id and name.n_id=patient_enrollment.n_id and patient_enrollment.patient_id=temp_itr.patient_id where temp_itr.added_by = 'userMobile'";
+                                        $sql = "SELECT patient_enrollment.family_serial_no,patient_enrollment.patient_id, name.lname, name.fname, name.mname, contact_info.home_no, contact_info.street,contact_info.barangay, contact_info.city, temp_itr.nature_of_visit, temp_itr.submitted_by, temp_itr.tempitr_id, temp_itr.date_submitted  from temp_itr inner join patient_enrollment inner join name inner join contact_info on contact_info.ci_id=patient_enrollment.ci_id and name.n_id=patient_enrollment.n_id and patient_enrollment.patient_id=temp_itr.patient_id where temp_itr.added_by = 'userMobile'";
 
-                                                    $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
-                                                ?>
-                                                <tbody>
-                                         <?php while ($row = mysqli_fetch_array($result)) { 
-                                                        echo( "<tr>
-                                                            <td class='serialno'>" . $row['family_serial_no'] . "</td>
-                                                            <td class='lname'>" . $row[2] . "</td>
-                                                            <td class='fname'>" . $row[3] . "</td>
-                                                            <td class='mname'>" . $row[4] . "</td>
-                                                            <td class='address'>" . $row['home_no'] . " " . $row['street'] . " " .$row['barangay'] . " " .$row['city'] ."</td>
-                                                            <td class='mname'>" . $row['submitted_by'] . "</td>
-                                                            <td class='mname'>" . $row['date_submitted'] . "</td>
-                                                            <td> <input type='button' value='View Full Details' id='".$row['tempitr_id']."' class='btn btn-warning edit_data'/>    
-                                                            <button type='button' id='".$row['tempitr_id']."' class='btn btn-danger btndelete'>Delete</button> 
-                                                            </td>
-                                                            
-                                                          </tr>"); }
-
-                                                      ?>
+                                        $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
+                                    ?>
+                                    <tbody>
+                                         <?php 
+                                            while($row = mysqli_fetch_array($result)) { 
+                                            echo( "<tr>
+                                                <td class='serialno'>" . $row['family_serial_no'] . "</td>
+                                                <td class='lname'>" . $row[2] . "</td>
+                                                <td class='fname'>" . $row[3] . "</td>
+                                                <td class='mname'>" . $row[4] . "</td>
+                                                <td class='address'>" . $row['home_no'] . " " . $row['street'] . " " .$row['barangay'] . " " .$row['city'] ."</td>
+                                                <td class='mname'>" . $row['submitted_by'] . "</td>
+                                                <td class='mname'>" . $row['date_submitted'] . "</td>
+                                                <td> <input type='button' value='View Full Details' id='".$row['tempitr_id']."' class='btn btn-warning edit_data'/>    
+                                                <button type='button' id='".$row['tempitr_id']."' class='btn btn-danger btndelete'>Delete</button> 
+                                                </td>
+                                                
+                                              </tr>"); 
+                                            }
+                                          ?>
                                     </tbody>
-
                                 </table>
                             </div>
                         </div>
