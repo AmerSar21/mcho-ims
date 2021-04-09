@@ -378,223 +378,218 @@ if(isset($_POST['acceptbutton']))
             </ul>
         </div>
         <!--Start Content-->
-        <div id="content" class="col-xs-12 col-sm-10">
-            
+        <div id="content" class="col-xs-12 col-sm-10">          
 
-<div class="row">
-    <div id="breadcrumb" class="col-md-12">
-        <ol class="breadcrumb">
-            <li><a href="homeOIC.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">Home</a></li>
-            <li><a href="#">Uploads</a></li>
-            <li><a href="#">PER</a></li>
-        </ol>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box">
-            <div class="box-header">
-                <div class="box-name">
-                    <i class="fa fa-medkit"></i>
-                    <span>List of New uploads</span>
-                </div>
-                <div class="box-icons">
-                    <a class="expand-link">
-                        <i class="fa fa-expand"></i>
-                    </a>
-                </div>
-                <div class="no-move"></div>
+        <div class="row">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li><a href="homeOIC.php?userid=<?php $id=$_SESSION['userid']; echo $id; ?>">Home</a></li>
+                    <li><a href="#">Uploads</a></li>
+                    <li><a href="#">PER</a></li>
+                </ol>
             </div>
-            <div class="box-content no-padding">
-                <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
-                    <thead>
-                        <tr>
-                            <th>Family Serial No.</th>
-                                        <th>Lastname</th>
-                                        <th>Firstname</th>
-                                        <th>Middlename</th>
-                                        <th>Address</th>
-                                        <th>Submitted by</th>
-                                        <th>Date Submitted</th>
-                                        <th>Action</th>
-                        </tr>
-                    </thead>
-                    <?php
-                                    $sql = "SELECT * from temp_per where added_by = 'userMobile'";
-                                    $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
-                                ?>
-                                <tbody>
-                         <?php while ($row = mysqli_fetch_array($result)) { 
-                                        echo( "<tr>
-                                            <td class='serialno'>" . $row['family_serial_no'] . "</td>
-                                            <td class='lname'>" . $row[2] . "</td>
-                                            <td class='fname'>" . $row[3] . "</td>
-                                            <td class='mname'>" . $row[4] . "</td>                                            
-                                            <td class='address'>" . $row['home_no'] . " " . $row['street'] . " " .$row['barangay'] . " " .$row['city'] ."</td>
-                                            <td class='mname'>" . $row['submitted_by'] . "</td>
-                                            <td class='mname'>" . $row['date_submitted'] . "</td>                                              
-                                            <td><input type='button' value='View Full Details' id='".$row['temPER_id']."' class='btn btn-warning edit_data'/>
-                                            <button type='button' id='".$row['temPER_id']."' class='btn btn-danger btndelete'>Delete</button> 
-                                            </td>
-                                            
-                                          </tr>"); }
+        </div>
 
-                                      ?>
-                    </tbody>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-name">
+                            <i class="fa fa-medkit"></i>
+                            <span>List of New uploads</span>
+                        </div>
+                        <div class="box-icons">
+                            <a class="expand-link">
+                                <i class="fa fa-expand"></i>
+                            </a>
+                        </div>
+                        <div class="no-move"></div>
+                    </div>
+                    <div class="box-content no-padding">
+                        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
+                            <thead>
+                                <tr>
+                                    <th>Family Serial No.</th>
+                                                <th>Lastname</th>
+                                                <th>Firstname</th>
+                                                <th>Middlename</th>
+                                                <th>Address</th>
+                                                <th>Submitted by</th>
+                                                <th>Date Submitted</th>
+                                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <?php
+                                            $sql = "SELECT * from temp_per where added_by = 'userMobile'";
+                                            $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
+                                        ?>
+                                        <tbody>
+                                 <?php while ($row = mysqli_fetch_array($result)) { 
+                                                echo( "<tr>
+                                                    <td class='serialno'>" . $row['family_serial_no'] . "</td>
+                                                    <td class='lname'>" . $row[2] . "</td>
+                                                    <td class='fname'>" . $row[3] . "</td>
+                                                    <td class='mname'>" . $row[4] . "</td>                                            
+                                                    <td class='address'>" . $row['home_no'] . " " . $row['street'] . " " .$row['barangay'] . " " .$row['city'] ."</td>
+                                                    <td class='mname'>" . $row['submitted_by'] . "</td>
+                                                    <td class='mname'>" . $row['date_submitted'] . "</td>                                              
+                                                    <td><input type='button' value='View Full Details' id='".$row['temPER_id']."' class='btn btn-warning edit_data'/>
+                                                    <button type='button' id='".$row['temPER_id']."' class='btn btn-danger btndelete'>Delete</button> 
+                                                    </td>
+                                                    
+                                                  </tr>"); }
 
-                </table>
+                                              ?>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
             </div>
-
         </div>
-    </div>
-</div>
 
-
-
-
-
-
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form role="form" method="post">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Full Information</h4>
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form role="form" method="post">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Full Information</h4>
+                        </div>
+                        <div class="modal-body" id="uploaddetail">                                            
+                            <div class='form-group'>
+                                <label>Family Serial Number</label>
+                                <input class='form-control' placeholder='Enter Serial Number' name='f_serialno' id='f_serialno' readonly >
+                                <input class='form-control' type='hidden' placeholder='Enter Serial Number' name='f_perid' id='f_perid' readonly >
+                                <label>Patient I.D.</label>
+                                <input class='form-control' placeholder='Patient ID' name='f_patientid' id='f_patientid' readonly >
+                            </div>
+                            <div class='form-group'>
+                                <label>Lastname</label>
+                                <input class='form-control' placeholder='Lastname' id='f_lname' name='f_lname'>
+                                <label>Firstname</label>
+                                <input class='form-control' placeholder='Firstname' name='f_fname' id='f_fname'>
+                                <label>Middlename</label>
+                                <input class='form-control' placeholder='Middlename' name='f_mname' id='f_mname'>
+                                <label>Suffix</label>
+                                <input class='form-control' placeholder='e.g. Jr., Sr., II, III' name='f_suffix' id='f_suffix'>
+                            </div>
+                            <div class='form-group'>
+                                <label>Gender</label>
+                                <input class='form-control' placeholder='Female/Male' name='f_gender' id='f_gender'>
+                            </div>
+                            <div class='form-group'>
+                                <label>Date of Birth</label>                                                    
+                                <input class='form-control' placeholder='1990-01-01' name='f_bdate' id='f_bdate'>
+                            </div>
+                            <div class='form-group'>
+                                <label>Birthplace</label>
+                                <input class='form-control' placeholder='Street, Barangay, City, Province' name='f_bplace' id='f_bplace'>
+                            </div>
+                            <div class='form-group'>
+                                <label>Bloodtype</label>
+                                <input class='form-control' placeholder='A / B / AB / O' name='f_bloodtype' id='f_bloodtype'>
+                            </div>  
+                            <div class='form-group'>
+                                <label>Civil Status</label>
+                                <input class='form-control' name='f_civstat'  id='f_civstat'>
+                            </div>
+                            <div class='form-group'>
+                                <label>Spouse's Name</label>
+                                <input class='form-control' placeholder='Lastname, Firstname Middlename' name='f_spouse' id='f_spouse'>
+                            </div>
+                            <div class='form-group'>
+                                <label>Educational Attainment</label>
+                                <input class='form-control' name='f_educattain' id='f_educattain'>
+                            </div>
+                            <div class='form-group'>
+                                <label>Employment Status</label>
+                                <input class='form-control' name='f_employstat'  id='f_employstat'>
+                            </div>
+                            <div class='form-group'>
+                                <label>Family Position</label>
+                                <input class='form-control' name='f_famposition' id='f_famposition'>
+                            </div>
+                                                                
+                            <div class='form-group'>
+                                <label>Mother's Name</label>
+                                <input class='form-control' placeholder='Enter here' name='f_mother' id='f_mother'>
+                            </div>
+                            <div class='form-group'>
+                                <label>Residential Address</label>
+                                <input class='form-control' placeholder='Home Number' name='f_homeno'  id='f_homeno'>
+                            
+                                <input class='form-control' placeholder='Street' name='f_street' id='f_street'>
+                            
+                                <input class='form-control' placeholder='Barangay' name='f_brgy' id='f_brgy'>
+                            
+                                <input class='form-control' placeholder='City' name='f_city' id='f_city'>
+                            
+                                <input class='form-control' placeholder='Province' name='f_province' id='f_province'>
+                            </div>
+                            <div class='form-group'>
+                                <label>Contact Number</label>
+                                <input class='form-control' placeholder='0910-123-4567' name='f_contactno'  id='f_contactno'>
+                            </div>
+                            <div class='form-group'>
+                                <label>DSWD NHTS?</label>
+                                <input class='form-control' name='f_dswd' id='f_dswd'>
+                            </div>
+                            <div class='form-group'>
+                                <label>Facility Household No.</label>
+                                <input class='form-control' name='f_facilityno' id='f_facilityno'>
+                            </div>
+                            <div class='form-group'>
+                                <label>Philhealth Member</label>
+                                <input class='form-control' name='f_phmember' id='f_phmember'>
+                            </div>
+                            <div class='form-group'>
+                                <label>Philhealth Number</label>
+                                <input class='form-control' name='f_phnumber' id='f_phnumber'>
+                            </div>
+                            <div class='form-group'>
+                                <label>If member, please indicate Category</label>
+                                <input class='form-control' name='f_phcategory' id='f_phcategory'>
+                            </div>
+                            <div class='modal-footer'>
+                               <button type='submit' name='acceptbutton' class='btn btn-primary'>Accept</button>
+                                <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- /.modal-content -->
                 </div>
-                <div class="modal-body" id="uploaddetail">                                            
-                    <div class='form-group'>
-                        <label>Family Serial Number</label>
-                        <input class='form-control' placeholder='Enter Serial Number' name='f_serialno' id='f_serialno' readonly >
-                        <input class='form-control' type='hidden' placeholder='Enter Serial Number' name='f_perid' id='f_perid' readonly >
-                        <label>Patient I.D.</label>
-                        <input class='form-control' placeholder='Patient ID' name='f_patientid' id='f_patientid' readonly >
-                    </div>
-                    <div class='form-group'>
-                        <label>Lastname</label>
-                        <input class='form-control' placeholder='Lastname' id='f_lname' name='f_lname'>
-                        <label>Firstname</label>
-                        <input class='form-control' placeholder='Firstname' name='f_fname' id='f_fname'>
-                        <label>Middlename</label>
-                        <input class='form-control' placeholder='Middlename' name='f_mname' id='f_mname'>
-                        <label>Suffix</label>
-                        <input class='form-control' placeholder='e.g. Jr., Sr., II, III' name='f_suffix' id='f_suffix'>
-                    </div>
-                    <div class='form-group'>
-                        <label>Gender</label>
-                        <input class='form-control' placeholder='Female/Male' name='f_gender' id='f_gender'>
-                    </div>
-                    <div class='form-group'>
-                        <label>Date of Birth</label>                                                    
-                        <input class='form-control' placeholder='1990-01-01' name='f_bdate' id='f_bdate'>
-                    </div>
-                    <div class='form-group'>
-                        <label>Birthplace</label>
-                        <input class='form-control' placeholder='Street, Barangay, City, Province' name='f_bplace' id='f_bplace'>
-                    </div>
-                    <div class='form-group'>
-                        <label>Bloodtype</label>
-                        <input class='form-control' placeholder='A / B / AB / O' name='f_bloodtype' id='f_bloodtype'>
-                    </div>  
-                    <div class='form-group'>
-                        <label>Civil Status</label>
-                        <input class='form-control' name='f_civstat'  id='f_civstat'>
-                    </div>
-                    <div class='form-group'>
-                        <label>Spouse's Name</label>
-                        <input class='form-control' placeholder='Lastname, Firstname Middlename' name='f_spouse' id='f_spouse'>
-                    </div>
-                    <div class='form-group'>
-                        <label>Educational Attainment</label>
-                        <input class='form-control' name='f_educattain' id='f_educattain'>
-                    </div>
-                    <div class='form-group'>
-                        <label>Employment Status</label>
-                        <input class='form-control' name='f_employstat'  id='f_employstat'>
-                    </div>
-                    <div class='form-group'>
-                        <label>Family Position</label>
-                        <input class='form-control' name='f_famposition' id='f_famposition'>
-                    </div>
-                                                        
-                    <div class='form-group'>
-                        <label>Mother's Name</label>
-                        <input class='form-control' placeholder='Enter here' name='f_mother' id='f_mother'>
-                    </div>
-                    <div class='form-group'>
-                        <label>Residential Address</label>
-                        <input class='form-control' placeholder='Home Number' name='f_homeno'  id='f_homeno'>
-                    
-                        <input class='form-control' placeholder='Street' name='f_street' id='f_street'>
-                    
-                        <input class='form-control' placeholder='Barangay' name='f_brgy' id='f_brgy'>
-                    
-                        <input class='form-control' placeholder='City' name='f_city' id='f_city'>
-                    
-                        <input class='form-control' placeholder='Province' name='f_province' id='f_province'>
-                    </div>
-                    <div class='form-group'>
-                        <label>Contact Number</label>
-                        <input class='form-control' placeholder='0910-123-4567' name='f_contactno'  id='f_contactno'>
-                    </div>
-                    <div class='form-group'>
-                        <label>DSWD NHTS?</label>
-                        <input class='form-control' name='f_dswd' id='f_dswd'>
-                    </div>
-                    <div class='form-group'>
-                        <label>Facility Household No.</label>
-                        <input class='form-control' name='f_facilityno' id='f_facilityno'>
-                    </div>
-                    <div class='form-group'>
-                        <label>Philhealth Member</label>
-                        <input class='form-control' name='f_phmember' id='f_phmember'>
-                    </div>
-                    <div class='form-group'>
-                        <label>Philhealth Number</label>
-                        <input class='form-control' name='f_phnumber' id='f_phnumber'>
-                    </div>
-                    <div class='form-group'>
-                        <label>If member, please indicate Category</label>
-                        <input class='form-control' name='f_phcategory' id='f_phcategory'>
-                    </div>
-                    <div class='modal-footer'>
-                       <button type='submit' name='acceptbutton' class='btn btn-primary'>Accept</button>
-                        <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
-                    </div>
-                </div>
-            </form>
-            <!-- /.modal-content -->
+            </div>    
         </div>
-    </div>    
-</div>
-        <!--End Content-->
-    </div>
-</div>
+                <!--End Content-->
+            </div>
+        </div>
 
-<div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                        <form role="form" method="post">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel">Delete user</h4>
+        <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                <form role="form" method="post">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                        <h4 class="modal-title" id="myModalLabel">Delete user</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Are you sure you want to delete this Record?</p>
+                                                        <p class="text-danger">This action cannot be undone.</p>
+                                                        <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                        <button type="submit" name="deletebutton" class="btn btn-danger">Delete</button>
+                                                    </div>
+                                                
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </form>
                                             </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure you want to delete this Record?</p>
-                                                <p class="text-danger">This action cannot be undone.</p>
-                                                <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                <button type="submit" name="deletebutton" class="btn btn-danger">Delete</button>
-                                            </div>
-                                        
-                                        </div>
-                                        <!-- /.modal-content -->
-                                    </form>
-                                    </div>
-                                    <!-- /.modal-dialog -->
-</div>
+                                            <!-- /.modal-dialog -->
+        </div>
 
 <!--End Container-->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

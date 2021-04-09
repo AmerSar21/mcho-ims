@@ -461,7 +461,8 @@ if(isset($_POST['acceptbutton']))
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        </div>
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <form role="form" method="post">
@@ -616,7 +617,6 @@ if(isset($_POST['acceptbutton']))
                 </div>
                 <!-- /.modal-dialog -->
             </div>
-        </div>
         <!--End Content-->
     </div>
 </div>
