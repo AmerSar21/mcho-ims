@@ -940,26 +940,34 @@
 
 	}else if($postjson['action'] == 'delItrRec'){
 
-		$sqlgetItr = mysqli_query($mysqli, "SELECT * from indiv_treat_rec where itr_id = '$postjson[itr_id]'");
-		$row = mysqli_fetch_array($sqlgetItr);
-		$fcr_id = $row['fcr_id'];
-		$treatment_id = $row['treatment_id'];
-		$ref_tran_id = $row['ref_tran_id'];
+		$sqlcnt = mysqli_query($mysqli, "SELECT count(*) as cntCheck from indiv_treat_rec where itr_id = '$postjson[itr_id]'");
+		$row = mysqli_fetch_array($sqlcnt);
+		$cntCheck = $row['cntCheck'];
 
-		$sqldelItr = mysqli_query($mysqli, "DELETE from indiv_treat_rec where itr_id = '$postjson[itr_id]]'");
+		if($cntCheck > 0){
+			$sqlgetItr = mysqli_query($mysqli, "SELECT * from indiv_treat_rec where itr_id = '$postjson[itr_id]'");
+			$row = mysqli_fetch_array($sqlgetItr);
+			$fcr_id = $row['fcr_id'];
+			$treatment_id = $row['treatment_id'];
+			$ref_tran_id = $row['ref_tran_id'];
 
-		$sqldelfcr = mysqli_query($mysqli, "DELETE from for_chu_rhu where fcr_id = '$fcr_id' ");
+			$sqldelItr = mysqli_query($mysqli, "DELETE from indiv_treat_rec where itr_id = '$postjson[itr_id]]'");
 
-		$sqldelrti = mysqli_query($mysqli, "DELETE from referral_transaction where ref_tran_id = '$ref_tran_id'");
+			$sqldelfcr = mysqli_query($mysqli, "DELETE from for_chu_rhu where fcr_id = '$fcr_id'");
 
-		$sqldelTr = mysqli_query($mysqli, "DELETE from treatment where treatment_id = '$treatment_id'");
+			$sqldelrti = mysqli_query($mysqli, "DELETE from referral_transaction where ref_tran_id = '$ref_tran_id'");
 
-		if(($sqldelItr) && ($sqldelfcr) && ($sqldelrti) && ($sqldelTr)){
-			$result = json_encode(array('success'=>true, 'msg'=> 'Record Successfully Deleted'));	
+			$sqldelTr = mysqli_query($mysqli, "DELETE from treatment where treatment_id = '$treatment_id'");
+
+			if(($sqldelItr) && ($sqldelfcr) && ($sqldelrti) && ($sqldelTr)){
+				$result = json_encode(array('success'=>true, 'msg'=> 'Record Successfully Deleted'));	
+			}else{
+				$result = json_encode(array('success' => false, 'msg' => 'Record Failed to Delete'));
+			}	
 		}else{
-			$result = json_encode(array('success' => false, 'msg' => 'Record Failed to Delete'));
+			$result = json_encode(array('success' => false, 'msg' => 'Record does not exist.'));
 		}
-
+		
 		echo $result;
 
 	}else if($postjson['action'] == 'delAllTempItr') {
