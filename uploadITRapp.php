@@ -352,7 +352,6 @@ if(isset($_POST['acceptbutton']))
         </div>
         <!--Start Content-->
         <div id="content" class="col-xs-12 col-sm-10">
-            
 
 <div class="row">
     <div id="breadcrumb" class="col-md-12">
@@ -364,71 +363,6 @@ if(isset($_POST['acceptbutton']))
     </div>
 </div>
 
-<!-- <div class="row">
-    <div class="col-xs-12">
-        <input type='button' value='Transfer to barangay'  class='btn btn-info btn-warning transfer'/>
-        <div class="box">
-            <div class="box-header">
-                <div class="box-name">
-                    <i class="fa fa-medkit"></i>
-                    <span>List of Enrolled Patients</span>
-                </div>
-                <div class="box-icons">
-                    <a class="expand-link">
-                        <i class="fa fa-expand"></i>
-                    </a>
-                </div>
-                <div class="no-move"></div>
-            </div>
-            <div class="box-content no-padding">
-                <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
-                    <thead>
-                        <tr>
-                            <th>Patient I.D.</th>
-                                        <th>Lastname</th>
-                                        <th>Firstname</th>
-                                        <th>Middlename</th>
-                                        <th>Address</th>
-                                        <th>Added/Approved</th>
-                                        <th>Action</th>
-                        </tr>
-                    </thead>
-                    <?php
-
-                                    $sql2 = "SELECT patient_enrollment.family_serial_no ,name.lname,name.fname,name.mname,contact_info.home_no,contact_info.street,contact_info.barangay,contact_info.city,patient_enrollment.added_by,patient_enrollment.patient_id from ((patient_enrollment 
-                                    inner join name on name.n_id = patient_enrollment.n_id) 
-                                    inner join contact_info on contact_info.ci_id = patient_enrollment.ci_id)";
-                                    
-                                    $sql = "SELECT patient_enrollment.family_serial_no , name.lname, name.fname, name.mname, contact_info.home_no , contact_info.street , contact_info.barangay, contact_info.city, patient_enrollment.added_by ,patient_enrollment.patient_id from patient_enrollment inner join name inner join contact_info on name.n_id = patient_enrollment.n_id and patient_enrollment.status='active' and contact_info.ci_id = patient_enrollment.ci_id";
-                                    $result = mysqli_query($con, $sql2) or die("Query fail: " . mysqli_error());
-                                ?>
-                    <tbody>
-                         <?php while ($row = mysqli_fetch_array($result)) { 
-                                        echo( "<tr class='trID_" .$row['family_serial_no']. "'>
-                                            <td class='serialno'>" . $row['patient_id'] . "</td>
-                                            <td class='lname'>" . $row[1] . "</td>
-                                            <td class='fname'>" . $row[2] . "</td>
-                                            <td class='mname'>" . $row[3] . "</td>
-                                            <td class='address'>" . $row[4] . " " . $row[5] . " " .$row[6] . " " .$row[7] ."</td>                                            
-                                            <td class='added'>" . $row[8] . "</td>
-                                            
-                                            <td>
-                                                <input type='button' value='View' id='".$row['patient_id']."' class='btn btn-info btn-primary view_data'/>
-                                                <input type='button' value='Update' id='".$row['patient_id']."' class='btn btn-info btn-warning update_patient'/>
-                                            </td>
-                                            
-                                          </tr>"); }
-
-                                      ?>
-                    </tbody>
-
-                </table>
-            </div>
-
-        </div>
-    </div>
-</div>
- -->
 <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -539,6 +473,7 @@ if(isset($_POST['acceptbutton']))
     </div>
     <!-- /.modal-dialog -->
 </div>
+
 <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -552,7 +487,6 @@ if(isset($_POST['acceptbutton']))
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                
             </div>
         </div>
         <!-- /.modal-content -->
@@ -637,7 +571,7 @@ $(document).ready(function(){
                 $('#PERdetail').html(data);
                 $('#viewModal').appendTo('body').modal("show");
             }
-    })
+    });
 }); 
 $(document).ready(function(){
     $('.edit_data').click(function(){
@@ -687,6 +621,7 @@ $(document).ready(function(){
         $('#m_iddelete').val(serialnumber);
         $('#deletemodal').modal('show');
     });
+});
 </script>
 </body>
 </html>
