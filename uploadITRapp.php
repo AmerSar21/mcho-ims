@@ -12,14 +12,12 @@ if (isset($_POST['deletebutton']))
     {
         echo "delete error from temp_per";
     }
-        else
+    else
     {
         echo "User deleted from temp_per";
     }
 
-}
-
-if(isset($_POST['acceptbutton']))
+}else if(isset($_POST['acceptbutton']))
 {
     $patientid = $_POST['f_patientid'];
     $serialno = $_POST['f_serialno'];
@@ -432,7 +430,7 @@ if(isset($_POST['acceptbutton']))
                                     </tr>
                                 </thead>
                                 <?php
-                                                $sql = "SELECT patient_enrollment.family_serial_no, name.lname, name.fname, name.mname, contact_info.home_no, contact_info.street,contact_info.barangay, contact_info.city, temp_itr.nature_of_visit, temp_itr.submitted_by, temp_itr.date_submitted   from temp_itr inner join patient_enrollment inner join name inner join contact_info on contact_info.ci_id=patient_enrollment.ci_id and name.n_id=patient_enrollment.n_id and temp_itr.added_by='userMobile' and patient_enrollment.patient_id=temp_itr.patient_id ";
+                                                $sql = "SELECT patient_enrollment.family_serial_no, name.lname, name.fname, name.mname, contact_info.home_no, contact_info.street,contact_info.barangay, contact_info.city, temp_itr.tempitr_id, temp_itr.nature_of_visit, temp_itr.submitted_by, temp_itr.date_submitted   from temp_itr inner join patient_enrollment inner join name inner join contact_info on contact_info.ci_id=patient_enrollment.ci_id and name.n_id=patient_enrollment.n_id and temp_itr.added_by='userMobile' and patient_enrollment.patient_id=temp_itr.patient_id ";
                                                 $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
                                             ?>
                                             <tbody>
@@ -446,8 +444,9 @@ if(isset($_POST['acceptbutton']))
                                                         <td class='mname'>" . $row['submitted_by'] . "</td>
                                                         <td class='mname'>" . $row['date_submitted'] . "</td>
                                                         
-                                                        <td> <input type='button' value='View Full Details' id='".$row['family_serial_no']."' class='btn btn-warning edit_data' />
-                                                        <button type='button' id='".$row['family_serial_no']."' class='btn btn-danger btndelete'>Delete</button> 
+                                                        <td> 
+                                                        <button type='button' id='".$row['tempitr_id']."' class='btn btn-warning edit_data'>View Full Details</button>
+                                                        <button type='button' id='".$row['tempitr_id']."' class='btn btn-danger btndelete'>Delete</button> 
                                                         </td>
                                                         
                                                       </tr>"); }
@@ -690,11 +689,11 @@ $(document).ready(function() {
 <script type="text/javascript">
 $(document).ready(function(){
     $('.edit_data').click(function(){
-        var serialnumber = $(this).attr("id");
+        var tempitr = $(this).attr("id");
         $.ajax({
             url:"viewITRuploadquery.php",
             method:"post",
-            data:{serialnumber:serialnumber},
+            data:{tempitr:tempitr},
             dataType:"json",
             success:function(data){
                 $('#m_patientid').val(data.patient_id);
