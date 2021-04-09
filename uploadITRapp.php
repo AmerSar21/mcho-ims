@@ -59,10 +59,16 @@ if (isset($_POST['deletebutton']))
     if((!$resultinsertforchurhu) AND (!$forchurhuID))
     {
         echo "not insert into for CHU and RHU ";
+        echo($resultinsertforchurhu);
+        echo($forchurhuID);
+        die();        
     }   
     else
     {
         echo "insert into for CHU and RHU " . $forchurhuID;
+        echo($resultinsertforchurhu);
+        echo($forchurhuID);
+        die();       
     }
 
     $sqlinsertrefertransact = "INSERT INTO referral_transaction (referred_from, referred_to, reason_of_referral, referred_by) VALUES ('$referredfrom', '$referredto' , '$reasonofref' , '$referredby')";
@@ -71,10 +77,16 @@ if (isset($_POST['deletebutton']))
     if((!$resultinsertrefertransact) AND (!$refertransactID))
     {
         echo "not insert into referral Transaction";
+        echo($resultinsertrefertransact);
+        echo($refertransactID);
+        die();       
     }   
     else
     {
         echo "insert into referral transaction " . $refertransactID;
+        echo($resultinsertrefertransact);
+        echo($refertransactID);
+        die();           
     }
 
     $sqlinserttreatment = "INSERT INTO treatment (nature_of_visit, chief_complaints, diagnosis, medication, lab_findings, name_health_careprovider, performed_lab_test, chronic_disease) VALUES ('$natureofvisit', '$chiefcomplaints' , '$diagnosis' , '$medication', '$labfindings' , '$healthcare', '$labtest', '$chronic')";
@@ -83,10 +95,16 @@ if (isset($_POST['deletebutton']))
     if((!$resultinserttreatment) AND (!$treatmentID))
     {
         echo "not insert into treatment ";
+        echo($resultinserttreatment);
+        echo($treatmentID);
+        die();   
     }   
     else
     {
         echo "insert into treatment " . $treatmentID;
+        echo($resultinserttreatment);
+        echo($treatmentID);
+        die(); 
     }
 
     $userid = $_GET['userid'];
@@ -100,20 +118,29 @@ if (isset($_POST['deletebutton']))
     if(!$resultinsertITR)
     {
         echo "not insert into ITR  ";
+        echo($resultinsertITR);
+        die(); 
     }   
     else
     {
         echo "insert into ITR ";
+        echo($resultinsertITR);
+        die();
     }
 
     $sqldeletetemp = "DELETE FROM temp_itr where patient_id='$patientid'";
-    if(!mysqli_query($con,$sqldeletetemp))
+    $res = mysqli_query($con,$sqldeletetemp);
+    if(!$res)
     {
         echo "delete error from temporary itr";
+        echo($res);
+        die();
     }
         else
     {
         echo "User deleted from temporary itr";
+        echo($res);
+        die();        
     }
 
     // $userver = '192.168.1.4';
