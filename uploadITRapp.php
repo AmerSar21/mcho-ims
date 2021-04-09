@@ -393,233 +393,231 @@ if(isset($_POST['acceptbutton']))
         </div>
         <!--Start Content-->
         <div id="content" class="col-xs-12 col-sm-10">
-            
-
-<div class="row">
-    <div id="breadcrumb" class="col-md-12">
-        <ol class="breadcrumb">
-            <li><a href="homeOIC.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Home</a></li>
-            <li><a href="#">Uploads</a></li>
-            <li><a href="#">ITR</a></li>
-        </ol>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box">
-            <div class="box-header">
-                <div class="box-name">
-                    <i class="fa fa-medkit"></i>
-                    <span>List of New uploads</span>
+            <div class="row">
+                <div id="breadcrumb" class="col-md-12">
+                    <ol class="breadcrumb">
+                        <li><a href="homeOIC.php?userid=<?php $id=$_GET['userid']; echo $id; ?>">Home</a></li>
+                        <li><a href="#">Uploads</a></li>
+                        <li><a href="#">ITR</a></li>
+                    </ol>
                 </div>
-                <div class="box-icons">
-                    <a class="expand-link">
-                        <i class="fa fa-expand"></i>
-                    </a>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <div class="box-name">
+                                <i class="fa fa-medkit"></i>
+                                <span>List of New uploads</span>
+                            </div>
+                            <div class="box-icons">
+                                <a class="expand-link">
+                                    <i class="fa fa-expand"></i>
+                                </a>
+                            </div>
+                            <div class="no-move"></div>
+                        </div>
+                        <div class="box-content no-padding">
+                            <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
+                                <thead>
+                                    <tr>
+                                        <th>Family Serial No.</th>
+                                                    <th>Lastname</th>
+                                                    <th>Firstname</th>
+                                                    <th>Middlename</th>
+                                                    <th>Address</th>
+                                                    <th>Submitted by</th>
+                                                    <th>Date Submitted</th>
+                                                    <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <?php
+                                                $sql = "SELECT patient_enrollment.family_serial_no, name.lname, name.fname, name.mname, contact_info.home_no, contact_info.street,contact_info.barangay, contact_info.city, temp_itr.nature_of_visit, temp_itr.submitted_by, temp_itr.date_submitted   from temp_itr inner join patient_enrollment inner join name inner join contact_info on contact_info.ci_id=patient_enrollment.ci_id and name.n_id=patient_enrollment.n_id and temp_itr.added_by='userMobile' and patient_enrollment.patient_id=temp_itr.patient_id ";
+                                                $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
+                                            ?>
+                                            <tbody>
+                                     <?php while ($row = mysqli_fetch_array($result)) { 
+                                                    echo( "<tr>
+                                                        <td class='serialno'>" . $row['family_serial_no'] . "</td>
+                                                        <td class='lname'>" . $row[2] . "</td>
+                                                        <td class='fname'>" . $row[3] . "</td>
+                                                        <td class='mname'>" . $row[4] . "</td>
+                                                        <td class='address'>" . $row['home_no'] . " " . $row['street'] . " " .$row['barangay'] . " " .$row['city'] ."</td>
+                                                        <td class='mname'>" . $row['submitted_by'] . "</td>
+                                                        <td class='mname'>" . $row['date_submitted'] . "</td>
+                                                        
+                                                        <td> <input type='button' value='View Full Details' id='".$row['family_serial_no']."' class='btn btn-warning edit_data' />
+                                                        <button type='button' id='".$row['family_serial_no']."' class='btn btn-danger btndelete'>Delete</button> 
+                                                        </td>
+                                                        
+                                                      </tr>"); }
+
+                                                  ?>
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                    </div>
                 </div>
-                <div class="no-move"></div>
             </div>
-            <div class="box-content no-padding">
-                <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="datatable-3">
-                    <thead>
-                        <tr>
-                            <th>Family Serial No.</th>
-                                        <th>Lastname</th>
-                                        <th>Firstname</th>
-                                        <th>Middlename</th>
-                                        <th>Address</th>
-                                        <th>Submitted by</th>
-                                        <th>Date Submitted</th>
-                                        <th>Action</th>
-                        </tr>
-                    </thead>
-                    <?php
-                                    $sql = "SELECT patient_enrollment.family_serial_no, name.lname, name.fname, name.mname, contact_info.home_no, contact_info.street,contact_info.barangay, contact_info.city, temp_itr.nature_of_visit, temp_itr.submitted_by, temp_itr.date_submitted   from temp_itr inner join patient_enrollment inner join name inner join contact_info on contact_info.ci_id=patient_enrollment.ci_id and name.n_id=patient_enrollment.n_id and temp_itr.added_by='userMobile' and patient_enrollment.patient_id=temp_itr.patient_id ";
-                                    $result = mysqli_query($con, $sql) or die("Query fail: " . mysqli_error());
-                                ?>
-                                <tbody>
-                         <?php while ($row = mysqli_fetch_array($result)) { 
-                                        echo( "<tr>
-                                            <td class='serialno'>" . $row['family_serial_no'] . "</td>
-                                            <td class='lname'>" . $row[2] . "</td>
-                                            <td class='fname'>" . $row[3] . "</td>
-                                            <td class='mname'>" . $row[4] . "</td>
-                                            <td class='address'>" . $row['home_no'] . " " . $row['street'] . " " .$row['barangay'] . " " .$row['city'] ."</td>
-                                            <td class='mname'>" . $row['submitted_by'] . "</td>
-                                            <td class='mname'>" . $row['date_submitted'] . "</td>
-                                            
-                                            <td> <input type='button' value='View Full Details' id='".$row['family_serial_no']."' class='btn btn-warning edit_data' />
-                                            <button type='button' id='".$row['family_serial_no']."' class='btn btn-danger btndelete'>Delete</button> 
-                                            </td>
-                                            
-                                          </tr>"); }
-
-                                      ?>
-                    </tbody>
-
-                </table>
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form role="form" method="post">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Full Information</h4>
+                            </div>
+                            <div class="modal-body" id="uploaddetail">
+                                <div class="form-group">
+                                    <label>Family Serial Number</label>
+                                    <input class="form-control" type="hidden" id="m_patientid" name="f_patientid" readonly>
+                                    <input class="form-control" placeholder="Serial Number" id="m_serialno" name="f_serialno" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Fullname</label>
+                                    <input class="form-control" placeholder="Firstname" id="m_fname" name="f_fname" readonly>
+                                </div>
+                                 <div class="form-group">   
+                                    <input class="form-control" placeholder="Middlename" id="m_mname" name="f_mname" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Lastname" id="m_lname" name="f_lname" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="e.g. Jr., Sr., II, III" id="m_suffix" name="f_suffix" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Residential Address</label>
+                                    <input class="form-control" placeholder="Street, Barangay, City, Province" id="m_address" name="f_address" readonly>
+                                </div>
+                                <div>
+                                    <label> For CHU/RHU Personnel only</label>
+                                </div>
+                                <div class="form-group">
+                                    <label>Mode of Transaction</label>
+                                    <input class="form-control" placeholder="Walk-in/Visited/Referral" id="m_modeoftransact" name="f_modeoftransact">                                                                                                             
+                                </div>
+                                <div class="form-group">
+                                    <label>Date of Consultation</label>
+                                    <input type="date" class="form-control" name="f_dateofconsult" id="m_dateofconsult" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label>Consultation time</label>
+                                    <input class="form-control" placeholder="e.g. 12:00 am " id="m_consulttime" name="f_consulttime">
+                                </div>
+                                <div class="form-group">
+                                    <label>Age</label>
+                                    <input class="form-control" placeholder="Enter here" id="m_age" name="f_age">
+                                </div>
+                                <div class="form-group">
+                                    <label>Blood Pressure</label>
+                                    <input class="form-control" placeholder="e.g. 80/120" id="m_bloodpressure" name="f_bloodpressure">
+                                </div>
+                                <div class="form-group">
+                                    <label>Height</label>
+                                    <input class="form-control" placeholder="e.g. 5.4 ft (Do NOT use apostrophe)" id="m_height" name="f_height">
+                                </div>
+                                <div class="form-group">
+                                    <label>Temperature</label>
+                                    <input class="form-control" placeholder="e.g. 36 degree C" id="m_temp" name="f_temp">
+                                </div>
+                                <div class="form-group">
+                                    <label>Weight</label>
+                                    <input class="form-control" placeholder="e.g. 50 kg" id="m_weight" name="f_weight">
+                                </div>
+                                <div class="form-group">
+                                    <label>Name of attending Officer</label>
+                                    <input class="form-control" placeholder="Juan Dela Cruz" id="m_attendingofficer" name="f_attendingofficer">
+                                </div>
+                                <div class="form-group">
+                                    <label>Nature of Visit</label>
+                                     <input class="form-control" placeholder="Enter here" name="f_natureofvisit" id="m_natureofvisit">
+                                </div>
+                                
+                                <div>
+                                    <label> For Referral Transaction Only</label>
+                                </div>
+                                <div class="form-group">
+                                    <label>Referred from</label>
+                                    <input class="form-control" placeholder="Enter here" id="m_referredfrom" name="f_referredfrom">
+                                </div>
+                                <div class="form-group">
+                                    <label>Referred to</label>
+                                    <input class="form-control" placeholder="Enter here" id="m_referredto" name="f_referredto">
+                                </div>
+                                <div class="form-group">
+                                    <label>Reason for referral</label>
+                                    <textarea class="form-control" rows="3" id="m_reasonofref" name="f_reasonofref"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Referred by</label>
+                                    <input class="form-control" placeholder="Juan Dela Cruz" id="m_referredby" name="f_referredby">
+                                </div>
+                                <div class="form-group">
+                                    <label>Chronic Disease</label>
+                                    <input class="form-control" id="m_chronic" name="f_chronic">
+                                </div>
+                                <div class="form-group">
+                                    <label>Chief Complaints</label>
+                                    <textarea class="form-control" rows="5" id="m_chiefcomplaints" name="f_chiefcomplaints"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Name of Health Care Provider</label>
+                                    <textarea class="form-control" rows="3" id="m_healthcare" name="f_healthcare"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Performed Laboratory Test</label>
+                                    <textarea class="form-control" rows="3" id="m_labtest" name="f_labtest"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Diagnosis</label>
+                                    <textarea class="form-control" rows="5" id="m_diagnosis" name="f_diagnosis"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Medication/Treatment</label>
+                                    <textarea class="form-control" rows="5" id="m_medication" name="f_medication"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Laboratory Findings/Impression</label>
+                                    <textarea class="form-control" rows="5" id="m_labfindings" name="f_labfindings"></textarea>
+                                </div>
+                            </div>
+                            <div class='modal-footer'>
+                               <button type='submit' name='acceptbutton' class='btn btn-primary'>Accept</button>
+                                <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                            </div>
+                        </form>  
+                    </div>
+                    <!-- /.modal-content -->
+                </div>                             
             </div>
-
+            <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form role="form" method="post">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Delete user</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete this Record?</p>
+                                <p class="text-danger">This action cannot be undone.</p>
+                                <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="submit" name="deletebutton" class="btn btn-danger">Delete</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
         </div>
-    </div>
-</div>
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form role="form" method="post">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">Full Information</h4>
-                    </div>
-                    <div class="modal-body" id="uploaddetail">
-                        <div class="form-group">
-                            <label>Family Serial Number</label>
-                            <input class="form-control" type="hidden" id="m_patientid" name="f_patientid" readonly>
-                            <input class="form-control" placeholder="Serial Number" id="m_serialno" name="f_serialno" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Fullname</label>
-                            <input class="form-control" placeholder="Firstname" id="m_fname" name="f_fname" readonly>
-                        </div>
-                         <div class="form-group">   
-                            <input class="form-control" placeholder="Middlename" id="m_mname" name="f_mname" readonly>
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" placeholder="Lastname" id="m_lname" name="f_lname" readonly>
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" placeholder="e.g. Jr., Sr., II, III" id="m_suffix" name="f_suffix" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Residential Address</label>
-                            <input class="form-control" placeholder="Street, Barangay, City, Province" id="m_address" name="f_address" readonly>
-                        </div>
-                        <div>
-                            <label> For CHU/RHU Personnel only</label>
-                        </div>
-                        <div class="form-group">
-                            <label>Mode of Transaction</label>
-                            <input class="form-control" placeholder="Walk-in/Visited/Referral" id="m_modeoftransact" name="f_modeoftransact">                                                                                                             
-                        </div>
-                        <div class="form-group">
-                            <label>Date of Consultation</label>
-                            <input type="date" class="form-control" name="f_dateofconsult" id="m_dateofconsult" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label>Consultation time</label>
-                            <input class="form-control" placeholder="e.g. 12:00 am " id="m_consulttime" name="f_consulttime">
-                        </div>
-                        <div class="form-group">
-                            <label>Age</label>
-                            <input class="form-control" placeholder="Enter here" id="m_age" name="f_age">
-                        </div>
-                        <div class="form-group">
-                            <label>Blood Pressure</label>
-                            <input class="form-control" placeholder="e.g. 80/120" id="m_bloodpressure" name="f_bloodpressure">
-                        </div>
-                        <div class="form-group">
-                            <label>Height</label>
-                            <input class="form-control" placeholder="e.g. 5.4 ft (Do NOT use apostrophe)" id="m_height" name="f_height">
-                        </div>
-                        <div class="form-group">
-                            <label>Temperature</label>
-                            <input class="form-control" placeholder="e.g. 36 degree C" id="m_temp" name="f_temp">
-                        </div>
-                        <div class="form-group">
-                            <label>Weight</label>
-                            <input class="form-control" placeholder="e.g. 50 kg" id="m_weight" name="f_weight">
-                        </div>
-                        <div class="form-group">
-                            <label>Name of attending Officer</label>
-                            <input class="form-control" placeholder="Juan Dela Cruz" id="m_attendingofficer" name="f_attendingofficer">
-                        </div>
-                        <div class="form-group">
-                            <label>Nature of Visit</label>
-                             <input class="form-control" placeholder="Enter here" name="f_natureofvisit" id="m_natureofvisit">
-                        </div>
-                        
-                        <div>
-                            <label> For Referral Transaction Only</label>
-                        </div>
-                        <div class="form-group">
-                            <label>Referred from</label>
-                            <input class="form-control" placeholder="Enter here" id="m_referredfrom" name="f_referredfrom">
-                        </div>
-                        <div class="form-group">
-                            <label>Referred to</label>
-                            <input class="form-control" placeholder="Enter here" id="m_referredto" name="f_referredto">
-                        </div>
-                        <div class="form-group">
-                            <label>Reason for referral</label>
-                            <textarea class="form-control" rows="3" id="m_reasonofref" name="f_reasonofref"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Referred by</label>
-                            <input class="form-control" placeholder="Juan Dela Cruz" id="m_referredby" name="f_referredby">
-                        </div>
-                        <div class="form-group">
-                            <label>Chronic Disease</label>
-                            <input class="form-control" id="m_chronic" name="f_chronic">
-                        </div>
-                        <div class="form-group">
-                            <label>Chief Complaints</label>
-                            <textarea class="form-control" rows="5" id="m_chiefcomplaints" name="f_chiefcomplaints"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Name of Health Care Provider</label>
-                            <textarea class="form-control" rows="3" id="m_healthcare" name="f_healthcare"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Performed Laboratory Test</label>
-                            <textarea class="form-control" rows="3" id="m_labtest" name="f_labtest"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Diagnosis</label>
-                            <textarea class="form-control" rows="5" id="m_diagnosis" name="f_diagnosis"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Medication/Treatment</label>
-                            <textarea class="form-control" rows="5" id="m_medication" name="f_medication"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Laboratory Findings/Impression</label>
-                            <textarea class="form-control" rows="5" id="m_labfindings" name="f_labfindings"></textarea>
-                        </div>
-                    </div>
-                    
-                    <div class='modal-footer'>
-                       <button type='submit' name='acceptbutton' class='btn btn-primary'>Accept</button>
-                        <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
-                    </div>
-                </form>  
-            </div>
-            <!-- /.modal-content -->
-        </div>                             
-    </div>
         <!--End Content-->
-    </div>
-    <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form role="form" method="post">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">Delete user</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to delete this Record?</p>
-                        <p class="text-danger">This action cannot be undone.</p>
-                        <input class="form-control" type="hidden" name="iddelete" id="m_iddelete" >
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="submit" name="deletebutton" class="btn btn-danger">Delete</button>
-                    </div>
-                </form>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
     </div>
 </div>
 
@@ -689,12 +687,10 @@ $(document).ready(function() {
 });
 </script>
 
-
 <script type="text/javascript">
 $(document).ready(function(){
     $('.edit_data').click(function(){
         var serialnumber = $(this).attr("id");
-
         $.ajax({
             url:"viewITRuploadquery.php",
             method:"post",
