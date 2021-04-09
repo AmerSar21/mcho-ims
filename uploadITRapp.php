@@ -25,8 +25,7 @@ if (isset($_POST['deletebutton']))
     }
 
 }else if(isset($_POST['acceptbutton']))
-{   
-
+{
     $patientid = $_POST['f_patientid'];
     $serialno = $_POST['f_serialno'];
     $lname = $_POST['f_lname'];
@@ -88,7 +87,12 @@ if (isset($_POST['deletebutton']))
 
     $sqldeletetemp = "DELETE FROM temp_itr where patient_id='$patientid'";
     $res = mysqli_query($con,$sqldeletetemp);
-       
+
+    if(!$res){
+        echo "delete error from temporary itr";
+    }else{
+        echo "User deleted from temporary itr";
+    }      
 }
 
 ?>
@@ -424,7 +428,7 @@ if (isset($_POST['deletebutton']))
                             <div class="modal-body" id="uploaddetail">
                                 <div class="form-group">
                                     <label>Family Serial Number</label>
-                                    <input class="form-control" type="hidden" id="f_itrid" name="f_itrid" readonly>
+                                    <input class="form-control" type="hidden" id="m_patientid" name="f_patientid" readonly>
                                     <input class="form-control" placeholder="Serial Number" id="m_serialno" name="f_serialno" readonly>
                                 </div>
                                 <div class="form-group">
@@ -641,14 +645,13 @@ $(document).ready(function() {
 <script type="text/javascript">
 $(document).ready(function(){
     $('.edit_data').click(function(){
-        var itrid = $(this).attr("id");
+        var tempitr = $(this).attr("id");
         $.ajax({
             url:"viewITRuploadquery.php",
             method:"post",
-            data:{itrid:itrid},
+            data:{tempitr:tempitr},
             dataType:"json",
             success:function(data){
-                $('#m_itrid').val(itrid);
                 $('#m_patientid').val(data.patient_id);
                 $('#m_serialno').val(data.family_serial_no);
                 $('#m_lname').val(data.lname);
