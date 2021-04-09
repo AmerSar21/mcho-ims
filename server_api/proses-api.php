@@ -951,7 +951,7 @@
 			$treatment_id = $row['treatment_id'];
 			$ref_tran_id = $row['ref_tran_id'];
 
-			$sqldelItr = mysqli_query($mysqli, "DELETE from indiv_treat_rec where itr_id = '$postjson[itr_id]]'");
+			$sqldelItr = mysqli_query($mysqli, "DELETE from indiv_treat_rec where itr_id = '$postjson[itr_id]'");
 
 			$sqldelfcr = mysqli_query($mysqli, "DELETE from for_chu_rhu where fcr_id = '$fcr_id'");
 
