@@ -160,7 +160,7 @@
 		echo $result;			
 
 	}else if($postjson['action'] == 'addAcc') {
-		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['usertype'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '') || ($postjson['contnum'])){
+		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['usertype'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '') || ($postjson['contnum'] == '')){
 			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));			
 		}else {
 			$sqlper = mysqli_query($mysqli, "INSERT INTO person SET 
