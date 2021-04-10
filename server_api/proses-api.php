@@ -205,6 +205,7 @@
 		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '') ||($postjson['contnum'] == '')){
 			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));	
 		}else{
+			$contnum = "+639" + $postjson['contnum'];
 			$sqlper = mysqli_query($mysqli, "INSERT INTO person SET 
 				fname = '$postjson[fname]',
 				lname = '$postjson[lname]',
