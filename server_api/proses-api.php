@@ -161,6 +161,7 @@
 
 	}else if($postjson['action'] == 'addAcc') {
 		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['usertype'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '') || ($postjson['contnum'] == '')){
+
 			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));			
 		}else {
 			$sqlper = mysqli_query($mysqli, "INSERT INTO person SET 
@@ -421,9 +422,12 @@
 	}else if($postjson['action'] == 'addPer'){
 
 		if(($postjson['lname'] == '') || ($postjson['fname'] == '') || ($postjson['mname'] == '') || ($postjson['suffix'] == '') || ($postjson['gender'] == '') || ($postjson['bdate'] == '') || ($postjson['bplace'] == '') || ($postjson['bltype'] == '') || ($postjson['cstat'] == '') || ($postjson['spname'] == '') || ($postjson['motname'] == '') || ($postjson['fampos'] == '') || ($postjson['homeno'] == '') || ($postjson['brgy'] == '') || ($postjson['street'] == '') || ($postjson['city'] == '') || ($postjson['prov'] == '') || ($postjson['contnum'] == '') || ($postjson['edatt'] == '') || ($postjson['empstat'] == '') || ($postjson['fhno'] == '') || ($postjson['nhts'] == '') || ($postjson['fcode'] == '') || ($postjson['pat_id'] == '')) {
-			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));
+
+			$result = json_encode(array('success' => false, 'msg' => 'Please fill out all details accurately'));
 		}else if(($postjson['lname'] == '') && ($postjson['fname'] == '') && ($postjson['mname'] == '') && ($postjson['suffix'] == '') && ($postjson['gender'] == '') && ($postjson['bdate'] == '') && ($postjson['bplace'] == '') && ($postjson['bltype'] == '') && ($postjson['cstat'] == '') && ($postjson['spname'] == '') && ($postjson['motname'] == '') && ($postjson['fampos'] == '') && ($postjson['homeno'] == '') && ($postjson['brgy'] == '') && ($postjson['street'] == '') && ($postjson['city'] == '') && ($postjson['prov'] == '') && ($postjson['contnum'] == '') && ($postjson['edatt'] == '') && ($postjson['empstat'] == '') && ($postjson['fhno'] == '') && ($postjson['nhts'] == '') && ($postjson['fcode'] == '') && ($postjson['pat_id'] == '')){
-			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));
+
+			$result = json_encode(array('success' => false, 'msg' => 'Complete Empty fields'));
+
 		}else{
 
 			$sqlnameinfo = mysqli_query($mysqli, "INSERT INTO name SET
@@ -751,7 +755,11 @@
 
 		if(($postjson['modeoftrans'] == '') || ($postjson['bloodp'] == '') || ($postjson['height'] == '') || ($postjson['temp'] == '') || ($postjson['weight'] == '') || ($postjson['attofficer'] == '') || ($postjson['age'] == '') || ($postjson['natofvis'] == '') || ($postjson['compl'] == '') || ($postjson['consdate'] == '') || ($postjson['constime'] == '') || ($postjson['diagnosis'] == '') || ($postjson['medtreat'] == '') || ($postjson['labtest'] == '') || ($postjson['hcprov'] == '') || ($postjson['labfindings'] == '') || ($postjson['patid'] == '')) {
 
-			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));
+			$result = json_encode(array('success' => false, 'msg' => 'Please fill out all details accurately'));
+
+		}elseif(($postjson['modeoftrans'] == '') && ($postjson['bloodp'] == '') && ($postjson['height'] == '') && ($postjson['temp'] == '') && ($postjson['weight'] == '') && ($postjson['attofficer'] == '') && ($postjson['age'] == '') && ($postjson['natofvis'] == '') && ($postjson['compl'] == '') && ($postjson['consdate'] == '') && ($postjson['constime'] == '') && ($postjson['diagnosis'] == '') && ($postjson['medtreat'] == '') && ($postjson['labtest'] == '') && ($postjson['hcprov'] == '') && ($postjson['labfindings'] == '') && ($postjson['patid'] == '')){
+
+			$result = json_encode(array('success' => false, 'msg' => 'Complete Empty fields'));
 
 		}else{
 
