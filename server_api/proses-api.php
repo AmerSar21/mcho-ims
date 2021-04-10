@@ -421,10 +421,10 @@
 	}else if($postjson['action'] == 'addPer'){
 
 		if(($postjson['lname'] == '') || ($postjson['fname'] == '') || ($postjson['mname'] == '') || ($postjson['suffix'] == '') || ($postjson['gender'] == '') || ($postjson['bdate'] == '') || ($postjson['bplace'] == '') || ($postjson['bltype'] == '') || ($postjson['cstat'] == '') || ($postjson['spname'] == '') || ($postjson['motname'] == '') || ($postjson['fampos'] == '') || ($postjson['homeno'] == '') || ($postjson['brgy'] == '') || ($postjson['street'] == '') || ($postjson['city'] == '') || ($postjson['prov'] == '') || ($postjson['contnum'] == '') || ($postjson['edatt'] == '') || ($postjson['empstat'] == '') || ($postjson['fhno'] == '') || ($postjson['nhts'] == '') || ($postjson['fcode'] == '') || ($postjson['pat_id'] == '')) {
-
 			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));
-
-		}else {
+		}else if(($postjson['lname'] == '') && ($postjson['fname'] == '') && ($postjson['mname'] == '') && ($postjson['suffix'] == '') && ($postjson['gender'] == '') && ($postjson['bdate'] == '') && ($postjson['bplace'] == '') && ($postjson['bltype'] == '') && ($postjson['cstat'] == '') && ($postjson['spname'] == '') && ($postjson['motname'] == '') && ($postjson['fampos'] == '') && ($postjson['homeno'] == '') && ($postjson['brgy'] == '') && ($postjson['street'] == '') && ($postjson['city'] == '') && ($postjson['prov'] == '') && ($postjson['contnum'] == '') && ($postjson['edatt'] == '') && ($postjson['empstat'] == '') && ($postjson['fhno'] == '') && ($postjson['nhts'] == '') && ($postjson['fcode'] == '') && ($postjson['pat_id'] == '')){
+			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));
+		}else{
 
 			$sqlnameinfo = mysqli_query($mysqli, "INSERT INTO name SET
 			lname = '$postjson[lname]',
