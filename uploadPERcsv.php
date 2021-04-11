@@ -1,6 +1,6 @@
 <?php
 
-include("db_connect.php");l
+include("db_connect.php");
 
  $userid = $_GET['userid'];
     $sql = "SELECT fname, lname from acc_info where ai_id=$userid";
