@@ -12,14 +12,14 @@ $row=0;
 
  if(isset($_POST["Import"])){
         
-        $filename=$_FILES["file"]["tmp_name"];      
+        $filename=$_FILES["file"]["name"];      
 
-        echo "Filename: " . $_FILES['file']['name']."<br>";
-        echo "Type : " . $_FILES['file']['type'] ."<br>";
-        echo "Size : " . $_FILES['file']['size'] ."<br>";
-        echo "Temp name: " . $_FILES['file']['tmp_name'] ."<br>";
-        echo "Error : " . $_FILES['file']['error'] . "<br>";
-        die();
+        // echo "Filename: " . $_FILES['file']['name']."<br>";
+        // echo "Type : " . $_FILES['file']['type'] ."<br>";
+        // echo "Size : " . $_FILES['file']['size'] ."<br>";
+        // echo "Temp name: " . $_FILES['file']['tmp_name'] ."<br>";
+        // echo "Error : " . $_FILES['file']['error'] . "<br>";
+        // die();
 
          if($_FILES["file"]["size"] > 0)
          {
