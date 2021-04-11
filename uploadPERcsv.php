@@ -12,7 +12,7 @@ $row=0;
 
  if(isset($_POST["Import"])){
         
-        $filename=$_FILES["file"]["name"];      
+        $filename=$_FILES["file"]["tmp_name"];      
 
         // echo "Filename: " . $_FILES['file']['name']."<br>";
         // echo "Type : " . $_FILES['file']['type'] ."<br>";
