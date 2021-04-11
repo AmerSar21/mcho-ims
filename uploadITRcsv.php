@@ -32,7 +32,7 @@ include("db_connect.php");
                 {
                $sql1 = "INSERT into temp_itr (`family_serial_no`, `age`, `mode_transaction`, `date_consultation`, `time_consultation`, `blood_pressure`, `temperature`, `height`, `weight`, `name_of_attending`, `nature_of_visit`, `chief_complaints`, `diagnosis`, `medication`, `lab_findings`, `name_health_careprovider`, `performed_lab_test`, `referred_from`, `referred_to`, `reason_of_referral`, `referred_by`, added_by, submitted_by, patient_id) 
                    values ('".$getData[0]."','".$getData[1]."','".$getData[2]."','".$getData[3]."','".$getData[4]."','".$getData[5]."','".$getData[6]."','".$getData[7]."','".$getData[8]."','".$getData[9]."','".$getData[10]."','".$getData[11]."','".$getData[12]."','".$getData[13]."','".$getData[14]."','".$getData[15]."','".$getData[16]."','".$getData[17]."','".$getData[18]."','".$getData[19]."','".$getData[20]."','user', '$submittedby', '".$getData[21]."')";
-                   $result1 = mysqli_query($conn, $sql1);
+                   $result1 = mysqli_query($con, $sql1);
                 if(!isset($result1))
                 {
                     echo "<script type='text/javascript'>
