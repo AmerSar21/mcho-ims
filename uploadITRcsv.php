@@ -6,18 +6,18 @@
 // $db='mchoims_database'; // Database name.
 // $conn=mysqli_connect($host,$db_user,$db_password, $db) or die (mysqli_error());
 include("db_connect.php");
+session_start();
 
-
-    $userid = $_GET['userid'];
-    $sql = "SELECT fname, lname from acc_info where ai_id=$userid";
-    $result = mysqli_query($conn,$sql);
-    $row = mysqli_fetch_array($result);
-    $submittedby =$row['fname']." ".$row['lname'];
- $row=0;
+$userid = $_SESSION['userid'];
+$sql = "SELECT fname, lname from acc_info where ai_id=$userid";
+$result = mysqli_query($conn,$sql);
+$row = mysqli_fetch_array($result);
+$submittedby =$row['fname']." ".$row['lname'];
+$row=0;
+ 
  if(isset($_POST["Import"])){
         
         $filename=$_FILES["file"]["tmp_name"];      
- 
  
          if($_FILES["file"]["size"] > 0)
          {
