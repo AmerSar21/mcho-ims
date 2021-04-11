@@ -24,7 +24,7 @@ $row=0;
          if($_FILES["file"]["size"] > 0)
          {
             $file = fopen($filename, "r");
-            while (($getData = fgetcsv($file, 10000, ",")) !== FALSE)
+            while (($getData = fgetcsv($file)) !== FALSE)
              {
                 $row++;
 
