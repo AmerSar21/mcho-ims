@@ -159,11 +159,25 @@
 
 		echo $result;			
 
+	}else if($postjson['action'] == 'checkAcc'){
+
+		$sqlcheckUsername = mysqli_query($mysqli,"SELECT count(*) as chckCnt from useraccount where uname LIKE '$postjson[uname]'");
+		$row = mysqli_fetch_array($sqlcheckUsername);
+		$chckCnt = $row['chckCnt'];
+
+		if($chckCnt > 0){
+			$result = json_encode(array('success' => false, 'value' => $chckCnt));
+		}else{
+			$result = json_encode(array('success' => true, 'value' => $chckCnt));
+		}
+
 	}else if($postjson['action'] == 'addAcc') {
+
 		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['usertype'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '') || ($postjson['contnum'] == '')){
 
 			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));			
-		}else {
+		}else{
+
 			$sqlper = mysqli_query($mysqli, "INSERT INTO person SET 
 				fname = '$postjson[fname]',
 				lname = '$postjson[lname]',
