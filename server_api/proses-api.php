@@ -161,15 +161,19 @@
 
 	}else if($postjson['action'] == 'checkAcc'){
 
-		$sqlcheckUsername = mysqli_query($mysqli,"SELECT count(*) as chckCnt from useraccount where uname LIKE '$postjson[uname]'");
-		$row = mysqli_fetch_array($sqlcheckUsername);
-		$chckCnt = $row['chckCnt'];
 
-		if($chckCnt > 0){
-			$result = json_encode(array('success' => false, 'value' => $chckCnt));
+		$sql = mysqli_query($mysqli, "SELECT * from useraccount where uname = '$postjson[uname]'");
+		$check = mysqli_num_rows($sql);
+
+		if($check>0){
+
+			$result = json_encode(array('success' => true, 'msg' => $check));
+
 		}else{
-			$result = json_encode(array('success' => true, 'value' => $chckCnt));
+			$result = json_encode(array('success' => false, 'msg' => $check));							
 		}
+
+		echo $result;
 
 	}else if($postjson['action'] == 'addAcc') {
 
