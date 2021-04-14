@@ -173,7 +173,8 @@
 
 	}else if($postjson['action'] == 'addAcc') {
 
-		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['usertype'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '') || ($postjson['contnum'] == '')){
+		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['usertype'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '') || ($postjson['contnum'] == ''))
+		{
 
 			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));			
 		}else{
@@ -191,6 +192,7 @@
 			if(!$sqlper){
 				$result = json_encode(array('success' => false, 'msg' => 'Account Failed to Add'));
 			}else {
+				
 				$sql = mysqli_query($mysqli, "SELECT CONCAT(p.fname, ' ', p.lname) as fullname from useraccount us inner join person p on p.personid = us.personid where us.userid = '$postjson[uid]'");
 				$data = mysqli_fetch_array($sql);
 				$fullname = $data['fullname'];				
@@ -217,9 +219,12 @@
 		}
 		echo $result;
 	}else if($postjson['action'] == 'regAcc') {
-		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '') ||($postjson['contnum'] == '')){
+
+		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '') ||($postjson['contnum'] == ''))
+		{
 			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));	
 		}else{
+
 			$contnum = "+639" + $postjson['contnum'];
 			$sqlper = mysqli_query($mysqli, "INSERT INTO person SET 
 				fname = '$postjson[fname]',
@@ -245,6 +250,7 @@
 					archived_by = 'none'");
 
 				$userid = mysqli_insert_id($mysqli);
+
 				if(!$sqlacc){
 					$result = json_encode(array('success' => false, 'msg' => 'Account Failed to Add'));
 				}else{
