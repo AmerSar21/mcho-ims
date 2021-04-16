@@ -518,21 +518,17 @@ $(document).ready(function() {
 	WinMove();
 });
 </script>
-<script>
-       $(document).ready(function(){
-        $('.upload_record').click(function(){
+<!-- <script>
+$(document).ready(function(){
+	$('.upload_record').click(function(){
             var filename = $(".file").val().replace(/C:\\fakepath\\/i, '');
-
             $.ajax({
                 url:"uploadITRexcel.php",
                 method:"post",
                 data:{filename:filename},
                 success:function(data){
-                    }
+                }
             })
-
-
-            
         });
     });
     $("#f_modeoftransact").change(function() {
@@ -543,7 +539,7 @@ $(document).ready(function() {
     $("#f_reasonofref").prop("disabled", disabled);
     $("#f_chiefcomplaints").prop("disabled", disabled);
 }).change();     
-</script>
+</script> -->
 </body>
 </html>
 <?php
