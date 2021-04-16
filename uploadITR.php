@@ -25,7 +25,8 @@ if (isset($_POST['deletebutton']))
 }
 
 if(isset($_POST['acceptbutton']))
-{
+{   
+    $tempitr = $_POST['f_tempitrid'];
     $patientid= $_POST['f_patientid'];
     $serialno = $_POST['f_serialno'];
     $lname = $_POST['f_lname'];
@@ -63,13 +64,9 @@ if(isset($_POST['acceptbutton']))
     $resultinsertforchurhu  = mysqli_query($con, $sqlinsertforchurhu) or die (mysqli_error($con));
     $forchurhuID = mysqli_insert_id($con);
 
-
-
     $sqlinsertrefertransact = "INSERT INTO referral_transaction (referred_from, referred_to, reason_of_referral, referred_by) VALUES ('$referredfrom', '$referredto' , '$reasonofref' , '$referredby')";
     $resultinsertrefertransact  = mysqli_query($con, $sqlinsertrefertransact) or die (mysqli_error($con));
     $refertransactID = mysqli_insert_id($con);
-
-
 
     $sqlinserttreatment = "INSERT INTO treatment (nature_of_visit, chief_complaints, diagnosis, medication, lab_findings, name_health_careprovider, performed_lab_test) VALUES ('$natureofvisit', '$chiefcomplaints' , '$diagnosis' , '$medication', '$labfindings' , '$healthcare', '$labtest')";
     $resultinserttreatment  = mysqli_query($con, $sqlinserttreatment) or die (mysqli_error($con));
@@ -98,7 +95,7 @@ if(isset($_POST['acceptbutton']))
             </script>";
     }
 
-    $sqldeletetemp = "DELETE FROM temp_itr where patient_id='$patientid'";
+    $sqldeletetemp = "DELETE FROM temp_itr where tempitr_id ='$tempitr'";
     $deletetemp =mysqli_query($con,$sqldeletetemp);
    
 }
@@ -435,6 +432,7 @@ if(isset($_POST['acceptbutton']))
             </div>
             <div class="modal-body" id="uploaddetail">
                 <div class="form-group">
+                    <input class="form-control"  id="m_tempitrid" name="f_tempitrid" type="hidden">
                     <label>Family Serial Number</label>
                     <input class="form-control" placeholder="Serial Number" id="m_serialno" name="f_serialno" readonly>
                     <label>Patient ID</label>
@@ -699,6 +697,7 @@ $(document).ready(function() {
                 data:{tempitr:tempitr},
                 dataType:"json",
                 success:function(data){
+                    $('#m_tempitrid').val(tempitr_id);
                     $('#m_patientid').val(data.patient_id);
                     $('#m_serialno').val(data.family_serial_no);
                     $('#m_lname').val(data.lname);
