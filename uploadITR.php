@@ -83,7 +83,7 @@ if(isset($_POST['acceptbutton']))
     $row = mysqli_fetch_array($result);
     $addedby =$row['fname']." ".$row['lname'];
 
-    $sqlinsertITR = "INSERT INTO indiv_treat_rec (pe_id, fcr_id, treatment_id, ref_tran_id, added_by, status) VALUES ('$patientenrollID' , '$forchurhuID' , '$treatmentID', '$refertransactID','$addedby','active')";
+    $sqlinsertITR = "INSERT INTO indiv_treat_rec (pe_id, fcr_id, treatment_id, ref_tran_id, added_by, status, archived_by) VALUES ('$patientenrollID' , '$forchurhuID' , '$treatmentID', '$refertransactID','$addedby','active', 'none')";
     $resultinsertITR  = mysqli_query($con, $sqlinsertITR) or die (mysqli_error($con));
     if(!$resultinsertITR and !$resultinsertforchurhu and !$resultinsertrefertransact and !$resultinserttreatment)
     {
