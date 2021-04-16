@@ -105,6 +105,102 @@ if(isset($_POST['acceptbutton']))
 
 }
 
+if(isset($_POST['acceptbutton2']))
+{   
+    $perid = $_POST['f_perid'];
+    $patientid = $_POST['f_patientid'];
+    $famserial = $_POST['f_serialno'];
+    $lname = $_POST['f_lname'];
+    $fname = $_POST['f_fname'];
+    $mname = $_POST['f_mname'];
+    $gender = $_POST['f_gender'];
+    $bdate = $_POST['f_bdate'];
+    $bplace = $_POST['f_bplace'];
+    $bloodtype = $_POST['f_bloodtype'];
+    $civstat = $_POST['f_civstat'];
+    $spouse = $_POST['f_spouse'];
+    $educattain = $_POST['f_educattain'];
+    $employstat = $_POST['f_employstat'];
+    $famposition = $_POST['f_famposition'];
+    $suffix = $_POST['f_suffix'];
+    $mother = $_POST['f_mother'];
+    $homeno = $_POST['f_homeno'];
+    $street = $_POST['f_street'];
+    $brgy = $_POST['f_brgy'];
+    $city = $_POST['f_city'];
+    $province = $_POST['f_province'];
+    $contactno = $_POST['f_contactno'];
+    $dswd = $_POST['f_dswd'];
+    $facilityno = $_POST['f_facilityno'];
+    $phmember = $_POST['f_phmember'];
+    $phnumber = $_POST['f_phnumber'];
+    $phcategory = $_POST['f_phcategory'];
+
+    // echo($homeno);
+    // echo($brgy);
+    // echo($street);
+    // echo($city);
+    // echo($province);
+    // echo($contactno);
+
+    $sqlinsertname = "INSERT INTO name (lname, fname, mname, suffix) VALUES ('$lname' , '$fname' , '$mname', '$suffix')";
+    $resultinsertname = mysqli_query($con,$sqlinsertname);
+    $nameID = mysqli_insert_id($con);
+
+    $sqlinsertotherinfo = "INSERT INTO other_info (sex, b_date, b_place, bloodtype, civil_stat) VALUES ('$gender' , '$bdate' , '$bplace' , '$bloodtype' , '$civstat');";
+    $resultinsertotherinfo = mysqli_query($con,$sqlinsertotherinfo);
+    $otherinfoID = mysqli_insert_id($con);
+
+    $sqlinsertrelatedinfo = "INSERT INTO related_info (spouse_name, mothers_name, fam_position) VALUES ('$spouse' , '$mother' , '$famposition')";
+    $resultinsertrelatedinfo = mysqli_query($con,$sqlinsertrelatedinfo);
+    $relatedinfoID = mysqli_insert_id($con);
+
+    $sqlinsertcontactinfo = "INSERT INTO contact_info (home_no, barangay, street, city, province, contact_no) VALUES ('$homeno' , '$brgy', '$street' , '$city' , '$province' , '$contactno')";
+    $resultinsertcontactinfo = mysqli_query($con,$sqlinsertcontactinfo);
+    $contactinfoID = mysqli_insert_id($con);
+
+    $sqlinserteducemploy = "INSERT INTO educ_employ (educ_attainment, employ_status) VALUES ('$educattain' , '$employstat')";
+    $resultinserteducemploy = mysqli_query($con,$sqlinserteducemploy);
+    $educemployID = mysqli_insert_id($con);
+
+    $sqlinsertphilinfo = "INSERT INTO phil_info (ph_member, ph_no, member_category, facility_no, dswdnhts) VALUES ('$phmember' , '$phnumber' , '$phmember', '$facilityno', '$dswd')";
+    $resultinsertphilinfo = mysqli_query($con,$sqlinsertphilinfo);
+    $philinfoID = mysqli_insert_id($con);
+
+    $sqlinsertPER = "INSERT INTO patient_enrollment (family_serial_no,n_id,oi_id,ri_id,ci_id,ee_id,pi_id,added_by,status,archived_by,patient_id) VALUES ('$famserial', '$nameID', '$otherinfoID', '$relatedinfoID', '$contactinfoID', '$educemployID' ,'$philinfoID','$addedby', 'active', 'none','$patientid')";
+    $resultinsertper = mysqli_query($con, $sqlinsertPER);
+
+    // echo($famserial);
+    // echo($nameID);
+    // echo($otherinfoID);
+    // echo($relatedinfoID);
+    // echo($contactinfoID);            
+    // echo($educemployID);
+    // echo($philinfoID);
+    // echo($addedby);
+    // echo($patientid);
+    // var_dump($resultinsertper);
+    // die();
+
+    if(!$resultinsertname && !$resultinsertotherinfo && !$resultinsertrelatedinfo && !$resultinsertcontactinfo && !$resultinserteducemploy && !$resultinsertphilinfo && !$resultinsertper)
+    {
+        echo "<script type='text/javascript'>
+                alert('Unsuccessfully Inserted');
+            </script>";
+    }
+    else
+    {
+        echo " <script type='text/javascript'>
+                alert('Succesfully Inserted');
+            </script>";
+    }
+
+    $sqldeletetemp = "DELETE FROM temp_per where temPER_id='$perid'";
+    $resultdeletee = mysqli_query($con,$sqldeletetemp);
+
+}
+
+
 
 ?>
 
@@ -539,7 +635,7 @@ if(isset($_POST['acceptbutton']))
                                             <input class='form-control' name='f_phcategory' id='f_phcategory'>
                                         </div>
                                         <div class='modal-footer'>
-                                           <button type='submit' name='acceptbutton' class='btn btn-primary'>Accept</button>
+                                           <button type='submit' name='acceptbutton2' class='btn btn-primary'>Accept</button>
                                             <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
                                             
                                         </div>
