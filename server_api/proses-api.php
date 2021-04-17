@@ -167,10 +167,10 @@
 
 		if($check>0){
 
-			$result = json_encode(array('success' => true, 'msg' => $check));
+			$result = json_encode(array('success' => true, 'msg' => 'username exist'));
 
 		}else{
-			$result = json_encode(array('success' => false, 'msg' => $check));							
+			$result = json_encode(array('success' => false, 'msg' => 'username not exist'));							
 		}
 
 		echo $result;
