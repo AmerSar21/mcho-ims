@@ -188,7 +188,7 @@
 
 			if($check>0){
 
-				$result = json_encode(array('success' => true, 'msg' => 'Username already exist'));
+				$result = json_encode(array('success' => false, 'msg' => 'Username already exist'));
 
 			}else{
 
