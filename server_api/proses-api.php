@@ -183,43 +183,55 @@
 			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));			
 		}else{
 
-			$sqlper = mysqli_query($mysqli, "INSERT INTO person SET 
-				fname = '$postjson[fname]',
-				lname = '$postjson[lname]',
-				bdate = '$postjson[bdate]',
-				gender = '$postjson[gender]',
-				email = '$postjson[email]',
-				contact_no = '$postjson[contnum]'");
+			$sql = mysqli_query($mysqli, "SELECT * from useraccount where uname = '$postjson[uname]'");
+			$check = mysqli_num_rows($sql);
 
-			$personid = mysqli_insert_id($mysqli);
-			
-			if(!$sqlper){
-				$result = json_encode(array('success' => false, 'msg' => 'Account Failed to Add'));
-			}else {
+			if($check>0){
+
+				$result = json_encode(array('success' => true, 'msg' => 'Username already exist'));
+
+			}else{
+
+				$sqlper = mysqli_query($mysqli, "INSERT INTO person SET 
+					fname = '$postjson[fname]',
+					lname = '$postjson[lname]',
+					bdate = '$postjson[bdate]',
+					gender = '$postjson[gender]',
+					email = '$postjson[email]',
+					contact_no = '$postjson[contnum]'");
+
+				$personid = mysqli_insert_id($mysqli);
 				
-				$sql = mysqli_query($mysqli, "SELECT CONCAT(p.fname, ' ', p.lname) as fullname from useraccount us inner join person p on p.personid = us.personid where us.userid = '$postjson[uid]'");
-				$data = mysqli_fetch_array($sql);
-				$fullname = $data['fullname'];				
-
-				$sqlacc = mysqli_query($mysqli, "INSERT INTO useraccount SET 
-					uname = '$postjson[uname]',
-					upass = '$postjson[upass]',
-					usertype = '$postjson[usertype]',
-					personid = '$personid',
-					added_by = '$fullname',
-					status = 'Active',
-					archived_by = 'none'");
-
-				$userid = mysqli_insert_id($mysqli);
-
-				if(!$sqlacc){
-
+				if(!$sqlper){
 					$result = json_encode(array('success' => false, 'msg' => 'Account Failed to Add'));
-				}else{
+				}else {
+					
+					$sql = mysqli_query($mysqli, "SELECT CONCAT(p.fname, ' ', p.lname) as fullname from useraccount us inner join person p on p.personid = us.personid where us.userid = '$postjson[uid]'");
+					$data = mysqli_fetch_array($sql);
+					$fullname = $data['fullname'];				
 
-					$result = json_encode(array('success'=>true, 'userid' => $userid));					
+					$sqlacc = mysqli_query($mysqli, "INSERT INTO useraccount SET 
+						uname = '$postjson[uname]',
+						upass = '$postjson[upass]',
+						usertype = '$postjson[usertype]',
+						personid = '$personid',
+						added_by = '$fullname',
+						status = 'Active',
+						archived_by = 'none'");
+
+					$userid = mysqli_insert_id($mysqli);
+
+					if(!$sqlacc){
+
+						$result = json_encode(array('success' => false, 'msg' => 'Account Failed to Add'));
+					}else{
+
+						$result = json_encode(array('success'=>true, 'userid' => $userid));					
+					}
 				}
+				
 			}
+
 		}
 		echo $result;
 	}else if($postjson['action'] == 'regAcc') {
