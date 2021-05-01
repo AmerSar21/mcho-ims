@@ -116,7 +116,7 @@
 		
 		$data = array();
 
-		$sql = mysqli_query($mysqli, "SELECT us.userid, us.uname, us.upass, us.usertype, us.status, per.fname, per.lname, per.bdate, per.gender, per.email FROM useraccount us inner join person per on per.personid = us.personid ORDER BY us.userid ASC");
+		$sql = mysqli_query($mysqli, "SELECT us.userid, us.uname, us.upass, us.usertype, us.status, per.fname, per.lname, per.bdate, per.gender, per.email, per.address FROM useraccount us inner join person per on per.personid = us.personid ORDER BY us.userid ASC");
 
 		while ($row = mysqli_fetch_array($sql)) {
 			$data[] = array(
@@ -129,7 +129,8 @@
 				'lname' => $row['lname'],	
 				'bdate' => $row['bdate'],
 				'gender' => $row['gender'],
-				'email' => $row['email']			
+				'email' => $row['email'],
+				'address' => $row['address']			
 			);
 		}
 
@@ -177,7 +178,7 @@
 
 	}else if($postjson['action'] == 'addAcc') {
 
-		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['usertype'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '') || ($postjson['contnum'] == ''))
+		if(($postjson['uname'] == '') || ($postjson['upass'] == '') || ($postjson['usertype'] == '') || ($postjson['fname'] == '') || ($postjson['lname'] == '') || ($postjson['address'] == '') || ($postjson['bdate'] == '') || ($postjson['gender'] == '') || ($postjson['email'] == '') || ($postjson['contnum'] == ''))
 		{
 
 			$result = json_encode(array('success' => false, 'msg' => 'Please Complete the fields above'));			
