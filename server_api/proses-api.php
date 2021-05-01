@@ -302,7 +302,8 @@
 				lname = '$postjson[lname]',
 				bdate = '$postjson[bdate]',
 				gender = '$postjson[gender]',
-				email = '$postjson[email]' WHERE personid = '$personid'");				
+				email = '$postjson[email]', 
+				address = '$postjson[address]' WHERE personid = '$personid'");				
 
 		}else{
 
@@ -317,7 +318,8 @@
 				lname = '$postjson[lname]',
 				bdate = '$postjson[bdate]',
 				gender = '$postjson[gender]',
-				email = '$postjson[email]' WHERE personid = '$personid'");			
+				email = '$postjson[email]',
+				address = '$postjson[address]' WHERE personid = '$personid'");			
 
 		}
 
