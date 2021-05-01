@@ -250,7 +250,8 @@
 				bdate = '$postjson[bdate]',
 				gender = '$postjson[gender]',
 				email = '$postjson[email]',
-				contact_no = '$contnum'");
+				contact_no = '$contnum',
+				address = '$postjson[address]'");
 
 			$personid = mysqli_insert_id($mysqli);
 			
