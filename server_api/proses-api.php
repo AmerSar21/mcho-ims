@@ -14,7 +14,7 @@
 	//login query 
 	if($postjson['action'] == 'login'){
 		// $password = md5($postjson['password']);
-		$sql = mysqli_query($mysqli, "SELECT us.userid as userid, us.uname as uname, us.upass as upass, us.usertype as usertype, us.status as status, CONCAT(per.fname, ' ', per.lname) as fullname, per.bdate as bdate, per.gender as gender, per.email as email FROM useraccount us inner join person per on per.personid = us.personid where uname = '$postjson[username]' and upass ='$postjson[password]'");
+		$sql = mysqli_query($mysqli, "SELECT us.userid as userid, us.uname as uname, us.upass as upass, us.usertype as usertype, us.status as status, CONCAT(per.fname, ' ', per.lname) as fullname, per.bdate as bdate, per.gender as gender, per.email as email, per.address as address FROM useraccount us inner join person per on per.personid = us.personid where uname = '$postjson[username]' and upass ='$postjson[password]'");
 		$check = mysqli_num_rows($sql);
 
 		if($check>0){
@@ -27,7 +27,8 @@
 				'fullname' => $data['fullname'],
 				'bdate' => $data['bdate'],				
 				'gender' => $data['gender'],
-				'email' => $data['email']								
+				'email' => $data['email'],
+				'address' => $data['address']								
 			);
 
 			if($data['status'] == 'Active'){
