@@ -1,7 +1,7 @@
 <?php 
 
 	define('DB_NAME', 'id16200133_mappcho');
-	define('DB_USER', 'id16200133_mappcho2021');
+	define('DB_USER', 'id16200133_mappcho202');
 	define('DB_PASSWORD', 'B{Kb+\sqqj?2E*Ky');
 	define('DB_HOST', 'localhost');
 
