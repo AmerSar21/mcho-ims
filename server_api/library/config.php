@@ -4,7 +4,7 @@
 	define('DB_NAME', 'id16200133_mappcho');
 	define('DB_USER', 'id16200133_mappcho2021');
 	define('DB_PASSWORD', 'B{Kb+\sqqj?2E*Ky');
-	define('DB_HOST', 'databases-auth.000webhost.com/');
+	define('DB_HOST', 'databases-auth.000webhost.com');
 
 	//remotemysql.com server
 	// define('DB_NAME', 'qOK07O7HjJ');
