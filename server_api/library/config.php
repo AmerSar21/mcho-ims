@@ -33,7 +33,7 @@
 	if($mysqli->connect_error){
 		die("Connection Failed " . $mysqli->connect_error);
 	}else{
-		echo "Connected Successfuly";
+		// echo "Connected Successfuly";
 	}
 
 ?>
